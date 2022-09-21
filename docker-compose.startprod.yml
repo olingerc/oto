@@ -6,7 +6,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.prod
     ports:
-      - "80:4200"
+      - "8080:4200"
     environment:
       - "TZ=Europe/Luxembourg"
       - "NODE_ENV=production"
