@@ -15,7 +15,7 @@ RUN mkdir /home/oto/app
 WORKDIR /home/oto/app
 
 # install root dependencies
-RUN npm install -g @angular/cli@^14.2.3
+RUN npm install --location=global @angular/cli@^14.2.3
 
 # Copy app
 COPY docker-entrypoint.sh \
