@@ -1,0 +1,9 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+# we are using linux docker containers so stick with LF
+* text eol=lf
+
+*.xls   binary
+*.xlsx  binary
+*.png   binary
+*.zip   binary
+*.gz   binary

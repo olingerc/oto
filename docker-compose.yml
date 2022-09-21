@@ -1,0 +1,14 @@
+# For development only
+version: '3'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "8080:4200"
+    environment:
+      NODE_ENV: development
+      TZ: Europe/Luxembourg
+    volumes:
+      - ./frontend/src:/home/oto/app/src

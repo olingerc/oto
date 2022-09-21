@@ -1,0 +1,42 @@
+FROM node:16.15-slim as builder
+# One could use the actual development docker as  builder
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir /app
+WORKDIR /app
+
+RUN mkdir /app/oto
+WORKDIR /app/oto
+
+# Copy app
+COPY angular.json \
+    karma.conf.js \
+    package.json \
+    package-lock.json \
+    tsconfig.json \
+    tslint.json \
+    .browserslistrc \
+    ./
+
+# install root dependencies
+RUN npm install -g @angular/cli@^14.2.3
+RUN npm install
+# copy source code last to make rebuilds faster after code change
+COPY src src
+#####ENV NODE_OPTIONS="--max_old_space_size=16384"
+RUN ng build
+
+FROM httpd:2.4
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+
+# Get velona source code
+COPY --from=builder /app/oto/dist /usr/local/apache2/htdocs/
+COPY ./deploy/production.conf /usr/local/apache2/conf/httpd.conf

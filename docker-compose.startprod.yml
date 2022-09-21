@@ -1,0 +1,413 @@
+version: '3'
+services:
+
+  frontend:
+    image: registry.repo.lns.lu/bsq_coli/velona/frontend:${VELONA_DEPLOY_VERSION:?err}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+    depends_on:
+      - graylog
+    networks:
+       - velona_net
+    ports:
+      - "80:80"
+      - "443:443"
+    secrets:
+      - source: SSLCertificateFile
+        target: velona.lns.lu.crt
+      - source: SSLCertificateKeyFile
+        target: velona.lns.lu.key
+      - source: SSLCertificateChainFile
+        target: velona.lns.lu-chained.crt
+    environment:
+      - "TZ=Europe/Luxembourg"
+      - "NODE_ENV=production"
+      - "https_proxy=${https_proxy}"
+      - "HTTP_PROXY=${http_proxy}"
+    volumes:
+      - velona_data_logs:/usr/local/apache2/logs
+
+  backend:
+    image: registry.repo.lns.lu/bsq_coli/velona/backend:${VELONA_DEPLOY_VERSION:?err}
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://localhost:12201"
+        tag: "backend-docker"
+    depends_on:
+      - graylog
+      - mongodb
+      - postgres
+    networks:
+       - velona_net
+    env_file:
+      - backend.env
+    secrets:
+      - MONGODB_USER
+      - MONGODB_PW
+      - POSTGRES_USER
+      - POSTGRES_PW
+      - WEBTOKEN_SECRET
+      - source: LDAP_CERTIFICATE
+        target: RCA1.pem.cer
+    environment:
+      - "TZ=Europe/Luxembourg"
+      - "NODE_ENV=production"
+      - "https_proxy=${https_proxy}"
+      - "HTTP_PROXY=${http_proxy}"
+    volumes:
+      - velona_data:/home/velona/velona-home/shares/internal/velona_data
+      - bioinfdata:/home/velona/velona-home/shares/public/bioinfdata
+      - bioinfassets:/home/velona/velona-home/shares/public/bioinfassets
+      - seqrepo:/home/velona/velona-home/shares/public/seqrepo
+      - glimsveriseq:/home/velona/velona-home/shares/glims/veriseq
+      - luxgen:/home/velona/velona-home/shares/public/luxgen
+      # NFS
+      - gendatahub:/home/velona/velona-home/shares/public/gendatahub
+    healthcheck:
+      test: "/usr/local/bin/nodejs /home/velona/app/healthcheck"
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+    restart: always
+
+  tasks:
+    image: registry.repo.lns.lu/bsq_coli/velona/tasks:${VELONA_DEPLOY_VERSION:?err}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+    depends_on:
+      - graylog
+      - mongodb
+      - redis
+      - postgres
+    networks:
+      - velona_net
+    ports:
+      - "5600:5500"
+    secrets:
+      - MONGODB_USER
+      - MONGODB_PW
+      - POSTGRES_USER
+      - POSTGRES_PW
+      - REDIS_PW
+      - WEBTOKEN_SECRET
+      - FLASK_SECRET
+      - TASKS_API_TOKEN
+      - LNS_DOCKER_REGISTRY_TOKEN
+      - SSH_KEY_DOCKER_HOST
+      - SSH_KEY_DRAGEN
+    environment:
+      - "TZ=Europe/Luxembourg"
+      - "FLASK_ENV=production"
+      - "HTTP_PROXY=${http_proxy}" # tasks builds new dockers, thus needs proxy
+      - "HTTPS_PROXY=${https_proxy}"
+      - "NO_PROXY=host.docker.internal, lns1-velonaworker01, ${no_proxy}, s3.obj.lns.lu"
+      - "WORKER_IMAGE_TAG=registry.repo.lns.lu/bsq_coli/velona/worker:${VELONA_DEPLOY_VERSION:?err}"
+    env_file:
+      - tasks.env
+    healthcheck:
+      test: curl --fail -s http://localhost:5500/tasksapi/version || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - velona_data:/home/velona/velona-home/shares/internal/velona_data
+      - seqrepo:/home/velona/velona-home/shares/public/seqrepo
+      - bioinfdata:/home/velona/velona-home/shares/public/bioinfdata
+      - bioinfassets:/home/velona/velona-home/shares/public/bioinfassets
+      - gendatahub:/home/velona/velona-home/shares/public/gendatahub
+      - luxgen:/home/velona/velona-home/shares/public/luxgen
+    restart: always
+
+  serve:
+    image: registry.repo.lns.lu/bsq_coli/velona/serve:${VELONA_DEPLOY_VERSION:?err}
+    user: 9393:9393  # serve needs access rights to nfs volumes
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://localhost:12401"
+        tag: "serve-docker"
+    depends_on:
+      - graylog
+    networks:
+      - velona_net
+    environment:
+      - "TZ=Europe/Luxembourg"
+    volumes:
+      - velona_data:/mnt/velona_data
+      - workstation_local:/mnt/workstation_local
+      - gendatahub:/mnt/gendatahub
+      - seqrepo:/mnt/seqrepo
+      - bioinfdata:/mnt/bioinfdata
+      - bioinfassets:/mnt/bioinfassets
+      - luxgen:/mnt/luxgen
+
+  mongodb:
+    image: mongo:4.4
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+    networks:
+      - velona_net
+    ports:
+      - "27017:27017"
+    secrets:
+      - MONGO_INITDB_ROOT_PASSWORD
+      # For first_run to be able to load creadentials
+      - MONGODB_USER
+      - MONGODB_PW
+    environment:
+      TZ: Europe/Luxembourg
+      # mongo docker understands _FILE and loads the content
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/MONGO_INITDB_ROOT_PASSWORD
+    command: mongod --bind_ip 0.0.0.0
+    volumes:
+      - ./mongo_first_run:/docker-entrypoint-initdb.d
+      - mongodb:/data/db
+
+  postgres:
+    image: postgres:14.3-alpine3.15
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+    ports:
+      - "5432:5432"
+    networks:
+       - velona_net
+    secrets:
+      - POSTGRES_USER
+      - POSTGRES_PW
+    environment:
+      TZ: Europe/Luxembourg
+      POSTGRES_USER_FILE: /run/secrets/POSTGRES_USER
+      POSTGRES_PASSWORD_FILE: /run/secrets/POSTGRES_PW
+      POSTGRES_DB: velona_lims
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  redis:
+    image: redis:6
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+    ports:
+      - "6379:6379"
+    secrets:
+      - REDIS_PW
+    environment:
+      TZ: Europe/Luxembourg
+      REDIS_PASS_FILE: /run/secrets/REDIS_PW
+    command: [
+      "bash", "-c",
+      '
+       docker-entrypoint.sh
+       --requirepass "$$(cat $$REDIS_PASS_FILE)"
+      '
+    ]
+    networks:
+      - velona_net
+
+
+  # GRAYLOG
+  elasticsearch:
+    image: dockerhub.repo.lns.lu/elasticsearch/elasticsearch-oss:7.10.0
+    environment:
+      - http.host=0.0.0.0
+      - transport.host=localhost
+      - network.host=0.0.0.0
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    networks:
+      - velona_net
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    logging:
+      driver: "none"
+
+  graylog:
+    image: dockerhub.repo.lns.lu/graylog/graylog:4.2.4
+    secrets:
+      - GRAYLOG_PASSWORD_SECRET
+      - GRAYLOG_ROOT_PASSWORD_SHA2
+      - GRAYLOG_MONGODB_URI
+    environment:
+      # admin
+      - GRAYLOG_PASSWORD_SECRET__FILE=/run/secrets/GRAYLOG_PASSWORD_SECRET
+      - GRAYLOG_ROOT_PASSWORD_SHA2__FILE=/run/secrets/GRAYLOG_ROOT_PASSWORD_SHA2
+      - GRAYLOG_MONGODB_URI__FILE=/run/secrets/GRAYLOG_MONGODB_URI
+      - GRAYLOG_HTTP_EXTERNAL_URI=https://velona.lns.lu/graylog/
+      - GRAYLOG_HTTP_PUBLISH_URI=http://localhost:9000/
+      - GRAYLOG_ROOT_TIMEZONE=Europe/Luxembourg
+      - GRAYLOG_ELASTICSEARCH_VERSION=7
+    networks:
+      - velona_net
+    depends_on:
+      - mongodb
+      - elasticsearch
+    volumes:
+      - graylog_journal:/usr/share/graylog/data/journal
+    ports:
+      - 9000:9000 # Graylog web interface and REST API
+      - 12201:12201/udp # GELF UDP
+      - 12301:12301/udp # GELF UDP Apache
+      - 12401:12401/udp # GELF UDP Nginx
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+networks:
+  velona_net:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 172.16.0.0/24
+volumes:
+
+  # LOCAL VOLUMES
+  graylog_journal:
+    driver: local
+    driver_opts:
+      type: none
+      device: /mnt/db/graylog
+      o: bind
+  es_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /mnt/db/esdata
+      o: bind
+  mongodb:
+    driver: local
+    driver_opts:
+      type: none
+      device: /mnt/db/mongodb
+      o: bind
+  postgres:
+    driver: local
+    driver_opts:
+      type: none
+      device: /mnt/db/postgres14
+      o: bind
+
+  # NFS SHARES
+  velona_data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=10.110.156.241,rw
+      device: ":/vol_BSQ_Velona_Data"
+  workstation_local:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=10.110.156.241,rw
+      device: ":/vol_BSQ_Velona_Data/workstation_local"
+  velona_data_logs:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=10.110.156.241,rw
+      device: ":/vol_BSQ_Velona_Data/logs"
+  seqrepo:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=10.113.156.124,rw
+      device: ":/vol_seqrepo"
+  bioinfdata:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=10.113.156.124,rw
+      device: ":/vol_bioinfdata"
+  bioinfassets:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=10.113.156.124,rw
+      device: ":/vol_bioinfassets"
+  gendatahub:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=10.113.156.124,rw
+      device: ":/vol_gendatahub"
+  luxgen:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=10.113.156.124,rw
+      device: ":/vol_luxgen"
+
+  # CIFS SHARES (Should use docker drivers instead of mounting by host)
+  glimsveriseq:
+    driver: local
+    driver_opts:
+      type: none
+      device: /mnt/glimsveriseq
+      o: bind
+
+
+secrets:
+  # certificates
+  LDAP_CERTIFICATE:
+    file: ../secrets/certificates/RCA1.pem.cer
+  SSLCertificateFile:
+    file: ../secrets/certificates/velona.lns.lu.crt
+  SSLCertificateKeyFile:
+    file: ../secrets/certificates/velona.lns.lu.key
+  SSLCertificateChainFile:
+    file: ../secrets/certificates/velona.lns.lu-chained.crt
+  SSH_KEY_DOCKER_HOST:
+    # Used by tasks service to launch worker dockers on docker host
+    # Used by workers themselves to start docker pipelines on docker host
+    file: ../secrets/certificates/id_rsa_worker
+  SSH_KEY_DRAGEN:
+    # Used by workers to access dragen
+    file: ../secrets/certificates/id_rsa_dragen
+
+  # passwords
+  MONGODB_USER:
+    file: ../secrets/passwords/MONGODB_USER
+  MONGODB_PW:
+    file: ../secrets/passwords/MONGODB_PW
+  MONGO_INITDB_ROOT_PASSWORD:
+    file: ../secrets/passwords/MONGO_INITDB_ROOT_PASSWORD
+  POSTGRES_USER:
+    file: ../secrets/passwords/POSTGRES_USER
+  POSTGRES_PW:
+    file: ../secrets/passwords/POSTGRES_PW
+  REDIS_PW:
+    file: ../secrets/passwords/REDIS_PW
+  GRAYLOG_PASSWORD_SECRET:
+    file: ../secrets/passwords/GRAYLOG_PASSWORD_SECRET
+  GRAYLOG_ROOT_PASSWORD_SHA2:
+    file: ../secrets/passwords/GRAYLOG_ROOT_PASSWORD_SHA2
+  GRAYLOG_MONGODB_URI:
+    file: ../secrets/passwords/GRAYLOG_MONGODB_URI
+  WEBTOKEN_SECRET:
+    file: ../secrets/passwords/WEBTOKEN_SECRET
+  FLASK_SECRET:
+    file: ../secrets/passwords/FLASK_SECRET
+  TASKS_API_TOKEN:
+    file: ../secrets/passwords/TASKS_API_TOKEN
+  LNS_DOCKER_REGISTRY_TOKEN:
+    file: ../secrets/passwords/LNS_DOCKER_REGISTRY_TOKEN
