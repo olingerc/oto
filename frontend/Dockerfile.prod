@@ -32,9 +32,9 @@ RUN ng build
 
 FROM httpd:2.4
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
+# RUN apt-get update \
+#    && apt-get install -y --no-install-recommends \
+#    && rm -rf /var/lib/apt/lists/*
 
 # Get velona source code
 COPY --from=builder /app/oto/dist /usr/local/apache2/htdocs/
