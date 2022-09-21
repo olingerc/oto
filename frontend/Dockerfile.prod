@@ -19,7 +19,6 @@ COPY angular.json \
     package.json \
     package-lock.json \
     tsconfig.json \
-    tslint.json \
     .browserslistrc \
     ./
 
