@@ -38,5 +38,5 @@ FROM httpd:2.4
 #    && rm -rf /var/lib/apt/lists/*
 
 # Get velona source code
-COPY --from=builder /app/oto/dist /usr/local/apache2/htdocs/
+COPY --from=builder /app/oto/dist/frontend /usr/local/apache2/htdocs/
 COPY ./deploy/production.conf /usr/local/apache2/conf/httpd.conf
