@@ -1,0 +1,82 @@
+<div fxFlex fxLayout="column">
+
+  <!-- Page title -->
+  <header fxFlex="1 1 80px" class="velona-header-background admin-users-header">
+    <div class="velona-header-section">
+      <div class="velona-header-headline">
+        <h1>Users</h1>
+      </div>
+    </div>
+  </header>
+
+  <div
+    fxLayout="column"
+    fxLayoutGap="24px"
+    fxLayoutAlign="start start"
+    class="admin-users-content mat-app-background"
+    >
+
+      <!-- view all users -->
+      <h2>
+        <button color="accent" mat-raised-button (click)="startUserAdd()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </h2>
+
+      <!-- user table -->
+      <p-table
+        styleClass="oto-primeng-table oto-primeng-table-smaller user-table p-datatable-striped"
+        [value]="users"
+        [paginator]="false"
+        [scrollable]="true"
+        [globalFilterFields]="['username', 'fullname', 'email']"
+        scrollHeight="400px"
+        sortField="username" [sortOrder]="1"
+        #usersTable
+      >
+        <ng-template pTemplate="caption">
+          <div fxLayout="row" fxLayoutAlign="start middle" fxLayoutGap="8px" style="text-align: left">        
+            <mat-form-field [floatLabel]="'never'">
+              <mat-icon matPrefix>search</mat-icon>
+              <input
+                matInput
+                type="text"
+                placeholder="Search user"
+                (input)="usersTable.filterGlobal($event.target['value'], 'contains')">
+            </mat-form-field>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th [pSortableColumn]="'username'">Username <p-sortIcon [field]="'username'"></p-sortIcon></th>
+            <th [pSortableColumn]="'domainLogin'">Domain <p-sortIcon [field]="'domainLogin'"></p-sortIcon></th>
+            <th [pSortableColumn]="'fullname'">Full Name <p-sortIcon [field]="'fullname'"></p-sortIcon></th>
+            <th [pSortableColumn]="'email'">Email <p-sortIcon [field]="'email'"></p-sortIcon></th>
+            <th [pSortableColumn]="'defaultPasswordChanged'">Password changed <p-sortIcon [field]="'defaultPasswordChanged'"></p-sortIcon></th>
+            <th [pSortableColumn]="'created'">Created on <p-sortIcon [field]="'created'"></p-sortIcon></th>
+            <th [pSortableColumn]="'last_login'">Last login <p-sortIcon [field]="'last_login'"></p-sortIcon></th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+          <tr>
+            <td>{{user.username}}</td>
+            <td>{{user.domainLogin}}</td>
+            <td>{{user.fullname}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.defaultPasswordChanged}}</td>
+            <td>
+              {{user.created | date:'yyyy-MM-dd'}}
+            </td>
+            <td>
+              {{user.last_login | date:'yyyy-MM-dd HH:mm'}}
+            </td>
+            <td>
+              <button mat-button (click)="startUserUpdate(user)">UPDATE</button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+  </div>
+
+</div>

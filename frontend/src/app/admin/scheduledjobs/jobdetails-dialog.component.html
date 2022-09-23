@@ -1,0 +1,69 @@
+<h1 mat-dialog-title>Analysis Categories</h1>
+
+<mat-dialog-content>
+  <table class="oto-table oto-table-compact jobs-table">
+    <tr>
+      <td class="mat-body-2">Description</td>
+      <td>{{job.description}}</td>
+    </tr>
+    <tr>
+      <td class="mat-body-2">Created</td>
+      <td>{{job.created_at | date:"yyyy-MM-dd HH:mm"}}</td>
+    </tr>
+    <tr>
+      <td class="mat-body-2">Enqueued</td>
+      <td>{{job.enqueued_at | date:"yyyy-MM-dd HH:mm"}}</td>
+    </tr>
+    <tr>
+      <td class="mat-body-2">Started</td>
+      <td>{{job.started_at | date:"yyyy-MM-dd HH:mm"}}</td>
+    </tr>
+    <tr>
+      <td class="mat-body-2">Finished</td>
+      <td><span *ngIf="job.ended_at">{{job.ended_at | date:"yyyy-MM-dd HH:mm"}} (took {{timeToFinish(job.started_at, job.ended_at)}})</span></td>
+    </tr>
+    <tr *ngIf="job.exc_info">
+      <td colspan="2">
+        <pre>{{job.exc_info}}</pre>
+        <small>ttl of error: {{prettyMs(job.failure_ttl)}}</small>
+      </td>
+    </tr>
+    <tr *ngIf="job.meta">
+      <td colspan="2">
+        <pre>{{job.meta | json}}</pre>
+        <small>metadata</small>
+      </td>
+    </tr>
+    <tr *ngIf="job.kwargs">
+      <td colspan="2">
+        <pre>{{job.kwargs | json}}</pre>
+        <small>kwargs</small>
+      </td>
+    </tr>
+    <tr *ngIf="job.result">
+      <td colspan="2">
+        <pre>{{job.result}}</pre>
+        <small *ngIf="job.result_ttl">ttl of result: {{prettyMs(job.result_ttl)}}</small>
+        <small *ngIf="!job.result_ttl">ttl of result: forever</small>
+      </td>
+    </tr>
+    <tr>
+      <td class="mat-body-2">ttl on queue</td>
+      <td>{{prettyMs(job.ttl)}}</td>
+    </tr>
+    <tr>
+      <td class="mat-body-2">max execution time</td>
+      <td>{{prettyMs(job.timeout)}}</td>
+    </tr>
+  </table>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-dialog-close
+    type="button"
+    mat-button
+    color="primary"
+    >CLOSE
+  </button>
+</mat-dialog-actions>

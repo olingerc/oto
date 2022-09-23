@@ -1,0 +1,65 @@
+$lns-color-merged: #603b45;
+
+my-login {
+  display: flex;
+  flex-direction: column;
+}
+
+.velona-login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 0 auto;
+  padding-bottom: 24px;
+}
+
+.velona-login-header {
+  display: block;
+}
+
+.velona-logo {
+  margin: 100px auto;
+  height: 72px;
+}
+
+.velona-login-content {
+  flex: 1 1 auto;
+}
+
+.form-card {
+  width: 400px;
+  padding: 16px;
+  margin: 0 auto;
+  margin-bottom: 24px;
+
+  form {
+    text-align: center;
+
+    .velona-login-full-width {
+      width: 90%;
+    }
+
+    .login-messages {
+      height: 48px;
+      min-height: 48px;
+      line-height: 48px;
+      padding-left: 48px;
+      margin-top: -24px; /* becasue of placehodler icons */
+    }
+
+    .velona-loader {
+      position: absolute;
+      top: 50%;
+    }
+
+    button {
+      margin-top: 16px; /* place for error */
+    }
+
+  }
+}
+
+.username-info {
+  text-align: center;
+  color: $lns-color-merged;
+}

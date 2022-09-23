@@ -1,0 +1,203 @@
+@use "sass:map";
+@use 'sass:math';
+@use '@angular/material' as mat;
+@mixin toolbar-theme($theme) {
+  $primary: map.get($theme, primary);
+  $accent: map.get($theme, accent);
+  $warn: map.get($theme, warn);
+  $background: map.get($theme, background);
+  $foreground: map.get($theme, foreground);
+
+  /* Material design specs for dense toolbar */
+
+  /*
+  Use padding for container
+  and margins for content to avoid :firts, :last selectors
+
+  use label tag for texts within toolbar
+
+  use mat-toolbar-row
+  */
+
+  $toolbar-height: 48px;
+  $hovered-state-height: 40px;
+
+  $space-between-items: 16px;
+  $item-margins: math.div($space-between-items, 2);
+  $padding-left: 24px - $item-margins;
+  $padding-right: 24px - $item-margins;
+
+
+  .mat-toolbar.velona-toolbar {
+    min-height: $toolbar-height;
+    min-height: $toolbar-height;
+    padding-left: 0;
+    padding-right: 0;
+    border-radius: 4px 4px 0 0;
+
+    /* Container */
+
+    .mat-toolbar-row {
+      padding-left: $padding-left;
+      padding-right: $padding-right;
+      height: $toolbar-height;
+    }
+
+    /* Individual possible items */
+
+    .mat-button,
+    .mat-raised-button,
+    a.mat-raised-button {
+      /* buttons have padding of 16, so reduce the margin */
+      font-size: 16px;
+      line-height: $hovered-state-height;
+      margin-right: $item-margins;
+      margin-left: $item-margins;
+      padding-left: $item-margins + 6;
+      padding-right: $item-margins + 6;
+    }
+
+    a.mat-icon-button:hover,
+    a.mat-button:hover {
+      color: mat.get-color-from-palette($primary, default-contrast);
+    }
+
+    .mat-icon-button:not([matprefix]):not([matsuffix]) {
+      /* buttons have padding of 16, so reduce the margin */
+      font-size: 16px;
+      margin-right: $item-margins;
+      margin-left: $item-margins;
+    }
+
+    .mat-icon-button[matprefix],
+    .mat-icon-button[matsuffix] {
+      margin-left: $item-margins;
+      height: 32px;
+    }
+
+    mat-icon[matprefix],
+    mat-icon[matsuffix] {
+      font-size: 24px;
+      position: relative;
+      top: 6px;
+      margin-right: 6px;
+    }
+
+    mat-slide-toggle.mat-slide-toggle {
+      font-size: 65%;
+      font-weight: inital;
+    }
+
+    mat-button-toggle-group.mat-button-toggle-group {
+      margin-right: $item-margins;
+      margin-left: $item-margins;
+
+      mat-button-toggle.mat-button-toggle {
+        font-size: 80%;
+        font-weight: normal;
+      }
+    }
+
+    /* only top toolbar */
+    mat-button-toggle-group.mat-button-toggle-group.top-toolbar-button-toggle {
+
+      margin-right: $item-margins;
+      margin-left: $item-margins;
+      height: 42px; /*HACK*/
+
+
+      mat-button-toggle.mat-button-toggle {
+        background-color: mat.get-color-from-palette($primary);
+      }
+
+      mat-button-toggle.mat-button-toggle-checked {
+        background-color: mat.get-color-from-palette($accent);
+      }
+
+      mat-button-toggle.mat-button-toggle {
+        /* buttons have padding of 16, so reduce the margin */
+        font-size: 16px;
+        font-weight: 500;
+        line-height: $hovered-state-height;
+        padding-left: $item-margins;
+        padding-right: $item-margins;
+
+        .mat-button-toggle-label,
+        .mat-button-toggle-label-content {
+          padding: 0;
+          margin: 0;
+          line-height: 36px;
+        }
+      }
+    }
+
+    mat-checkbox.mat-checkbox {
+      /* identical to buttons */
+      font-size: 14px;
+      font-weight: 500;
+      line-height: $hovered-state-height;
+
+      margin-right: $item-margins;
+      margin-left: $item-margins;
+
+      /* keep in line with base grid of 8 */
+      .mat-checkbox-inner-container {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    mat-form-field.mat-form-field {
+      margin-right: $item-margins;
+      margin-left: $item-margins;
+    }
+
+    .toggle-section {
+      /* reset padding and set margins like for everybody else*/
+      padding-left: 0;
+      padding-right: 0;
+      margin-left: $item-margins;
+      margin-right: $item-margins;
+    }
+
+    label {
+      line-height: $hovered-state-height;
+    }
+
+    label > mat-icon.mat-icon {
+      position: relative;
+      top: 4px
+    }
+  }
+
+
+  .mat-toolbar.velona-toolbar.velona-navbar {
+    border-radius: 0;
+  }
+
+  .velona-sidenav-content > .mat-toolbar.velona-toolbar.mat-toolbar-multiple-rows:first-child {
+    border-radius: 0;
+  }
+
+  .mat-toolbar.velona-toolbar[color='primary'] {
+    .mat-checkbox-frame {
+      border-color: mat.get-color-from-palette($primary, default-contrast);
+    }
+
+    mat-form-field.mat-form-field {
+      color: mat.get-color-from-palette($primary, default-contrast);
+      .mat-form-field-placeholder {
+        color: #bbb;
+      }
+      .mat-form-field-underline {
+        background-color: #bbb;
+      }
+      .mat-select-arrow {
+        color: mat.get-color-from-palette($primary, default-contrast);
+      }
+      .mat-select-value {
+        color: mat.get-color-from-palette($primary, default-contrast);
+      }
+    }
+  }
+}

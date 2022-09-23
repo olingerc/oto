@@ -1,0 +1,60 @@
+<h1 mat-dialog-title *ngIf="data.action === 'add'">Add group</h1>
+<h1 mat-dialog-title *ngIf="data.action === 'update'">Edit group</h1>
+
+<mat-dialog-content>
+  <form [formGroup]="groupForm">
+
+    <mat-form-field>
+      <input
+        matInput
+        required
+        myAutofocus
+        placeholder="Title"
+        formControlName="title"
+        type="text"
+        (keydown.enter)="groupForm.valid && confirmDialog()"
+        (keydown.escape)="dialogRef.close()">
+      <mat-error>Title is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select
+        required
+        placeholder="Institute"
+        name="lab"
+        formControlName="lab">
+        <mat-option *ngFor="let lab of labs" [value]="lab.id">{{lab.title}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select
+        required
+        placeholder="Selectable"
+        name="selectable"
+        formControlName="selectable">
+        <mat-option [value]="true">Yes</mat-option>
+        <mat-option [value]="false">No</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    color="primary"
+    mat-button
+    type="button"
+    (click)="confirmDialog()"
+    [disabled]="!groupForm.valid">
+    {{data.action.toUpperCase()}}
+  </button>
+
+  <button
+    color="primary"
+    matDialogClose
+    mat-button
+    type="button"
+    >CLOSE
+  </button>
+</mat-dialog-actions>

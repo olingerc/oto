@@ -1,0 +1,44 @@
+FROM node:16.15-slim as builder
+
+# get ubuntu dependencies necessary for npm install
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    build-essential \
+    python \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN npm install -g typescript@4.1.3
+
+RUN mkdir /app
+WORKDIR /app
+COPY src src
+COPY package.json package-lock.json tsconfig.json tslint.json ./
+RUN npm install
+# copy last to make rebuilding faster when there are code changes
+RUN tsc --sourceMap false
+FROM node:16.15-slim
+
+# get ubuntu dependencies necessary for npm install
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    build-essential \
+    python \
+    && rm -rf /var/lib/apt/lists/*
+
+# Prepare running as non-root user
+RUN useradd  -ms /bin/bash oto && mkdir /home/oto/app oto
+WORKDIR /home/oto/app
+
+# copy assets and install dependencies
+COPY package.json package-lock.json ./
+
+# Change permissions
+RUN chown -R oto:oto ./
+
+USER oto
+RUN npm install --production
+COPY --from=builder app/dist /home/oto/app
+COPY scripts/healthcheck.js /home/oto/app
+
+# start backend
+CMD ["node", "server.js"]

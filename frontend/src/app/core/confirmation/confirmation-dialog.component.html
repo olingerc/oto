@@ -1,0 +1,29 @@
+<h1 *ngIf="header" mat-dialog-title>
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <mat-icon *ngIf="icon">{{icon}}</mat-icon>
+    <span>&nbsp;{{header}}</span>
+  </div>
+</h1>
+
+<mat-dialog-content class="navbar-dialog">
+  {{message}}
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    color="primary"
+    matDialogClose
+    mat-button
+    type="button"
+    (click)="cancelDialog()"
+    >NO
+  </button>
+  <button
+    color="primary"
+    mat-button
+    type="button"
+    (click)="confirmDialog()">
+    YES
+  </button>
+
+</mat-dialog-actions>

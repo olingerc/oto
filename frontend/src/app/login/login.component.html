@@ -1,0 +1,86 @@
+<div class="velona-login-container">
+
+  <div class="velona-login-header">
+    <img class="velona-logo" src="/assets/apple-touch-icon-120x120.png"/>
+  </div>
+
+  <div class="velona-login-content">
+    <mat-card class="form-card">
+
+      <h3 class="mat-title">Sign In</h3>
+
+      <form
+        #loginForm="ngForm"
+        (ngSubmit)="login()"
+        >
+
+        <mat-form-field class="velona-login-full-width">
+          <input
+            #usernameElement
+            matInput
+            id="username"
+            name="username"
+            type="text"
+            [formControl]="usernameFormControl"
+            >
+            <mat-placeholder>
+              <mat-icon>person</mat-icon>
+              Username
+            </mat-placeholder>
+            <button
+              type="button"
+              mat-icon-button
+              matSuffix
+              tabindex="-1"
+              *ngIf="usernameFormControl.value"
+              (click)="usernameFormControl.setValue('');"
+              ><mat-icon>clear</mat-icon>
+            </button>
+        </mat-form-field>
+
+        <mat-form-field class="velona-login-full-width">
+          <input
+            #passwordElement
+            matInput
+            id="password"
+            name="password"
+            type="password"
+            [formControl]="passwordFormControl"
+            >
+            <mat-error>
+              <mat-icon color="warn">error</mat-icon>
+              Username or password incorrect
+            </mat-error>
+            <mat-placeholder>
+              <mat-icon>lock</mat-icon>
+              Password
+            </mat-placeholder>
+            <button mat-icon-button
+              type="button"
+              matSuffix
+              tabindex="-1"
+              *ngIf="passwordFormControl.value"
+              (click)="passwordFormControl.setValue('');"
+              ><mat-icon>clear</mat-icon>
+            </button>
+
+        </mat-form-field>
+
+        <div *ngIf="loading" class="velona-loader velona-loader-big message"></div>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit">
+          LOGIN
+        </button>
+
+      </form>
+
+    </mat-card>
+
+  </div>
+
+</div>
+
+<app-footer></app-footer>

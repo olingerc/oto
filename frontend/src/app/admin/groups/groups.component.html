@@ -1,0 +1,56 @@
+<div fxFlex fxLayout="column">
+
+  <!-- Page title -->
+  <header fxFlex="1 1 80px" class="velona-header-background admin-groups-header">
+    <div class="velona-header-section">
+      <div class="velona-header-headline">
+        <h1>Groups</h1>
+      </div>
+    </div>
+  </header>
+
+  <div
+    fxLayout="column"
+    fxLayoutGap="24px"
+    fxLayoutAlign="start start"
+    class="admin-groups-content mat-app-background"
+    >
+      <!-- view all groups -->
+      <h2>
+        <button color="accent" mat-raised-button (click)="startGroupAdd()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </h2>
+
+      <!-- group table -->
+      <p-table
+        styleClass="oto-primeng-table oto-primeng-table-smaller group-table p-datatable-striped"
+        [value]="groups"
+        [paginator]="false"
+        [scrollable]="true"
+        scrollHeight="400px"
+        sortField="title" [sortOrder]="1"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th [pSortableColumn]="'title'">Title <p-sortIcon [field]="'title'"></p-sortIcon></th>
+            <th [pSortableColumn]="'lab.title'">Institute <p-sortIcon [field]="'lab.title'"></p-sortIcon></th>
+            <th [pSortableColumn]="'selectable'">Selectable <p-sortIcon [field]="'selectable'"></p-sortIcon></th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-group>
+          <tr>
+            <td>{{group.title}}</td>
+            <td>{{group.lab?.title}}</td>
+            <td>{{group.selectable}}</td>
+            <td>
+              <button mat-button (click)="startGroupUpdate(group)">UPDATE</button>
+              <button mat-button (click)="deleteGroup(group.id)">DELETE</button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+  </div>
+
+</div>

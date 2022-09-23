@@ -1,0 +1,645 @@
+@use "sass:map";
+@use 'sass:math';
+@use '@angular/material' as mat;
+@mixin oto-general($theme) {
+  $primary: map.get($theme, primary);
+  $accent: map.get($theme, accent);
+  $warn: map.get($theme, warn);
+  $background: map.get($theme, background);
+  $foreground: map.get($theme, foreground);
+  $is-dark-theme: map.get($theme, is-dark);
+
+  $green: #50be46;
+
+
+  body {
+    font-family: "Roboto","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+    margin: 0;
+  }
+
+  /*https://google-webfonts-helper.herokuapp.com/fonts*/
+  /* roboto-300 - latin */
+  @font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Roboto Light'), local('Roboto-Light'),
+         url('/assets/fonts/roboto-v18-latin-300.woff') format('woff'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+         url('/assets/fonts/roboto-v18-latin-300.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  }
+
+  /* roboto-regular - latin */
+  @font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Roboto'), local('Roboto-Regular'),
+         url('/assets/fonts/roboto-v18-latin-regular.woff') format('woff'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+         url('/assets/fonts/roboto-v18-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  }
+
+  /* roboto-500 - latin */
+  @font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    src: local('Roboto Medium'), local('Roboto-Medium'),
+         url('/assets/fonts/roboto-v18-latin-500.woff') format('woff'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+         url('/assets/fonts/roboto-v18-latin-500.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  }
+
+  
+  h1, h2 {
+    font-weight: 400;
+  }
+
+  pre {
+    // Pre elements won't wrap text by default and can exceed the boundaries of their parent element.
+    // This adds extra scroll space when visiting the docs mobile. Pre-wrapping the code examples
+    // will ensure that the code never exceeds the page width.
+    white-space: pre-wrap;
+  }
+
+  .pointer,
+  mat-chip.mat-chip.pointer {
+    cursor: pointer;
+  }
+
+  /* matTooltips are cut off by default!! */
+  .mat-tooltip-panel {
+    word-break: break-all !important;
+    white-space: normal !important;
+  }
+  
+
+  /*
+  To easily use colors
+  */
+
+  .ui-state-highlight .success-color,
+  .selected .success-color {
+    color: #00cd00;
+  }
+
+  mat-chip.mat-chip.background-primary-color, /*mat-chips are tougher to select via css */
+  body .ui-table .ui-table-tbody > tr > td.background-primary-color,
+  .background-primary-color {
+    color: mat.get-color-from-palette($primary, default-contrast);
+    background-color: mat.get-color-from-palette($primary) !important;
+  }
+
+  mat-chip.mat-chip.background-accent-color,
+  body .ui-table .ui-table-tbody > tr > td.background-accent-color,
+  .background-accent-color {
+    color: mat.get-color-from-palette($accent, default-contrast);
+    background-color: mat.get-color-from-palette($accent) !important;
+  }
+
+  mat-chip.mat-chip.background-warn-color,
+  body .ui-table .ui-table-tbody > tr > td.background-warn-color,
+  .background-warn-color {
+    color: mat.get-color-from-palette($warn, default-contrast);
+    background-color: mat.get-color-from-palette($warn);
+  }
+
+  mat-chip.mat-chip.background-success-color,
+  body .ui-table .ui-table-tbody > tr > td.background-success-color,
+  .background-success-color {
+    color: mat.get-color-from-palette($primary, default-contrast);
+    background-color: $green;
+  }
+
+  mat-chip.mat-chip.background-attention-color,
+  body .ui-table .ui-table-tbody > tr > td.background-attention-color,
+  .background-attention-color {
+    color: mat.get-color-from-palette($accent, default-contrast);
+    background-color: mat.get-color-from-palette($accent, 400);
+  }
+
+  mat-chip.mat-chip.background-highlight-color,
+  body .ui-table .ui-table-tbody > tr > td.background-highlight-color,
+  .background-highlight-color {
+    color: mat.get-color-from-palette($primary, default-contrast);
+    background-color: mat.get-color-from-palette($primary, 50);
+  }
+
+  mat-chip.mat-chip.background-grey-color,
+  body .ui-table .ui-table-tbody > tr > td.background-grey-color,
+  .background-grey-color {
+    color: #6b6b6b;
+    background-color: mat.get-color-from-palette(mat.$grey-palette, 300);
+  }
+
+  mat-chip.mat-chip.background-white-color,
+  body .ui-table .ui-table-tbody > tr > td.background-white-color,
+  .background-white-color {
+    color: #111;
+    background-color: white;
+  }
+
+  .muted-color {
+    color: #777 !important;
+  }
+  .lighter-muted-color {
+    color: #ccc !important;
+  }
+  .success-color {
+    color: $green !important;
+  }
+  .attention-color {
+    color: mat.get-color-from-palette($accent, 400) !important;
+  }
+  .white-color {
+    color: white !important;
+  }
+  .purple-color {
+    color: rgb(140, 10, 147) !important;
+  }
+  .primary-color {
+    color: mat.get-color-from-palette($primary) !important;
+  }
+  .accent-color {
+    color: mat.get-color-from-palette($accent) !important;
+  }
+  .warn-color {
+    color: mat.get-color-from-palette($warn) !important;
+  }
+
+
+  /*
+  Color helpers
+  */
+
+  a.mat-menu-item.active,
+  a.mat-menu-item.active:hover {
+    color: mat.get-color-from-palette($primary, default-contrast);
+    background: mat.get-color-from-palette($primary);
+  }
+  button.mat-menu-item.active,
+  button.mat-menu-item.active:hover {
+    color: mat.get-color-from-palette($primary, default-contrast);
+    background: mat.get-color-from-palette($primary);
+  }
+
+  /*
+  Color of global components
+  */
+  /* Loader */
+  .velona-loader {
+    border:6px solid mat.get-color-from-palette($primary, 800, 0.3);
+    border-top:6px solid mat.get-color-from-palette($accent);
+  }
+
+/*  mat-button-toggle.mat-button-toggle {
+    font-weight: normal;
+    color: mat.get-color-from-palette($foreground, text);
+    background-color: mat.get-color-from-palette($background, focused-button);
+  }
+
+  mat-button-toggle.mat-button-toggle-checked {
+    color: mat.get-color-from-palette($primary, default-contrast);
+    background-color: mat.get-color-from-palette($primary);
+  }*/ /* TODO: not nice with 2018 material guide migration
+
+  /*
+  mat-card header
+  use mat-card-header tag with an h2
+  I try to have a height of 72px
+  */
+  mat-card-header.mat-card-header.velona-card-header {
+    color: mat.get-color-from-palette($primary, default-contrast);
+    background-color: mat.get-color-from-palette($primary);
+
+    margin: -16px -16px 16px -16px;
+    border-radius: 4px 4px 0 0;
+    padding: 18px 24px 18px 8px; /*8px because of header-text element*/
+    h2 {
+      margin: 0;
+      mat-icon {
+        position: relative;
+        top:2px;
+      }
+    }
+  }
+
+  mat-card.velona-mat-card-compact {
+    mat-card-header.mat-card-header.velona-card-header {
+      height: auto;
+      margin: 0;
+      padding: 22px 24px 22px 24px;
+
+      h2 {margin: 0;}
+    }
+  }
+
+  /*
+  Compact cards
+  * Use only mat-card-header, not mat-card-title
+  * see resources admin component for example
+  * use a mat-toolbar with flex toolbar
+  * within a mat-card-header tag
+  */
+  mat-card.velona-mat-card-compact {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+
+    mat-card-header {
+      height: 56px;
+      padding-left: 0;
+      padding-right: 0;
+
+      .mat-card-header-text {
+        display: none;
+      }
+    }
+
+    p {
+      margin-left: 24px;
+      margin-right: 24px;
+    }
+
+    mat-card-footer {
+      padding: 0 24px;
+      margin: 0;
+    }
+
+  }
+
+  /*
+  Compact dialogs
+  either use a h3
+  or if buttons, a mat-toolbar of class velona-toolbar
+  */
+  $toolbar-height: 48px;
+  $hovered-state-height: 40px;
+
+  $space-between-items: 16px;
+  $item-margins: math.div($space-between-items, 2);
+  $padding-left: 24px - $item-margins;
+  $padding-right: 24px - $item-margins;
+  .cdk-overlay-pane.velona-dialog-compact {
+    padding-top: 0px;
+
+    .mat-dialog-title {
+      padding-left: 0;
+      padding-right: 0;
+      margin: 0;
+
+      /* use this if you only have a header in the title bar and no toolbar */
+      h3 {
+        font-size: 24px;
+        font-weight: 400;
+        padding-left: 0;
+        padding-right: 0;
+        margin: 0;
+
+        mat-icon {
+          position: relative;
+          top: 2px;
+          font-size: 20px;
+        }
+      }
+
+      > div {
+        height: 100%;
+      }
+
+      .velona-toolbar {
+        background: none;
+      }
+    }
+
+    .mat-dialog-container {
+      padding-top: 16px;
+    }
+    .mat-dialog-content {
+      padding: 0;
+    }
+
+    .oto-table {
+      margin-bottom: 0;
+    }
+  }
+
+  .cdk-overlay-pane.velona-dialog-compact.no-padding-top {
+    .mat-dialog-container {
+      padding-top: 0;
+    }
+  }
+
+  /*
+  Helpers
+  */
+  .noselect {user-select: none;}
+  [hidden] {
+    /* for myVisibleFor */
+    display: none !important;
+  }
+
+  /*
+  Hacks
+  */
+
+  /* for chips in a menu, cf header with set pasword */
+  mat-chip-list.chip-list-inline {
+    display: inline-block !important;
+
+    .mat-chip {
+      line-height: 8px;
+      padding: 7px 8px;
+    }
+  }
+
+  /* FIX FOR HIGHCHARTS ANGULAR WIDHT OF PARENT UNDEFINED ON GRAPH DRAW */
+  /* https://github.com/gevgeny/angular2-highcharts/issues/11 */
+  highcharts-chart {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 auto;
+    display: block;
+  }
+
+  /*
+  Spinner
+  */
+  /*
+  velona spinner
+  */
+  .velona-loader[hidden] {
+    display: none
+  }
+
+  .velona-loader {
+    background: none;
+    display: inline-block;
+    z-index: 99999;
+
+    margin-bottom: -2px;
+    /*border: 2px solid #f3f3f3; /* Light grey */
+    /*border-top: 2px solid #999; /* Grey */
+
+    animation: rotation .6s infinite linear;
+    border-radius:100%;
+  }
+
+  .velona-loader.overlay {
+    position: absolute;
+    display: block;
+    left: 50%;
+    top: 50%;
+    height:60px;
+    width:60px;
+    margin:0px auto;
+  }
+
+  .velona-loader.velona-loader-button {
+    border-width: 2px;
+    border-top-width: 2px;
+    width: 12px;
+    height: 12px;
+    margin-bottom: -2px;
+  }
+
+  .velona-loader.velona-loader-small {
+    border-width: 2px;
+    border-top-width: 2px;
+    border-color: #f3f3f3;
+    border-top-color: #999;
+    width: 12px;
+    height: 12px;
+    margin-bottom: -2px;
+  }
+
+  .velona-loader.velona-loader-big {
+    border-width: 4px;
+    border-top-width: 4px;
+    width: 23px;
+    height: 23px;
+    margin-bottom: -5px;
+  }
+
+  .velona-loader.velona-loader-huge {
+    border-width: 5px;
+    border-top-width: 5px;
+    width: 50px;
+    height: 50px;
+  }
+
+  @-webkit-keyframes rotation {
+   from {-webkit-transform: rotate(0deg);}
+   to {-webkit-transform: rotate(359deg);}
+  }
+  @-moz-keyframes rotation {
+    from {-moz-transform: rotate(0deg);}
+    to {-moz-transform: rotate(359deg);}
+  }
+  @keyframes rotation {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(359deg);}
+  }
+
+  /* Velona badges */
+  .velona-badges mat-chip.mat-chip {
+    border-radius: 4px;
+    padding: 4px 8px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }
+
+  .velona-badge {
+    border-radius: 4px;
+    padding: 4px 8px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }
+
+  /* Primeng messages */
+  p-toast .p-toast {
+    /* to not cover my login menu buttons */
+    top: auto;
+
+    .p-toast-message .p-toast-message-content .p-toast-message-text {
+    /* Fixx needed for too small close icon*/
+      width: 320px;
+      word-break: break-all;
+    }
+  }
+
+  .p-overlaypanel .p-overlaypanel-close {
+    background: mat.get-color-from-palette($primary) !important;
+  }
+
+  /* primeng autocomplete */
+  p-autoComplete.velona-autocomplete {
+
+    .p-inputtext:focus {
+      border-color: mat.get-color-from-palette($primary);
+      box-shadow: inset 0 0 0 1px mat.get-color-from-palette($primary),
+                  inset 0 0 0 1px mat.get-color-from-palette($primary),
+                  inset 0 0 0 1px mat.get-color-from-palette($primary),
+                  inset 0 0 0 1px mat.get-color-from-palette($primary);
+    }
+    .p-button {
+      background: mat.get-color-from-palette($primary)
+    }
+    .p-button:hover {
+      background: mat.get-color-from-palette($primary, 900)
+    }
+
+    .p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item.p-highlight {
+      color: mat.get-color-from-palette($primary, default-contrast);
+      background: mat.get-color-from-palette($primary)
+    }
+  }
+
+  /* If append to body */
+  .p-autocomplete-panel.velona-autocomplete-panel .p-autocomplete-items .p-autocomplete-item.p-highlight {
+    color: mat.get-color-from-palette($primary, default-contrast);
+    background: mat.get-color-from-palette($primary)
+  }
+
+  p-autoComplete.velona-toolbar {
+    .p-inputtext {
+      height: 40px;
+      font-size: 14px;
+      padding-top: 2px;
+      padding-bottom: 2px;
+    }
+    .p-button {
+      height: 40px;
+      width: 40px;
+    }
+  }
+
+  p-slider .p-slider {
+    .p-slider-handle,
+    .p-slider-range {
+      background: mat.get-color-from-palette($accent)
+    }
+  }
+
+  p-slider:not(.p-disabled) .p-slider .p-slider-handle:hover {
+      background: white
+  }
+
+  p-dropdown .p-dropdown:not(.p-disabled).p-focus {
+    border-color: mat.get-color-from-palette($primary);
+    box-shadow: inset 0 0 0 1px mat.get-color-from-palette($primary),
+                inset 0 0 0 1px mat.get-color-from-palette($primary),
+                inset 0 0 0 1px mat.get-color-from-palette($primary),
+                inset 0 0 0 1px mat.get-color-from-palette($primary);
+  }
+
+  p-dropdown .p-dropdown {
+    .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+      color: mat.get-color-from-palette($primary);
+      background: whitesmoke;
+    }
+  }
+
+  .p-tooltip.tooltip-no-wrap > .p-tooltip-text {
+    width: fit-content;
+    white-space: nowrap
+  }
+
+  .p-tooltip.tooltip-wider {
+    max-width: 400px !important;
+  }
+
+  /* Simple notifications */
+  velona-app .simple-notification-wrapper {
+    z-index: 1200; /* modals have 1000 */
+  }
+
+  velona-app .simple-notification {
+    .icon {
+      height: 50px;
+      width: 50px;
+    }
+    .sn-content {
+      font-size: 14px;
+      margin-top: 8px;
+      word-break: break-all;
+    }
+  }
+
+  /* Mat-menu additions */
+  .mat-menu-content {
+    label {
+      padding-left: 16px;
+      margin-top: 8px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    hr {
+      display: block;
+      height: 1px;
+      border: 0;
+      background-color: #ccc;
+      color: #ccc;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  /* Toggle */
+  mat-button-toggle-group.mat-button-toggle-group.velona-toggle {
+
+    mat-button-toggle.mat-button-toggle {
+      font-size: 12px;
+      .mat-button-toggle-label,
+      .mat-button-toggle-label-content {
+        margin: 0;
+        line-height: 36px;
+      }
+    }
+  }
+
+  /* Primeng calendar */
+  .p-calendar-only-icon {
+    .p-inputtext{
+      display: none;
+    }
+    button.p-datepicker-trigger.p-calendar-button  {
+      border-radius: 4px !important;
+    }
+  }
+
+  /* Toaster (bottom message bar) */
+  .velona-toaster {
+    width: 640px;
+    background: rgb(49, 47, 47);
+    color: whitesmoke;
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    border-radius: 3px;
+    padding-top: 24px;
+    padding-left: 24px;
+    padding-right: 24px;
+
+    opacity: 0;
+    transition: all 0.33s linear;
+    visibility: hidden;
+    z-index: 1000;
+  }
+
+  .velona-toaster-item {
+    padding-bottom: 24px;
+    mat-icon.mat-icon {
+      margin: -4px 0 -4px 8px
+    }
+    button {
+      margin: -8px 0 -8px 8px
+    }
+  }
+
+  .velona-toaster.show {
+    visibility:visible;
+    opacity: 1;
+  }
+  
+
+
+}

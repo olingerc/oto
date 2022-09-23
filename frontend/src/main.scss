@@ -1,0 +1,43 @@
+@use '@angular/material' as mat;
+@use './styles/app-theme';
+
+
+// Include material core styles.
+@include mat.core();
+
+
+// Define the light theme.
+$primary:  mat.define-palette(mat.$light-blue-palette, 800);
+$accent: mat.define-palette(mat.$orange-palette, 700, 100, 900);
+$warn: mat.define-palette(mat.$red-palette, 600);
+
+$theme: mat.define-light-theme($primary, $accent);
+@include mat.all-component-themes($theme);
+@include app-theme.oto-app-theme($theme);
+
+/*
+Old theme: TODO
+
+blue
+#5CA2C4 (light)
+#f0f7fd (lighter)
+#337ab7 (dark)
+rgba(60, 86, 94, 0.5) (with grey)
+
+green
+#50be46 (light)
+#38a42e (darker)
+#2b8a22 (darkest)
+#7ca678 (with grey)
+
+red
+#ebcccc (light)
+#e69696 (dark)
+#F00000 (darkest)
+
+
+LNS:
+blue #00b9f2
+red #ed1b34
+merged #603b45
+*/

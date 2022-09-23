@@ -1,0 +1,16 @@
+.jobs-container {
+  .jobs-dashboard-header {
+    .velona-header-section {
+      padding-top: 0;
+    }
+  }
+  .jobs-content {
+    padding: 24px;
+  }
+
+  .jobs-table pre {
+    max-height: 480px;
+    overflow-x: auto;
+  }
+
+}

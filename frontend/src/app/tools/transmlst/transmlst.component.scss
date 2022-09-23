@@ -1,0 +1,39 @@
+/* Material design, paddings of 24px */
+
+my-transmlst {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+}
+
+.transmlst-form-container {
+
+  * {
+    width: 100%;
+  }
+
+  mat-form-field {
+    background: #eee;
+    padding: 16px;
+
+    textarea {
+      height: 552px; /* to have 24px from bottom */
+    }
+  }
+}
+
+.transmlst-table-container {
+  padding: 0 0 0 24px;
+  border-left: 1px solid #e5e5e5;
+  margin-left: 56px;
+
+  table {
+    width: 100%;
+  }
+}
+
+.transmlst-buttons-container {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}

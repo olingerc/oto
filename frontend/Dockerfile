@@ -22,6 +22,7 @@ COPY docker-entrypoint.sh \
     karma.conf.js \
     package.json \
     package-lock.json \
+    proxy.conf.json \
     tsconfig.json \
     tsconfig.app.json \
     tsconfig.spec.json \

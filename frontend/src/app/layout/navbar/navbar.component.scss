@@ -1,0 +1,42 @@
+.velona-navbar {
+  /*display: none;*/
+}
+
+.velona-navbar.visible {
+  display: block;
+}
+
+.navbar-velona-logo {
+  margin-left: 5px;
+  height: 40px;
+  padding: 8px 0; /* to get height of 40px;*/
+  position: relative;
+  top: 3px;
+}
+
+.navbar-breadcrums-container {
+   /* material design wants 80, but image is 92
+    I choose increments of 48 since this is height of toolbar
+    80 + 48 --> 128. Padding left is 24, so 128 - 92 - 24 = 32
+    BUT: sidenavs that are open make this look strange. i increase
+    an addition 2 increments of 48: 32 + 48 + 48
+    */
+  margin-left: 128px;
+}
+
+/* Bread crumbs */
+
+/* Sublinks */
+.last-link {
+  vertical-align: middle;
+}
+
+.velona-navbar-triangle {
+  position:relative;
+  font-size: 16px;
+  text-align: end;
+}
+
+.navbar-menu.navbar-menu.mat-menu-panel {
+  width: 240px;
+}

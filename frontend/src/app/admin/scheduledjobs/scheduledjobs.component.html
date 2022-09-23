@@ -1,0 +1,55 @@
+<div fxFlex fxLayout="column">
+  <div fxLayout="row" fxlayoutGap="8px" fxLayoutAlign="start center">
+    <button
+      mat-icon-button
+      matTooltip="Refresh"
+      (click)="loadJobs()">
+      <mat-icon *ngIf="!loading">refresh</mat-icon>
+      <div *ngIf="loading" class="velona-loader velona-loader-button"></div>
+    </button>
+    <small class="muted-color">only recent jobs, last refresh {{lastLoad.format("YYYY MM DD HH:mm:ss")}}</small>
+  </div>
+
+  <div class="admin-glimsimport-content" fxLayout="row" fxLayoutGap="24px">
+    <div fxLayout="column" fxFlex="50%">
+      <mat-card class="jobs-card" [myVisibleForPrivileges]="['otoAdmin']">
+        <h4>Remaining</h4>
+        <div fxLayout="row" fxLayoutGap="8px" class="toolbar">
+          <button mat-raised-button color="primary" (click)="convertConseil()">
+            DO
+          </button>
+        </div>
+        <mat-card-content style="height: 240px">
+          <p-table
+            styleClass="oto-primeng-table oto-primeng-table-smaller p-datatable-striped"
+            [value]="remainingJobs"
+            
+            [scrollable]="true" scrollHeight="flex"
+            sortField="created_at" [sortOrder]="-1"
+            [rowTrackBy]="trackById"
+            >
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Description</th>
+                <th>Created</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-job>
+              <tr (click)="showJobDetails(job)" [pSelectableRow]="job" class="pointer">
+                <td>{{ job.description }} - {{job.status}}</td>
+                <td>
+                  {{ job.created_at | date:"yyyy-MM-dd H:mm:ss" }}
+                  <span *ngIf="!job.ended_at">({{timeToFinish(job.started_at, lastLoad)}} ago)</span>
+                  <span *ngIf="job.ended_at">(took {{timeToFinish(job.started_at, job.ended_at)}})</span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+
+  </div>
+
+</div>

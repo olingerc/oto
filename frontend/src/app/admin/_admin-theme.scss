@@ -1,0 +1,31 @@
+@use "sass:map";
+@use '@angular/material' as mat;
+@mixin admin-theme($theme) {
+  $primary: map.get($theme, primary);
+  $accent: map.get($theme, accent);
+  $warn: map.get($theme, warn);
+  $background: map.get($theme, background);
+  $foreground: map.get($theme, foreground);
+
+  $green: #50be46;
+
+  .jobs-container {
+
+    button.mat-button.active {
+      color: mat.get-color-from-palette($foreground, text);
+      background-color: mat.get-color-from-palette($background, focused-button);
+    }
+
+    a {
+      color: mat.get-color-from-palette($foreground, text);
+    }
+
+    .corediv.low {background:$green !important}
+    .corediv.med {background:mat.get-color-from-palette($accent) !important}
+    .corediv.hi {background:mat.get-color-from-palette($warn)}
+
+    .memoryDiv {
+      background: mat.get-color-from-palette($primary);
+    }
+  }
+}

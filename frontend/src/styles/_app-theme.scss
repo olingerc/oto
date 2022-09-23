@@ -1,0 +1,51 @@
+@use '@angular/material' as mat;
+@use "sass:map";
+@use '../../node_modules/@angular/material/theming';
+
+@use './../app/home/home-theme';
+@use './../app/login/login-theme';
+@use './../app/admin/admin-theme';
+@use './../app/shared/components/footer/footer-theme';
+@use './../app/layout/navbar/navbar-theme';
+
+@use './general';
+@use './sidenav-theme';
+@use './header-theme';
+@use './toolbar-theme';
+@use './tables';
+
+
+// Styles for the app that are based on the current theme.
+@mixin oto-app-theme($theme) {
+  $primary: map.get($theme, primary);
+  $accent: map.get($theme, accent);
+  $warn: map.get($theme, warn);
+  $background: map.get($theme, background);
+  $foreground: map.get($theme, foreground);
+
+  .oto-app-background {
+    background: mat.get-color-from-palette($background, background);
+  }
+
+  .oto-footer {
+    background: mat.get-color-from-palette($primary);
+    color: mat.get-color-from-palette($primary, default-contrast);
+  }
+
+  mat-chip.mat-warn {
+    background-color: mat.get-color-from-palette($warn) !important;
+  }
+
+  @include general.oto-general($theme);
+
+  @include footer-theme.footer-theme($theme);
+  @include navbar-theme.navbar-theme($theme);
+  @include home-theme.home-theme($theme);
+  @include admin-theme.admin-theme($theme);
+  @include login-theme.login-theme($theme);
+  
+  @include sidenav-theme.sidenav-theme($theme);
+  @include tables.tables-theme($theme);
+  @include toolbar-theme.toolbar-theme($theme);
+  @include header-theme.header-theme($theme);
+}

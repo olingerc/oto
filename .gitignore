@@ -6,9 +6,12 @@
 frontend/dist
 frontend/out-tsc
 frontend/.angular/cache
+backend/dist_node
+backend/tmp
 
 # dependencies
 frontend/node_modules
+backend/node_modules
 
 # IDEs and editors
 /.idea
@@ -51,5 +54,8 @@ Thumbs.db
 **.pyc
 **.pyc.*
 **.class
-backend/venv
-backend/.venv
+tasks/venv
+tasks/.venv
+tasks/worker/.venv
+venvtasks
+/rq

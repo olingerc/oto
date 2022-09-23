@@ -1,0 +1,33 @@
+<div fxFlex fxLayout="column">
+
+  <header class="velona-header-background home-header">
+    <div class="velona-header-section">
+      <div class="velona-header-headline">
+        <img src="/assets/apple-touch-icon-120x120.png"/>
+        <h1>Organize The Olingers</h1>
+      </div>
+    </div>
+  </header>
+
+  <div class="velona-home-main">
+    <div class="app-description-container">
+      {{ appDescription }}
+    </div>
+
+    <mat-card
+      *ngFor="let app of apps"
+      class="app-card"
+      [myVisibleForPrivilege]="app.privilege"
+      (mouseover)="appDescription = app.description;"
+      (mouseout)="appDescription = '';"
+      (click)="goTo(app.url)"
+      >
+      <img mat-card-image [src]="app.icon">
+      <mat-card-content>
+        <p>{{ app.title }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <app-footer></app-footer>
+</div>

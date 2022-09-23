@@ -1,12 +1,25 @@
-* {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-}
-
-div {
-    width: 100%;
-    height: 100%;
-    background-color: rgb(26, 26, 26);
-}
+app-root {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+  
+    /* horizontal minimum */
+    min-width: 1280px; /* suppose you want minimun width of 1000px */
+    width: 100%;  /* Firefox will set width as auto */
+  }
+  
+  app-navbar {
+    position: relative;
+    z-index: 10;
+  }
+  
+  // Target last-child as it will be the output of the router-outlet within the app's container.
+  app-root > :last-child {
+    overflow-y: auto;
+    flex: 1 1 auto;
+  }
+  

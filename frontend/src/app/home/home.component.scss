@@ -1,0 +1,84 @@
+$lns-color-merged: #603b45;
+
+.home-header {
+  .velona-header-section {
+    text-align: center;
+  }
+
+  .velona-header-headline h1 {
+    font-size: 40px;
+  }
+
+  img {
+    height: 72px;
+    filter: brightness(180%);
+  }
+}
+
+.velona-home-main {
+  flex: 1 1 auto;
+  align-items: center;
+  margin-top: 0;
+  margin-bottom: 0;
+
+  padding: 0 246px 24px 246px;
+}
+
+/*
+Main content
+*/
+
+.app-description-container {
+  height: 48px;
+  line-height: 48px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  text-align: center;
+  color: $lns-color-merged;
+}
+
+.app-card {
+
+  display: inline-block;
+  margin-right: 24px;
+  margin-bottom: 24px;
+
+  img {
+    margin-top: 0;
+    width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .mat-card-content {
+    text-align: center;
+
+    p {
+      text-align: center;
+      font-weight:bold;
+      white-space: nowrap;
+    }
+  }
+}
+
+/* Animated properties, card is moving up in Z */
+.app-card {
+  cursor: pointer;
+  width: 152px;
+  height: 152px;
+  /* mat-elevation-z4 */
+  box-shadow:0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.app-card:hover {
+  width: 160px;
+  height: 160px;
+  margin-top: -8px;
+  margin-left: -4px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+  /* mat-elevation-z5 */
+  box-shadow:0 3px 5px -1px rgba(0,0,0,.2),0 5px 8px 0 rgba(0,0,0,.14),0 1px 14px 0 rgba(0,0,0,.12);
+}

@@ -1,7 +1,50 @@
-<div>
+<app-navbar></app-navbar>
 
-<img
-width="40"
-src="assets/apple-touch-startup-image-640x1096.png"
-/>
+<!-- Loading Route indicator -->
+<div
+  class="velona-loader velona-loader-huge overlay"
+  *ngIf="loadingRoute">
 </div>
+
+<p-toast position="top-right"></p-toast>
+
+<velona-confirmation-dialog></velona-confirmation-dialog>
+
+
+<!-- Tasks Progress messages -->
+<div class="velona-toaster mat-elevation-z3 show" [ngClass]="{'show': tasksProgressMessages.length > 0 || delayedHide}">
+
+    <div class="velona-toaster-item" *ngFor="let item of tasksProgressMessages">
+
+      <ng-container *ngIf="item.message_type == 'move' || item.message_type=='copy' ">
+
+        <ng-container *ngIf="item.message_type == 'start'">
+          {{item.messageText}} files to {{item.destination}} ...
+        </ng-container>
+
+        <ng-container *ngIf="item.message_type == 'progress'">
+          <div fxLayout="row" fxLayoutAlign="start center">
+            {{item.messageText}} files to {{item.destination}} &nbsp;&nbsp;&nbsp;&nbsp;<span *ngIf="item.progress" class="accent-color"> {{item.progress.copying}} of {{item.progress.total}} &nbsp;&nbsp;&nbsp; {{item.progress.percent_done | number : "1.0-0"}} % done</span>
+          </div>
+        </ng-container>
+
+      </ng-container>
+
+      <ng-container *ngIf="item.message_type == 'delete' ">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          {{ item.messageText }}
+          <mat-icon *ngIf="item.message_content == 'success'" class="success-color">check</mat-icon>
+        </div>
+      </ng-container>
+
+    </div>
+
+    <div class="velona-toaster-item" *ngIf="tasksProgressMessages.length == 0" fxLayout="row" fxLayoutAlign="start center">
+      No more messages <mat-icon class="success-color">check</mat-icon>
+    </div>
+
+
+</div>
+
+<!-- angular router places components AFTER router-outlet, not within -->
+<router-outlet></router-outlet>

@@ -18,6 +18,7 @@ COPY angular.json \
     karma.conf.js \
     package.json \
     package-lock.json \
+    proxy.conf.json \
     tsconfig.json \
     tsconfig.app.json \
     .browserslistrc \
@@ -37,6 +38,6 @@ FROM httpd:2.4
 #    && apt-get install -y --no-install-recommends \
 #    && rm -rf /var/lib/apt/lists/*
 
-# Get velona source code
+# Get source code
 COPY --from=builder /app/oto/dist/frontend /usr/local/apache2/htdocs/
 COPY ./deploy/production.conf /usr/local/apache2/conf/httpd.conf

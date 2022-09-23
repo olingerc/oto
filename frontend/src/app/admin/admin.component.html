@@ -1,0 +1,77 @@
+<mat-sidenav-container class="velona-sidenav-container">
+  <mat-sidenav
+    class="velona-sidenav"
+    [opened]="true"
+    [mode]="'side'"
+    disableClose
+    >
+    <!-- sidenav content -->
+    <nav>
+      <h3 [myVisibleForPrivileges]="['otoUser']">Infrastructure</h3>
+      <ul [myVisibleForPrivileges]="['otoUser']">
+        <li>
+          <a
+            routerLinkActive="oto-sidenav-item-selected"
+            routerLink="infrastructure">
+            Status
+          </a>
+        </li>
+      </ul>
+      <h3 [myVisibleForPrivileges]="['otoAdmin']">Jobs</h3>
+      <ul>
+        <li [myVisibleForPrivileges]="['otoAdmin']">
+          <a
+            routerLinkActive="oto-sidenav-item-selected"
+            routerLink="scheduledjobs">
+            Background Jobs
+          </a>
+        </li>
+        <li [myVisibleForPrivileges]="['otoAdmin']">
+          <a
+            routerLinkActive="oto-sidenav-item-selected"
+            routerLink="failedjobs">
+            Failed Jobs
+          </a>
+        </li>
+        <li [myVisibleForPrivileges]="['otoAdmin']">
+          <a
+            routerLinkActive="oto-sidenav-item-selected"
+            routerLink="workers">
+            Workers
+          </a>
+        </li>
+      </ul>
+      <h3 [myVisibleForPrivileges]="['otoAdmin']">Access</h3>
+      <ul [myVisibleForPrivileges]="['otoAdmin']">
+        <li>
+          <a
+            routerLinkActive="oto-sidenav-item-selected"
+            routerLink="users">
+            Users
+          </a>
+        </li>
+        <li>
+          <a
+            routerLinkActive="oto-sidenav-item-selected"
+            routerLink="groups">
+            Groups
+          </a>
+        </li>
+      </ul>
+      <h3 [myVisibleForPrivileges]="['devAdmin']">Dev only</h3>
+      <li [myVisibleForPrivileges]="['devAdmin']">
+        <a
+          routerLinkActive="oto-sidenav-item-selected"
+          routerLink="dangerzone">
+          Danger Zone
+        </a>
+      </li>
+    </nav>
+  </mat-sidenav>
+
+  <div class="velona-sidenav-content">
+    <router-outlet></router-outlet>
+    <app-footer></app-footer>
+  </div>
+
+</mat-sidenav-container>

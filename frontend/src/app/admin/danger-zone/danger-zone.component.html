@@ -1,0 +1,22 @@
+<div fxLayout="column" fxFlex class="danger-zone-container">
+
+    <!-- Page title -->
+  <header class="velona-header-background danger-zone-dashboard-header">
+    <div class="velona-header-section">
+      <div class="velona-header-headline">
+        <h1>Danger Zone</h1>
+      </div>
+    </div>
+  </header>
+
+  <div fxLayout="column" class="danger-zone-content">
+        <h3>Variant Database</h3>
+        <div fxLayout="row" fxLayoutGap="8px">
+          <div [myVisibleForPrivileges]="['devAdmin']">
+            <button mat-raised-button (click)="reinjectAll()">Reinject all pipelines</button>
+          </div>
+        </div>
+
+    </div>
+
+</div>

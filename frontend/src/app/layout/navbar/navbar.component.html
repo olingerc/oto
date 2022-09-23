@@ -1,0 +1,161 @@
+<!-- TOP NAVBAR-->
+
+<mat-toolbar
+  class="velona-toolbar velona-navbar"
+  [ngClass]="{
+    visible: visible,
+    'mat-elevation-z5': !secondaryToolbar
+  }"
+  >
+  <mat-toolbar-row>
+
+    <!-- Brand -->
+    <span *ngIf="!onHome">
+      <a title="Go to homepage" routerLink="/home">
+        <span><img src="/assets/apple-touch-icon-120x120.png" class="navbar-velona-logo"/></span>
+      </a>
+    </span>
+
+    <!-- Breadcrumbs -->
+    <div class="navbar-breadcrums-container">
+      <ng-container *ngFor="let crumb of breadCrumbs; let last = last">
+
+        <!-- not the last, show triangle -->
+        <span *ngIf="!last" class="parent-link">
+          <a mat-icon-button routerLink="{{crumb.link}}" >{{crumb.title}}</a>
+          <mat-icon class="velona-navbar-triangle">play_arrow</mat-icon>
+        </span>
+
+        <!-- last, no triangle except if sublinks -->
+        <span *ngIf="last || !crumb.link" class="last-link">
+          <label>{{crumb.title}}</label>
+          <mat-icon *ngIf="crumb.sublinks && crumb.sublinks.length > 0" class="velona-navbar-triangle">play_arrow</mat-icon>
+        </span>
+
+        <!-- sublinks -->
+        <span *ngFor="let sublink of crumb.sublinks"  class="sublink">
+          <a routerLinkActive="active" mat-button routerLink="{{sublink.url}}" [myVisibleForPrivilege]="sublink.visibleFor">
+            <span *ngIf="sublink.title !== 'Dashboard'">{{sublink.title}}</span>
+            <mat-icon *ngIf="sublink.title === 'Dashboard'">settings</mat-icon>
+          </a>
+        </span>
+      </ng-container>
+    </div>
+
+    <!-- This fills the remaining space of the current row -->
+    <span fxFlex></span>
+
+    <span>
+      <button title="Dashboard" mat-icon-button 
+        routerLink="/admin">
+        <mat-icon>speed</mat-icon>
+      </button>
+    </span>
+
+    <ng-container *ngIf="currentUser">
+
+      <!-- Apps Menu-->
+      <span>
+        <button title="oTo Apps" mat-icon-button [mat-menu-trigger-for]="appsMenu">
+          <mat-icon>apps</mat-icon>
+        </button>
+      </span>
+
+      <!-- User -->
+      <span>
+        <button mat-button title="User" [mat-menu-trigger-for]="userMenu">
+          <mat-icon>person</mat-icon>
+          <mat-icon color="warn" *ngIf="!currentUser.defaultPasswordChanged && !currentUser.domainLogin">info</mat-icon>
+          <span>&nbsp;{{currentUser.fullname || currentUser.username}} <small>({{currentUser.activeRole}})</small></span>
+        </button>
+      </span>
+
+      <!-- Group -->
+      <span>
+        <button mat-button title="Group" [mat-menu-trigger-for]="groupMenu">
+          <mat-icon>group</mat-icon>
+          <span *ngIf="currentUser.activeGroup">
+            <span class="mat-caption">&nbsp;&nbsp;{{currentUser.activeGroup.lab?.title}}&nbsp;</span>
+            {{currentUser.activeGroup.title}}
+          </span>
+          <span *ngIf="!currentUser.activeGroup">&nbsp;only me</span>
+        </button>
+      </span>
+    </ng-container>
+
+  </mat-toolbar-row>
+
+</mat-toolbar>
+
+<!-- Toolbar Menus -->
+<mat-menu [overlapTrigger]="false" #appsMenu="matMenu" class="navbar-menu mat-elevation-z9">
+  <button mat-menu-item myVisibleForPrivilege="toolsUser" routerLinkActive="active" routerLink="/tools">Tools</button>
+</mat-menu>
+
+<mat-menu [overlapTrigger]="false" #userMenu="matMenu" class="mat-elevation-z9">
+  <label class="mat-caption muted-color">User</label>
+  <button mat-menu-item (click)="openEditUserDialog()">Edit details</button>
+  <button mat-menu-item
+    *ngIf="currentUser && !currentUser.defaultPasswordChanged && !currentUser.domainLogin"
+    (click)="openSetPasswordDialog()">
+    <mat-chip-list class="chip-list-inline">
+      <mat-chip class="mat-warn" color="warn">1</mat-chip>
+    </mat-chip-list>
+    <span>Set password</span>
+  </button>
+  <button
+    mat-menu-item
+    *ngIf="currentUser && currentUser.defaultPasswordChanged && !currentUser.domainLogin"
+    (click)="openChangePasswordDialog()">
+    Change password
+  </button>
+  <ng-container *ngIf="currentUser">
+    <hr>
+    <label class="mat-caption muted-color">Role</label>
+    <ng-container *ngFor="let role of currentUser.roles">
+      <button
+        [ngClass]="{'background-primary-color': currentUser.activeRole == role}"
+        mat-menu-item
+        (click)="changeActiveRole(role)">
+        <span *ngIf="role == 'user'">User</span>
+        <span *ngIf="role == 'manager'">Manager</span>
+        <span *ngIf="role == 'admin'">Administrator</span>
+      </button>
+    </ng-container>
+  </ng-container>
+  <hr>
+  <!-- Logout-->
+  <button *ngIf="currentUser" mat-menu-item title="Logout"(click)="logout()">
+    Logout
+  </button>
+  <hr myVisibleForPrivilege="devAdmin">
+  <!-- debug -->
+  <mat-checkbox
+    myVisibleForPrivilege="devAdmin"
+    (ngModelChange)="toggleDebug()"
+    [(ngModel)]="isDebug"
+    (click)="$event.stopPropagation()">
+    Debug
+  </mat-checkbox>
+</mat-menu>
+
+<mat-menu [overlapTrigger]="false" #groupMenu="matMenu"  class="mat-elevation-z9">
+  <label class="mat-caption muted-color">Group</label>
+  <ng-container *ngIf="currentUser">
+    <ng-container *ngFor="let group of currentUser.groups">
+      <button
+        mat-menu-item
+        *ngIf="group.selectable"
+        (click)="changeActiveGroup(group)">
+        <span class="mat-caption">{{group.lab?.title}}</span>
+        {{group.title}}
+      </button>
+    </ng-container>
+  </ng-container>
+
+  <button mat-menu-item (click)="changeActiveGroup(null)">only me</button>
+  <section myVisibleForPrivilege="otoAdmin">
+    <hr>
+    <button mat-menu-item (click)="changeToSystemGroup()">SYSTEM</button>
+  </section>
+</mat-menu>

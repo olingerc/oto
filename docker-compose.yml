@@ -12,3 +12,65 @@ services:
       TZ: Europe/Luxembourg
     volumes:
       - ./frontend/src:/home/oto/app/src
+
+  backend:
+    build:
+      context: ./backend
+    depends_on:
+      - mongodb
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - ./backend/.env.development
+    secrets:
+      - MONGODB_USER
+      - MONGODB_PW
+      - WEBTOKEN_SECRET
+    environment:
+      NODE_ENV: development
+      TZ: Europe/Luxembourg
+    volumes:
+      # dev volumes
+      - ./backend/src:/home/oto/app/src
+    healthcheck:
+      test: "/usr/local/bin/nodejs /home/oto/app/healthcheck"
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+  mongodb:
+    image: mongo:5.0
+    ports:
+      - "27017:27017"
+    secrets:
+      - MONGO_INITDB_ROOT_PASSWORD
+      - MONGODB_USER
+      - MONGODB_PW
+    environment:
+      TZ: Europe/Luxembourg
+      # mongo docker understands _FILE and loads the content
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/MONGO_INITDB_ROOT_PASSWORD
+    command: mongod --bind_ip 0.0.0.0
+    volumes:
+      - mongodb:/data/db
+    logging:
+      driver: "none"
+
+volumes:
+  mongodb: {}
+
+secrets:
+
+  # passwords
+  MONGODB_USER:
+    file: ./secrets/passwords/MONGODB_USER
+  MONGODB_PW:
+    file: ./secrets/passwords/MONGODB_PW
+  MONGO_INITDB_ROOT_PASSWORD:
+    file: ./secrets/passwords/MONGO_INITDB_ROOT_PASSWORD
+  REDIS_PW:
+    file: ./secrets/passwords/REDIS_PW
+  WEBTOKEN_SECRET:
+    file: ./secrets/passwords/WEBTOKEN_SECRET
+  FLASK_SECRET:
+    file: ./secrets/passwords/FLASK_SECRET

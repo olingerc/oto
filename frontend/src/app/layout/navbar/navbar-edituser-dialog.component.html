@@ -1,0 +1,109 @@
+<h1 mat-dialog-title>Edit user</h1>
+
+<mat-dialog-content>
+  <form [formGroup]="editUserForm" novalidate>
+
+    <h2 class="mat-subheading-2">Username <strong>{{data.user.username}}</strong></h2>
+
+    <mat-chip-list class="velona-badges" *ngIf="data.user.domainLogin">
+      <mat-chip style="margin-bottom:4px">GLIMS</mat-chip>
+    </mat-chip-list>
+
+    <mat-form-field style="width:100%">
+      <input
+        matInput
+        myAutofocus
+        #email
+        placeholder="Email (optional)"
+        formControlName="email"
+        type="text"
+        (keydown.enter)="confirmDialog()"
+        (keydown.escape)=dialogRef.close()>
+      <mat-error>Email not correct</mat-error>
+    </mat-form-field>
+
+    <mat-form-field style="width:100%">
+      <input
+        matInput
+        placeholder='Full Name (optional)'
+        formControlName="fullname"
+        type="text"
+        (keydown.enter)="confirmDialog()"
+        (keydown.escape)=dialogRef.close()>
+    </mat-form-field>
+  </form>
+
+  <h3 class="mat-subheading-2">Groups</h3>
+  <mat-chip-list class="velona-badges">
+    <mat-chip style="margin-bottom:4px" *ngFor="let group of data.user.groups">{{group.title}}</mat-chip>
+  </mat-chip-list>
+
+  <h3 class="mat-subheading-2">Privileges</h3>
+  <mat-chip-list class="velona-badges">
+    <mat-chip style="margin-bottom:4px" *ngFor="let priv of data.user.privileges">{{priv}}</mat-chip>
+  </mat-chip-list>
+
+  <h3 class="mat-subheading-2">LIMS Privileges</h3>
+  <mat-chip-list class="velona-badges">
+    <mat-chip style="margin-bottom:4px" *ngFor="let priv of data.user.limsPrivileges">{{priv}}</mat-chip>
+  </mat-chip-list>
+
+  <form #removeUserForm="ngForm" *ngIf="removingUser">
+    <mat-form-field class="velona-remove-user-form-field">
+      <input
+        matInput
+        required
+        myAutofocus
+        *ngIf="removingUser"
+        placeholder="type password"
+        type="password"
+        [(ngModel)]="removeUserPassword"
+        (keydown.enter)="confirmRemovingUser()"
+        [formControl]="removeUserPasswordInput"
+      >
+      <mat-error>Wrong password</mat-error>
+    </mat-form-field>
+
+    <span *ngIf="removeUserError" class="color-warn">
+      {{ removeUserError }}
+    </span>
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    color="primary"
+    type="button"
+    (click)="confirmDialog()"
+    [disabled]="!editUserForm.valid">
+    SAVE
+  </button>
+
+  <button
+    color="primary"
+    matDialogClose
+    mat-button
+    type="button"
+    >CLOSE
+  </button>
+
+  <button
+    *ngIf="!removingUser"
+    color="warn"
+    mat-button
+    type="button"
+    (click)="startRemovingUser()">
+    REMOVE USER
+  </button>
+
+  <button
+    *ngIf="removingUser"
+    color="warn"
+    mat-raised-button
+    type="button"
+    (click)="confirmRemovingUser()">
+    REMOVE USER
+  </button>
+</mat-dialog-actions>

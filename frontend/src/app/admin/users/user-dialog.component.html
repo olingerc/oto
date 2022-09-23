@@ -1,0 +1,207 @@
+<h1 mat-dialog-title *ngIf="data.action === 'add'">Add User</h1>
+<h1 mat-dialog-title *ngIf="data.action === 'update'">
+  <div fxLayout="row">
+    Edit User
+    <div fxFlex></div>
+    <button color="primary" *ngIf="data.action === 'update'" mat-button (click)="removePassword(user)">RESET PW</button>
+    <button *ngIf="data.action === 'update'" mat-raised-button color="warn" (click)="deleteUser(user.id)">DELETE</button>
+  </div>
+</h1>
+
+<mat-dialog-content>
+  <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="start start">
+    <form fxFlex [formGroup]="userForm">
+
+      <section class="example-section">
+        <mat-checkbox
+            #check
+            class="example-margin"
+            formControlName="domainLogin">
+          Login via Domain
+        </mat-checkbox>
+      </section>
+
+      <button
+        *ngIf="check.checked"
+        mat-button
+        (click)="showDomainList = true;loadDomainUsers()"
+        >
+        Search domain
+      </button>
+
+      <mat-form-field style="width: 100%">
+        <input
+          matInput
+          required
+          placeholder="Username"
+          formControlName="username"
+          type="text"
+          (keydown.enter)="userForm.valid && confirmDialog()"
+          (keydown.escape)=dialogRef.close()>
+        <mat-error>Username is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%">
+        <input
+          matInput
+          placeholder="Full Name"
+          formControlName="fullname"
+          type="text"
+          (keydown.enter)="userForm.valid && confirmDialog()"
+          (keydown.escape)=dialogRef.close()>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%">
+        <input
+          matInput
+          placeholder="Email"
+          formControlName="email"
+          type="text"
+          (keydown.enter)="userForm.valid && confirmDialog()"
+          (keydown.escape)=dialogRef.close()>
+        <mat-hint>optional, only @lns.etat.lu</mat-hint>
+        <mat-error>only @lns.etat.lu</mat-error>
+      </mat-form-field>
+
+      <h3>API Tokens</h3>
+      <div fxLayout="row" fxLayoutAlign="start center"  fxLayoutGap="16px" *ngIf="userForm.value['tasksApiTokenSet']">
+        <div>A token has been set</div>
+        <button [disabled]="!userForm.value['tasksApiTokenSet']" color="primary" mat-raised-button (click)="removeTasksApiToken(user)">
+          REVOKE TOKEN
+        </button>
+      </div>
+      <p>Tokens are only displayed the moment they are set and can not be retrieved later. Make sure to save someplace else.</p>
+      <div fxLayout="row" *ngIf="!userForm.value['tasksApiTokenSet']">
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Tasks APIToken"
+            formControlName="tasksApiToken"
+            type="text"
+            (keydown.enter)="userForm.valid && confirmDialog()"
+            (keydown.escape)=dialogRef.close()>
+        </mat-form-field>
+        <button
+          color="primary"
+          mat-button
+          (click)="generateNewTasksApiToken()"
+        >GENERATE NEW
+        </button>
+      </div>
+
+    </form>
+    <div fxFlex *ngIf="data.action === 'update'">
+      <h3 style="margin:0">Groups</h3>
+      <div style="overflow: auto; max-height:400px">
+        <table class="oto-table">
+          <tr *ngFor="let group of groups">
+            <td>{{ group.title }}</td>
+            <td>
+              <button
+                mat-icon-button
+                (click)="addGroupToUser(user, group)"
+                [disabled]="(user.groups | myArrayFilterByKey:group.id:'id').length > 0"
+                ><mat-icon>add</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                (click)="removeGroupFromUser(user, group)"
+                [disabled]="(user.groups | myArrayFilterByKey:group.id:'id').length == 0"
+                ><mat-icon>clear</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div fxFlex *ngIf="data.action === 'update'">
+      <h3 style="margin:0">Privileges</h3>
+      <div style="overflow: auto; max-height:400px">
+        <table class="oto-table" *ngIf="user.username !== 'admin'">
+          <ng-container *ngFor="let role of ['user', 'manager', 'admin']">
+            <tr><td colspan="2"><h3>{{role | titlecase}}</h3></td></tr>
+            <ng-container *ngFor="let priv of privTypes">
+              <tr *ngIf="priv.role == role">
+                <td>{{ priv.module }}</td>
+                <td>
+                  <button
+                    mat-icon-button
+                    (click)="addPrivilege(user, priv.key)"
+                    [disabled]="(user.privileges | myArrayFilter:priv.key).length > 0"
+                    ><mat-icon>add</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    (click)="removePrivilege(user, priv.key)"
+                    [disabled]="(user.privileges | myArrayFilter:priv.key).length == 0"
+                    ><mat-icon>clear</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showDomainList">
+    <p-table
+      #dt
+      styleClass="oto-primeng-table oto-primeng-table-smaller p-datatable-striped"
+      [value]="domainUsers"
+      [globalFilterFields]="['sAMAccountName', 'name', 'mail']"
+      [paginator]="false"
+      [scrollable]="true"
+      scrollHeight="200px"
+      sortField="sAMAccountName" [sortOrder]="1"
+      selectionMode="single" [(selection)]="selectedDomainUser" dataKey="sAMAccountName"
+      (onRowSelect)="selectUser($event)"
+      >
+      <ng-template pTemplate="caption">
+        <div style="text-align: right">        
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input type="text" pInputText size="50" placeholder="search" (input)="dt.filterGlobal($event.target['value'], 'contains')" style="width:auto">
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th [pSortableColumn]="'sAMAccountName'">Username <p-sortIcon [field]="'sAMAccountName'"></p-sortIcon></th>
+          <th [pSortableColumn]="'name'">Full Name <p-sortIcon [field]="'name'"></p-sortIcon></th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user>
+        <tr [pSelectableRow]="user">
+          <td>{{user.sAMAccountName}}</td>
+          <td>{{user.name}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="start center" style="width:100%">
+
+      <button
+        color="primary"
+        mat-button
+        type="button"
+        (click)="confirmDialog()"
+        [disabled]="!userForm.valid">
+        {{data.action.toUpperCase()}}
+      </button>
+
+      <button
+        color="primary"
+        matDialogClose
+        mat-button
+        type="button"
+        >CLOSE
+      </button>
+
+
+    <div fxFlex></div>
+
+  </div>
+</mat-dialog-actions>
