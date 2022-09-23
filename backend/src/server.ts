@@ -10,7 +10,6 @@ import compression from 'compression';
 import { configFunc } from './config/config';
 
 import * as User_Ctrl from './core/controllers/user';
-import * as Group_Ctrl from './core/controllers/group';
 
 // Routes
 import { routes as coreCroutes } from './core/coreRoutes';
@@ -58,7 +57,6 @@ app.use(express.json({limit: '50mb'}))
  */
 // make sure at least one admin user exists
 User_Ctrl.checkAdminMinimum();
-Group_Ctrl.createSystemGroup();
 
 /**
  * CORS

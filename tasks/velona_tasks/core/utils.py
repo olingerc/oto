@@ -3,7 +3,6 @@
 from datetime import timedelta
 import os
 import time
-from shutil import rmtree
 from functools import update_wrapper
 import json
 import smtplib
@@ -93,7 +92,7 @@ def send_email(recipients, title, body, attachments=[]):
     recipients should be a set
     """
     msg = MIMEMultipart()
-    msg['From'] = "VELONA-noreply@device.etat.lu"
+    msg['From'] = "oto@olinger.eu"
     msg['To'] = COMMASPACE.join(recipients)
     msg['Date'] = formatdate(localtime=True)
     msg['Subject'] = title

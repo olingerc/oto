@@ -14,12 +14,9 @@ export interface IUser extends Document {
   id: string,
   username: string,
   created: Date,
-  domainLogin: Boolean,
   last_login: Date,
   fullname: string,
   email: string,
-  lastActiveGroupId: string,
-  groups: Object[],
   role: string,
   privileges: string[],
   limsPrivileges: string[],
@@ -31,8 +28,6 @@ export interface IUser extends Document {
   defaultPasswordChanged: Object,
 
   password: string,
-  tasksApiToken: string,
-  tasksApiTokenSet: boolean,
 
   authenticate(password: string): boolean,
   censor(): IUser,
@@ -44,15 +39,11 @@ const UserSchema: Schema = new Schema({
   id: {type: String, unique: true},
   username: {type: String, unique: true},
   created: Date,
-  domainLogin: Boolean,
   last_login: Date,
   fullname: String,
   email: String,
   salt: {type: String },
   hashed_password: {type: String },
-  tasksApiToken: String,
-  lastActiveGroupId: String,
-  groups: [{type: Schema.Types.ObjectId, ref: 'Group'}],
 
   role: String, // 'admin', 'user' TODO: phase out
 
@@ -80,10 +71,6 @@ UserSchema.virtual('password').set(function(password) {
   this.hashed_password = this.encryptPassword(password);
 }).get(function() {
   return this._password;
-});
-
-UserSchema.virtual('tasksApiTokenSet').get(function() {
-  return this.tasksApiToken !== null;
 });
 
 /**
@@ -203,7 +190,6 @@ UserSchema.methods = {
   censor: function(this: IUser) {
     if (this.hashed_password) this.hashed_password = undefined;
     if (this.salt) this.salt = undefined;
-    if (this.tasksApiToken) this.tasksApiToken = undefined;
     return this;
   },
 

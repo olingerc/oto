@@ -7,15 +7,15 @@
   $background: map.get($theme, background);
   $foreground: map.get($theme, foreground);
 
-  .velona-header-background {
+  .oto-header-background {
     background: mat.get-color-from-palette($primary);
   }
 
-  .velona-header-headline {
+  .oto-header-headline {
     color: mat.get-color-from-palette($primary, default-contrast);
   }
 
-  .velona-header-start {
+  .oto-header-start {
     color: mat.get-color-from-palette($primary);
   }
 
@@ -24,17 +24,17 @@
   typcial height is 80px;
   */
 
-  .velona-header-background {
+  .oto-header-background {
     display: block;
   }
 
-  .velona-header-section {
+  .oto-header-section {
     text-align: left;
     padding-top: 24px;
     padding-left: 24px;
   }
 
-  .velona-header-headline {
+  .oto-header-headline {
     h1 {
       font-weight: 300;
       margin: 0;

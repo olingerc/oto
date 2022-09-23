@@ -26,9 +26,7 @@ function _success(user: any, req, res) {
     fullname: user.fullname,
     activeRole: user.activeRole,
     activePrivileges: user.activePrivileges,
-    groups: user.groups,
     privileges: user.privileges,
-    lastActiveGroupId: user.lastActiveGroupId,
     email: user.email
   };
 
@@ -63,7 +61,6 @@ let auth: any = {
     // find the user
     User
       .findOne({username: req.body.username})
-      .populate({path: "groups", populate: {path: "lab"}})
       .exec(function(err, user) {
         if (err) throw err;
 

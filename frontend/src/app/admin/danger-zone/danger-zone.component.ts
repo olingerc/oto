@@ -32,15 +32,6 @@ export class DangerZoneComponent implements OnInit, OnDestroy {
       icon: "delete",
       message: "Are you absolutely sure you want to do this?",
       accept: () => {
-        this.httpService.reinjectAll()
-        .subscribe(
-          response => {
-            this.alertService.info(response)
-          },
-          error => {
-            this.alertService.error(error)
-          }
-        );
       }
     });
   }

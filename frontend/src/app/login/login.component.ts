@@ -51,7 +51,7 @@ export class LoginComponent implements AfterViewInit {
           this.loading = false;
         },
         error => {
-          if (error && error.endsWith('incorrect')) {
+          if (error.indexOf && error.indexOf('incorrect') > -1) {
             this.passwordFormControl.setValue('');
             this.passwordElement.nativeElement.focus();
             this.usernameFormControl.setErrors({invalid: true});

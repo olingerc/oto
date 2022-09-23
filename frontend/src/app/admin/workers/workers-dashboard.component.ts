@@ -36,7 +36,7 @@ export class WorkersDashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    this.bioinfHttpService.login({"username": currentUser.username, "groupId": currentUser.lastActiveGroupId})
+    this.bioinfHttpService.login({"username": currentUser.username})
       .subscribe(
         response => {
           this.addSubscriptions();

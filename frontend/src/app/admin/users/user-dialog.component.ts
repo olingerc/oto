@@ -4,7 +4,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as _ from 'lodash';
 
 import { User } from '../../core/user.model';
-import { Group } from '../../core/group.model';
 import { UserService } from '../../core/user/user.service';
 import { AlertService } from '../../core/alert/alert.service';
 import { Privileges } from '../../core/privileges.model';
@@ -20,13 +19,9 @@ export class UserDialogComponent {
 
   public userForm: FormGroup;
   public user: User;
-  public groups: Group[] = [];
   public loading = false;
   public myArrayFilterByKey: any;
   public myArrayFilter: any;
-  public domainUsers: any;
-  public showDomainList = false;
-  public selectedDomainUser: any;
 
   public privTypes = Privileges.privileges;
   public limsConfigs: any[];
@@ -35,8 +30,7 @@ export class UserDialogComponent {
     // tslint:disable-next-line
     let EMAIL_REGEXP = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
-    return (!c.value || c.value === '') ||
-            (c.value.endsWith('@lns.etat.lu') && EMAIL_REGEXP.test(c.value)) ? null : {
+    return (!c.value || c.value === '') ? null : {
       validateEmail: {
         valid: false
       }
@@ -58,10 +52,7 @@ export class UserDialogComponent {
       username: [null, Validators.required],
       fullname: null,
       password: null,
-      email: [null, this.validateEmail],
-      domainLogin: false,
-      tasksApiToken: null,
-      tasksApiTokenSet: null
+      email: [null, this.validateEmail]
     });
 
     if (data.user) {
@@ -69,20 +60,6 @@ export class UserDialogComponent {
       this.userForm.patchValue(data.user);
     }
 
-    if (data.groups) {
-      this.groups = data.groups;
-    }
-  }
-
-  loadDomainUsers() {
-    this.userService.getLdapUsers()
-    .subscribe(
-      users => {
-        this.domainUsers = users;
-      },
-      error => {
-        this.alertService.error(error, 'Failed retrieveing LDAP users');
-      });
   }
 
   selectUser(event) {
@@ -92,36 +69,6 @@ export class UserDialogComponent {
       "fullname": user.name,
       "email": user.mail
     });
-  }
-
-  addGroupToUser(user, group) {
-    this.loading = true;
-    user.groups.push(group);
-    user.groups = _.uniqBy(user.groups, 'id');
-
-    this.userService.update(user)
-      .subscribe(
-        updatedUser => {
-          user = updatedUser;
-        },
-        error => {
-          this.alertService.error(error, 'Error adding group');
-          this.loading = false;
-        });
-  }
-
-  removeGroupFromUser(user, groupToRemove) {
-    this.loading = true;
-    user.groups = _.pullAllBy(user.groups, [{id: groupToRemove.id}], 'id'); // TODO: check
-    this.userService.update(user)
-      .subscribe(
-        () => {
-          this.loading = false;
-        },
-        error => {
-          this.alertService.error(error, 'Error removing group');
-          this.loading = false;
-        });
   }
 
   addPrivilege(user, priv) {
@@ -155,37 +102,6 @@ export class UserDialogComponent {
         });
   }
 
-  addLimsPrivilege(user, keyToAdd) {
-    this.loading = true;
-    user.limsPrivileges.push(keyToAdd);
-    user.limsPrivileges = _.uniq(user.limsPrivileges);
-
-    this.userService.update(user)
-      .subscribe(
-        updatedUser => {
-          user = updatedUser;
-          this.loading = false;
-        },
-        error => {
-          this.alertService.error(error, 'Error adding lims privilege');
-          this.loading = false;
-        });
-  }
-
-  removeLimsPrivilege(user, keyToRemove) {
-    this.loading = true;
-    user.limsPrivileges = _.pull(user.limsPrivileges, keyToRemove);
-    this.userService.update(user)
-      .subscribe(
-        () => {
-          this.loading = false;
-        },
-        error => {
-          this.alertService.error(error, 'Error removing lims privilege');
-          this.loading = false;
-        });
-  }
-
   removePassword(user) {
     this.loading = true;
     this.userService.removePasswordByAdmin(user.id)
@@ -200,27 +116,6 @@ export class UserDialogComponent {
           this.alertService.error(error, 'Error removing password');
           this.loading = false;
         });
-  }
-
-  removeTasksApiToken(user) {
-    this.loading = true;
-    this.userService.removeTasksApiToken(user.id)
-      .subscribe(
-        () => {
-          this.loading = false;
-          this.userForm.get("tasksApiTokenSet").setValue(false);
-          this.alertService.info("Token removed");
-        },
-        error => {
-          this.alertService.error(error, 'Error removing token');
-          this.loading = false;
-        });
-  }
-
-  generateNewTasksApiToken() {
-    this.userForm.patchValue({
-      "tasksApiToken": this.utilities.makeId(10)
-    });
   }
 
   deleteUser(userId) {

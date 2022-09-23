@@ -47,10 +47,6 @@ export class AuthenticationService {
           (loginUser: any) => {
             // login successful if there's a jwt token in the response
             if (loginUser && loginUser.token) {
-              if (loginUser.lastActiveGroupId) {
-                loginUser.activeGroup = _.find(loginUser.groups, {id: loginUser.lastActiveGroupId});
-              }
-
               this.setCurrentUser(loginUser);
 
               // return true to indicate successful login

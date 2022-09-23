@@ -6,7 +6,6 @@ import { MatDialog } from '@angular/material/dialog';
 
 
 import { User } from '../../core/user.model';
-import { Group } from '../../core/group.model';
 
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { UserService } from '../../core/user/user.service';
@@ -155,31 +154,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
       );
   }
-
-  changeActiveGroup(group: Group = null) {
-    this.userService.changeActiveGroup(this.currentUser, group)
-      .subscribe(
-        () => {
-          this.currentUser.activeGroup = group;
-          this.currentUser.lastActiveGroupId = group ? group.id : null;
-          this.authenticationService.setCurrentUser(this.currentUser);
-        },
-        error => {
-          this.alertService.error(error);
-          console.log(error);
-        }
-      );
-  }
-
-  changeToSystemGroup() {
-    let systemGroup = _.find(this.currentUser.groups, {'title': 'System'});
-    if (systemGroup) {
-      this.changeActiveGroup(systemGroup);
-    } else {
-      this.alertService.error("You are not member of the system group. Ask the administrator to add you.");
-    }
-  }
-
 
   toggleDebug() {
     this.authenticationService.debugMode = !this.isDebug;

@@ -8,17 +8,14 @@ import { BioinfCoreModule } from '../bioinf-core/bioinf-core.module';
 
 import { AdminComponent } from './admin.component';
 import { UsersComponent } from './users/users.component';
-import { GroupsComponent } from './groups/groups.component';
 import { AdminHttpService } from './admin-http.service';
 import { ScheduledjobsComponent } from './scheduledjobs/scheduledjobs.component';
 import { WorkersDashboardComponent } from "./workers/workers-dashboard.component";
 import { FailedjobsDashboardComponent } from "./failedjobs/failedjobs-dashboard.component";
-import { QueuesDashboardComponent } from "./queues/queues-dashboard.component";
 import { InfrastructureDashboardComponent } from "./infrastructure/infrastructure-dashboard.component";
 import { DangerZoneComponent } from "./danger-zone/danger-zone.component";
 
 import { UserDialogComponent } from './users/user-dialog.component';
-import { GroupDialogComponent } from './groups/group-dialog.component';
 import { JobdetailsDialog } from './scheduledjobs/jobdetails-dialog.component';
 
 // routing
@@ -35,14 +32,11 @@ import { routing } from './admin.routing';
   declarations: [
     AdminComponent,
     UsersComponent,
-    GroupsComponent,
-    GroupDialogComponent,
     UserDialogComponent,
     ScheduledjobsComponent,
     WorkersDashboardComponent,
     FailedjobsDashboardComponent,
     JobdetailsDialog,
-    QueuesDashboardComponent,
     DangerZoneComponent,
     InfrastructureDashboardComponent
   ],

@@ -5,7 +5,7 @@
       matTooltip="Refresh"
       (click)="loadJobs()">
       <mat-icon *ngIf="!loading">refresh</mat-icon>
-      <div *ngIf="loading" class="velona-loader velona-loader-button"></div>
+      <div *ngIf="loading" class="oto-loader oto-loader-button"></div>
     </button>
     <small class="muted-color">only recent jobs, last refresh {{lastLoad.format("YYYY MM DD HH:mm:ss")}}</small>
   </div>
@@ -15,7 +15,7 @@
       <mat-card class="jobs-card" [myVisibleForPrivileges]="['otoAdmin']">
         <h4>Remaining</h4>
         <div fxLayout="row" fxLayoutGap="8px" class="toolbar">
-          <button mat-raised-button color="primary" (click)="convertConseil()">
+          <button mat-raised-button color="primary" (click)="importGlims()">
             DO
           </button>
         </div>

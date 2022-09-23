@@ -6,10 +6,4 @@
   $warn: map.get($theme, warn);
   $background: map.get($theme, background);
   $foreground: map.get($theme, foreground);
-
-  my-home {
-    .velona-homepage-row {
-      color: mat.get-color-from-palette($foreground, secondary-text);
-    }
-  }
 }

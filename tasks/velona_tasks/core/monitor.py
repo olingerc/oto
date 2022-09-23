@@ -38,23 +38,6 @@ def emit_workers_monitor_now(room=None):
         socketio.emit('workers_monitor', message, namespace=config.SOCKET_NAMESPACE, room=room)
 
 
-def emit_queued_monitor_now(room=None):
-    """Use this to send an updated monitor package immediately.
-
-    Works inside of request context, so uses emit, not socketio.emit
-    """
-    try:
-        message = compile_queued_monitor()
-    except Exception as e:
-        print("Error from monitoring thread %s" % e)
-        socketio.emit('queued_monitor_error', {
-            'error': 'Error while emitting queued job monitor: %s' % e},
-            namespace=config.SOCKET_NAMESPACE, room=room)
-        raise
-    else:
-        socketio.emit('queued_monitor', message, namespace=config.SOCKET_NAMESPACE, room=room)
-
-
 def close_room_fuzzy(room_to_close):
     if config.SOCKET_NAMESPACE in socketio.server.manager.rooms:
         for room_name_json in list(socketio.server.manager.rooms[config.SOCKET_NAMESPACE].keys()):
@@ -76,20 +59,6 @@ def close_room_same_monitor(room_to_close):
                 room_name_dict['monitor'] == room_to_close['monitor'] and 
                 room_name_dict['username'] == room_to_close['username']):
                 close_room(room_name_json)
-
-
-def switch_rooms_group(sessionid, newgroupid):
-    if config.SOCKET_NAMESPACE in socketio.server.manager.rooms:
-        for room_name_json in list(socketio.server.manager.rooms[config.SOCKET_NAMESPACE].keys()):
-            if room_name_json is None or room_name_json.startswith("{") is False:
-                continue
-            room_name_dict = json.loads(room_name_json)
-            if room_name_dict['sessionid'] == sessionid:
-                room_name_dict['groupId'] = newgroupid
-                new_room_json = json.dumps(room_name_dict)
-                close_room(room_name_json)
-                join_room(new_room_json)
-                return new_room_json
 
 
 def close_sessions_rooms(session):
@@ -155,13 +124,6 @@ def get_room_by_username(username):
 
 def websocket_monitors():
     """Background monitor thread launched on server start.
-
-    Send monitor info to every room but only
-    info for user in that room and based on the monitor type extracted from the (JSON) room name
-    pipelines can have groups
-    Works outside of request context, so uses socketio.emit directly
-
-    Currently, pipelines give a detail level to prevent getting all progress if only looking at overview
     """
 
     # Should be set up only once
@@ -172,30 +134,16 @@ def websocket_monitors():
         if config.SOCKET_NAMESPACE in socketio.server.manager.rooms:
             for room in get_rooms():
                 room_json = json.dumps(room)
-                room_occupant = room['username']
                 monitor = room['monitor']
                 if monitor is None:
                     # Non bioinf related rooms can be ignored
                     continue
-                if 'level' in room:
-                    level = room['level']
-                else:
-                    level = None
-                if 'groupId' in room:
-                    groupId = room['groupId']
-                else:
-                    groupId = None
-
                 signal = monitor + "_monitor"
                 try:
                     if monitor == 'worker':
                         # for performance reasons only worker status, not batches
                         message = compile_workers_monitor()
                         signal = "workers_monitor"
-                    elif monitor == 'queued':
-                        # for performance reasons only worker status, not batches
-                        message = compile_queued_monitor()
-                        signal = "queued_monitor"
                 except Exception as e:
                     print("Error from monitoring thread %s" % e)
                     socketio.emit(

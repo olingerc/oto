@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 """Deifintion of web socket routes."""
 import json
-import os
 from sys import exc_info
-import time
 import traceback
 from uuid import uuid4
 
@@ -13,7 +11,7 @@ from flask_socketio import emit, join_room, disconnect
 from .app import app, socketio
 from .logutils import setup_task_logger
 from .workers import kill_worker_gently, default_workers, cancel_all_workers
-from .monitor import close_sessions_rooms, emit_workers_monitor_now, emit_queued_monitor_now
+from .monitor import close_sessions_rooms, emit_workers_monitor_now
 
 
 logger = setup_task_logger("Tasks core")
@@ -33,7 +31,6 @@ def on_connect():
     A user gets a session id and the username is stored in the session
     """
     username = request.args.get('username', None)
-    groupId = request.args.get('groupId', None)
     if not username:
         emit(
             'connect',
@@ -42,7 +39,6 @@ def on_connect():
     else:
         session['sessionid'] = str(uuid4())
         session['username'] = username
-        session['groupId'] = groupId
 
         # Always join a room by default
         room_name = {"sessionid": session['sessionid'], "username": username, "monitor": None}
@@ -104,20 +100,6 @@ def request_worker_monitor():
         join_room(room_name_json)
         session['current_room'] = room_name_json
         emit_workers_monitor_now(room=room_name_json)
-
-
-@socketio.on('request_queued_monitor', namespace=app.config['SOCKET_NAMESPACE'])
-def request_queued_monitor():
-    """Cf request_pipelines_monitor."""
-    sessionid = session.get('sessionid', None)
-    username = session.get('username', None)
-
-    if sessionid and username:
-        room_name = {"sessionid": sessionid, "username": username, "monitor": "queued"}
-        room_name_json = json.dumps(room_name)
-        join_room(room_name_json)
-        session['current_room'] = room_name_json
-        emit_queued_monitor_now(room=room_name_json)
 
 
 @socketio.on('default_workers', namespace=app.config['SOCKET_NAMESPACE'])

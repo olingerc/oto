@@ -11,7 +11,6 @@ import signal
 from time import sleep
 
 import docker
-from docker.types import LogConfig
 from dotenv.main import dotenv_values
 from rq import Worker
 
@@ -82,7 +81,6 @@ def _run_worker_docker(queues, worker_name, host):
             auto_remove=True, # NOTE: comment this to get to logs if container does not start. use docker ps -a
             detach=True,
             environment=env_dict,
-            # network="velona_velona_net", # outside net. they communicate via redis !!
             name=worker_name.split("---")[0],
             volumes=volumes,
             extra_hosts=extra_hosts,
@@ -163,7 +161,6 @@ def default_workers():
 
 
 def kill_worker_gently(worker_name, host=None):
-    print()
     if host is None:
         host = worker_name.split("---")[-1]
     container_name = worker_name.split("---")[0]

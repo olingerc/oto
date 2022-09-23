@@ -1,10 +1,7 @@
-import { Group } from './group.model';
-
 export class User {
 
   public defaultPasswordChanged = false;
-  public activeGroup: Group = null;
-
+  
   constructor(
     public id?: string,
     public username?: string,
@@ -18,21 +15,12 @@ export class User {
     public limsPrivileges?: Array<string>,
     public activePrivileges?: Array<string>,
 
-    public groups?: Array<Group>,
-    public lastActiveGroupId?: string,
     public fullname?: string,
     public email?: string,
     public created?: any,
     public last_login?: any,
-    public domainLogin?: Boolean,
     public token?: string, // only client
-    public tasksApiToken?: string,
-    public tasksApiTokenSet?: string
   ) {
-
-    if (!this.groups) {
-      this.groups = [];
-    }
 
     if (!this.privileges) {
       this.privileges = [];

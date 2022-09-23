@@ -18,24 +18,11 @@ import { UtilitiesService } from '../../core/utilities.service';
 export class ScheduledjobsComponent implements OnInit, OnDestroy {
 
   private dedicatedTablesFor = [
-    "veriseq_parse",
-    "veriseq_import_glims",
-    "ngssync_do_sequencer_check",
-    "ngssync_parse",
-    "ngssync_copy_new_run",
-    "ngssync_update_run",
-    "ngssync_ask_to_delete",
-    "create_homepage",
-    "execute_glims_import",
-    "execute_parse_hub"
   ]
 
   public importInterval: any;
   public remainingJobs: any[] = [];
   public scheduledJobs: any = {};
-  public veriseqJobs: any[] = [];
-  public ngssyncJobs: any[] = [];
-  public tasksStatus: any;
 
   public loading = false;
   public lastLoad: any = moment();
@@ -49,7 +36,6 @@ export class ScheduledjobsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadJobs();
-    this.getTasksSate();
   }
 
   ngOnDestroy() {
@@ -72,35 +58,12 @@ export class ScheduledjobsComponent implements OnInit, OnDestroy {
     return this.utilities.prettyMs(seconds * 1000, {verbose: true});
   }
 
-  getTasksSate() {
-    this.httpService.getTasksStatus()
-    .subscribe(
-      (response) => {
-        this.tasksStatus = response;
-      },
-      (error) => {
-        this.tasksStatus = null;
-      }
-    );
-  }
-
   loadJobs() {
     this.loading = true;
     this.httpService.getScheduledJobs()
       .subscribe(
         response => {
           this.scheduledJobs = response;
-          this.veriseqJobs = [
-            ...response.veriseq_parse || [],
-            ...response.veriseq_import_glims || []
-          ];
-          this.ngssyncJobs = [
-            ...response.ngssync_do_sequencer_check || [],
-            ...response.ngssync_parse || [],
-            ...response.ngssync_copy_new_run || [],
-            ...response.ngssync_update_run || [],
-            ...response.ngssync_ask_to_delete || [],
-          ];
           this.remainingJobs = _.flatten(Object.values(response));
           this.remainingJobs = _.filter(this.remainingJobs, (job) => {
             return this.dedicatedTablesFor.indexOf(job.description) == -1;
@@ -115,8 +78,8 @@ export class ScheduledjobsComponent implements OnInit, OnDestroy {
         });
   }
 
-  launchImports(which_part, replace = false) {
-    this.httpService.importGlims(which_part, replace)
+  importGlims() {
+    this.httpService.importGlims("covid", true)
       .subscribe(
         job => {
           this.loadJobs();
@@ -125,178 +88,6 @@ export class ScheduledjobsComponent implements OnInit, OnDestroy {
           this.alertService.error(error);
           console.error(error);
         });
-  }
-
-  generateHomepage() {
-    this.httpService.generateHomepage()
-      .subscribe(
-        job => {
-          this.loadJobs();
-        },
-        error => {
-          this.alertService.error(error);
-          console.error(error);
-        });
-  }
-
-  doInfraCheck() {
-    this.httpService.doInfraCheck()
-      .subscribe(
-        job => {
-          this.loadJobs();
-        },
-        error => {
-          this.alertService.error(error);
-          console.error(error);
-        });
-  }
-
-  parseHub() {
-    this.httpService.parseHubToDb()
-      .subscribe(
-        job => {
-          this.loadJobs();
-        },
-        error => {
-          this.alertService.error(error);
-          console.error(error);
-        });
-  }
-
-  parseVeriseq() {
-    this.httpService.parseVeriseq()
-      .subscribe(
-        job => {
-          this.loadJobs();
-        },
-        error => {
-          this.alertService.error(error);
-          console.error(error);
-        });
-  }
-
-  parseVeriseqComplete() {
-    this.httpService.parseVeriseqComplete()
-      .subscribe(
-        job => {
-          this.loadJobs();
-        },
-        error => {
-          this.alertService.error(error);
-          console.error(error);
-        });
-  }
-
-  checkRecent() {
-    this.httpService.checkRecent()
-      .subscribe(
-        job => {
-          this.loadJobs();
-        },
-        error => {
-          this.alertService.error(error);
-          console.error(error);
-        });
-  }
-
-  checkAll() {
-    this.httpService.checkAll()
-      .subscribe(
-        job => {
-          this.loadJobs();
-        },
-        error => {
-          this.alertService.error(error);
-          console.error(error);
-        });
-  }
-
-  copyNewRuns() {
-    this.httpService.copyNewRuns()
-      .subscribe(
-        job => {
-          this.loadJobs();
-        },
-        error => {
-          this.alertService.error(error);
-          console.error(error);
-        });
-  }
-
-  importGlimsVeriseq() {
-    this.httpService.importGlimsVeriseq()
-      .subscribe(
-        job => {
-          this.loadJobs();
-        },
-        error => {
-          this.alertService.error(error);
-          console.error(error);
-        });
-  }
-
-  convertConseil() {
-    this.httpService.convertConseil()
-      .subscribe(
-        job => {
-          this.loadJobs();
-        },
-        error => {
-          this.alertService.error(error);
-          console.error(error);
-        });
-  }
-
-  doCompleteVdbRecount() {
-    this.httpService.doCompleteVdbRecount()
-      .subscribe(
-        job => {
-          this.loadJobs();
-        },
-        error => {
-          this.alertService.error(error);
-          console.error(error);
-        }
-      );
-  }
-
-  updateContextCounts() {
-    this.httpService.updateContextCounts()
-      .subscribe(
-        job => {
-          this.loadJobs();
-        },
-        error => {
-          this.alertService.error(error);
-          console.error(error);
-        }
-      );
-  }
-
-  findNewMappings() {
-    this.httpService.findNewMappings()
-      .subscribe(
-        job => {
-          this.loadJobs();
-        },
-        error => {
-          this.alertService.error(error);
-          console.error(error);
-        }
-      );
-  }
-
-  findNewMappingsCnv() {
-    this.httpService.findNewMappingsCnv()
-      .subscribe(
-        job => {
-          this.loadJobs();
-        },
-        error => {
-          this.alertService.error(error);
-          console.error(error);
-        }
-      );
   }
 
   showJobDetails(job) {

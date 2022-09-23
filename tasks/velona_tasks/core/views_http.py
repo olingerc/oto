@@ -17,7 +17,6 @@ from .status import status
 from .state import get_state
 from .utils import crossdomain
 from .workers import kill_worker_evil, add_new_worker
-from ..common.users import get_system_group
 
 
 logger = setup_task_logger("Tasks core")
@@ -33,7 +32,7 @@ def login():
     # We do an http login to initialize the websocket session
     # the aim is that http and ws sessions are shared
     # not doing a http session first will create strange results
-    # Storage of username and groupid handled in on_connect of websocket
+    # Storage of username handled in on_connect of websocket
     return jsonify(message="ok"), 200
 
 
@@ -99,12 +98,8 @@ def add_worker():
     # TODO: should be regulated by config
     if os.environ.get("FLASK_ENV", "development") == 'development':
         host = "dev_docker_host"
-    elif os.environ.get("FLASK_ENV", "development") == 'staging':
-        host = "lns1-bioinf02"
     else:
-        host = "lns1-velonaworker01"
-        if queue == "tso" or queue == "esimport" or queue == "esimport_launcher":
-            host = "lns1-singular01"
+        host = "kitchenpi"
 
     try:
         add_new_worker([queue], host)
@@ -216,7 +211,7 @@ def get_job_route():
 @jwt_required()
 def get_scheduled_jobs_route():
     try:
-        res = get_jobs_from_queues_by_description(["scheduled", "copy"])
+        res = get_jobs_from_queues_by_description(["scheduled"])
         return jsonify(res), 200
     except Exception as e:
         logger.error("Failed loading scheduled jobs", exc_info=True)

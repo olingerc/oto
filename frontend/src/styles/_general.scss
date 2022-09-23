@@ -185,7 +185,7 @@
   Color of global components
   */
   /* Loader */
-  .velona-loader {
+  .oto-loader {
     border:6px solid mat.get-color-from-palette($primary, 800, 0.3);
     border-top:6px solid mat.get-color-from-palette($accent);
   }
@@ -206,7 +206,7 @@
   use mat-card-header tag with an h2
   I try to have a height of 72px
   */
-  mat-card-header.mat-card-header.velona-card-header {
+  mat-card-header.mat-card-header.oto-card-header {
     color: mat.get-color-from-palette($primary, default-contrast);
     background-color: mat.get-color-from-palette($primary);
 
@@ -222,8 +222,8 @@
     }
   }
 
-  mat-card.velona-mat-card-compact {
-    mat-card-header.mat-card-header.velona-card-header {
+  mat-card.oto-mat-card-compact {
+    mat-card-header.mat-card-header.oto-card-header {
       height: auto;
       margin: 0;
       padding: 22px 24px 22px 24px;
@@ -239,7 +239,7 @@
   * use a mat-toolbar with flex toolbar
   * within a mat-card-header tag
   */
-  mat-card.velona-mat-card-compact {
+  mat-card.oto-mat-card-compact {
     padding-top: 0;
     padding-left: 0;
     padding-right: 0;
@@ -269,7 +269,7 @@
   /*
   Compact dialogs
   either use a h3
-  or if buttons, a mat-toolbar of class velona-toolbar
+  or if buttons, a mat-toolbar of class oto-toolbar
   */
   $toolbar-height: 48px;
   $hovered-state-height: 40px;
@@ -278,7 +278,7 @@
   $item-margins: math.div($space-between-items, 2);
   $padding-left: 24px - $item-margins;
   $padding-right: 24px - $item-margins;
-  .cdk-overlay-pane.velona-dialog-compact {
+  .cdk-overlay-pane.oto-dialog-compact {
     padding-top: 0px;
 
     .mat-dialog-title {
@@ -305,7 +305,7 @@
         height: 100%;
       }
 
-      .velona-toolbar {
+      .oto-toolbar {
         background: none;
       }
     }
@@ -322,7 +322,7 @@
     }
   }
 
-  .cdk-overlay-pane.velona-dialog-compact.no-padding-top {
+  .cdk-overlay-pane.oto-dialog-compact.no-padding-top {
     .mat-dialog-container {
       padding-top: 0;
     }
@@ -363,14 +363,11 @@
   /*
   Spinner
   */
-  /*
-  velona spinner
-  */
-  .velona-loader[hidden] {
+  .oto-loader[hidden] {
     display: none
   }
 
-  .velona-loader {
+  .oto-loader {
     background: none;
     display: inline-block;
     z-index: 99999;
@@ -383,7 +380,7 @@
     border-radius:100%;
   }
 
-  .velona-loader.overlay {
+  .oto-loader.overlay {
     position: absolute;
     display: block;
     left: 50%;
@@ -393,7 +390,7 @@
     margin:0px auto;
   }
 
-  .velona-loader.velona-loader-button {
+  .oto-loader.oto-loader-button {
     border-width: 2px;
     border-top-width: 2px;
     width: 12px;
@@ -401,7 +398,7 @@
     margin-bottom: -2px;
   }
 
-  .velona-loader.velona-loader-small {
+  .oto-loader.oto-loader-small {
     border-width: 2px;
     border-top-width: 2px;
     border-color: #f3f3f3;
@@ -411,7 +408,7 @@
     margin-bottom: -2px;
   }
 
-  .velona-loader.velona-loader-big {
+  .oto-loader.oto-loader-big {
     border-width: 4px;
     border-top-width: 4px;
     width: 23px;
@@ -419,7 +416,7 @@
     margin-bottom: -5px;
   }
 
-  .velona-loader.velona-loader-huge {
+  .oto-loader.oto-loader-huge {
     border-width: 5px;
     border-top-width: 5px;
     width: 50px;
@@ -439,15 +436,15 @@
     to {transform: rotate(359deg);}
   }
 
-  /* Velona badges */
-  .velona-badges mat-chip.mat-chip {
+  /* oto badges */
+  .oto-badges mat-chip.mat-chip {
     border-radius: 4px;
     padding: 4px 8px;
     margin-top: 1px;
     margin-bottom: 1px;
   }
 
-  .velona-badge {
+  .oto-badge {
     border-radius: 4px;
     padding: 4px 8px;
     margin-top: 1px;
@@ -471,7 +468,7 @@
   }
 
   /* primeng autocomplete */
-  p-autoComplete.velona-autocomplete {
+  p-autoComplete.oto-autocomplete {
 
     .p-inputtext:focus {
       border-color: mat.get-color-from-palette($primary);
@@ -494,12 +491,12 @@
   }
 
   /* If append to body */
-  .p-autocomplete-panel.velona-autocomplete-panel .p-autocomplete-items .p-autocomplete-item.p-highlight {
+  .p-autocomplete-panel.oto-autocomplete-panel .p-autocomplete-items .p-autocomplete-item.p-highlight {
     color: mat.get-color-from-palette($primary, default-contrast);
     background: mat.get-color-from-palette($primary)
   }
 
-  p-autoComplete.velona-toolbar {
+  p-autoComplete.oto-toolbar {
     .p-inputtext {
       height: 40px;
       font-size: 14px;
@@ -548,11 +545,11 @@
   }
 
   /* Simple notifications */
-  velona-app .simple-notification-wrapper {
+  oto-app .simple-notification-wrapper {
     z-index: 1200; /* modals have 1000 */
   }
 
-  velona-app .simple-notification {
+  oto-app .simple-notification {
     .icon {
       height: 50px;
       width: 50px;
@@ -584,7 +581,7 @@
   }
 
   /* Toggle */
-  mat-button-toggle-group.mat-button-toggle-group.velona-toggle {
+  mat-button-toggle-group.mat-button-toggle-group.oto-toggle {
 
     mat-button-toggle.mat-button-toggle {
       font-size: 12px;
@@ -607,7 +604,7 @@
   }
 
   /* Toaster (bottom message bar) */
-  .velona-toaster {
+  .oto-toaster {
     width: 640px;
     background: rgb(49, 47, 47);
     color: whitesmoke;
@@ -625,7 +622,7 @@
     z-index: 1000;
   }
 
-  .velona-toaster-item {
+  .oto-toaster-item {
     padding-bottom: 24px;
     mat-icon.mat-icon {
       margin: -4px 0 -4px 8px
@@ -635,7 +632,7 @@
     }
   }
 
-  .velona-toaster.show {
+  .oto-toaster.show {
     visibility:visible;
     opacity: 1;
   }

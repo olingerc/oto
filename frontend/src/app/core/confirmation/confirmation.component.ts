@@ -8,7 +8,7 @@ import { ConfirmationService } from './confirmation.service';
 import { ConfirmationConfig } from './confirmation-config.model';
 
 @Component({
-  selector: 'velona-confirmation-dialog',
+  selector: 'oto-confirmation-dialog',
   template: "<div></div>"
 })
 export class ConfirmationComponent implements OnDestroy {

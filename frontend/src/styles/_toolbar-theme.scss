@@ -28,7 +28,7 @@
   $padding-right: 24px - $item-margins;
 
 
-  .mat-toolbar.velona-toolbar {
+  .mat-toolbar.oto-toolbar {
     min-height: $toolbar-height;
     min-height: $toolbar-height;
     padding-left: 0;
@@ -171,15 +171,15 @@
   }
 
 
-  .mat-toolbar.velona-toolbar.velona-navbar {
+  .mat-toolbar.oto-toolbar.oto-navbar {
     border-radius: 0;
   }
 
-  .velona-sidenav-content > .mat-toolbar.velona-toolbar.mat-toolbar-multiple-rows:first-child {
+  .oto-sidenav-content > .mat-toolbar.oto-toolbar.mat-toolbar-multiple-rows:first-child {
     border-radius: 0;
   }
 
-  .mat-toolbar.velona-toolbar[color='primary'] {
+  .mat-toolbar.oto-toolbar[color='primary'] {
     .mat-checkbox-frame {
       border-color: mat.get-color-from-palette($primary, default-contrast);
     }

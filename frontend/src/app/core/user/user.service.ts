@@ -11,8 +11,6 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { User } from '../user.model';
-import { Group } from '../group.model';
-import { Lab } from '../lab.model';
 import { HttpHandler } from '../../core/http-handler';
 import { EnvService } from '../../core/env/env.service';
 
@@ -41,11 +39,6 @@ export class UserService {
       catchError(res => this.httpHandler.handleError(res)));
   }
 
-  getLdapUsers(): Observable<any> {
-    return this.http.get(`${this.apiBase}/api/auth/usersldap`, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
   create(user: User): Observable<any> {
     return this.http.post(`${this.apiBase}/api/auth/users`, user, this.jwt()).pipe(
       catchError(res => this.httpHandler.handleError(res)));
@@ -54,11 +47,6 @@ export class UserService {
   // can not be used to change password
   update(user: User): Observable<any> {
     return this.http.put(`${this.apiBase}/api/auth/users/` + user.id, user, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  changeActiveGroup(user: User, group: Group): Observable<any> {
-    return this.http.post(`${this.apiBase}/api/auth/users/changeactivegroup/` + user.id, {groupId: group ? group.id : null}, this.jwt()).pipe(
       catchError(res => this.httpHandler.handleError(res)));
   }
 
@@ -89,13 +77,6 @@ export class UserService {
   }
 
   
-  removeTasksApiToken(id: string): Observable<any> {
-    return this.http.put(`${this.apiBase}/api/auth/users/removetasksapitoken/` + id,
-      null,
-      this.jwt()).pipe(
-        catchError(res => this.httpHandler.handleError(res)));
-  }
-
   deleteByUser(id: string, oldPassword: string): Observable<any> {
     return this.http.post(`${this.apiBase}/api/auth/users/deletebyuser/` + id,
       {old: oldPassword},
@@ -105,51 +86,6 @@ export class UserService {
 
   deleteByAdmin(id: string): Observable<any> {
     return this.http.delete(`${this.apiBase}/api/auth/users/` + id, this.jwt()).pipe(
-    catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  getGroups(labTitle: string = null): Observable<any> {
-    let options = this.jwt();
-    if (labTitle) {
-      options.params = new HttpParams().set('labtitle', labTitle);
-    }
-
-    return this.http.get(`${this.apiBase}/api/auth/groups`, options).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  createGroup(group: Group): Observable<any> {
-    return this.http.post(`${this.apiBase}/api/auth/groups`, group, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  updateGroup(group: Group): Observable<any> {
-    return this.http.put(`${this.apiBase}/api/auth/groups/` + group.id, group, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  deleteGroup(id: string): Observable<any> {
-    return this.http.delete(`${this.apiBase}/api/auth/groups/` + id, this.jwt()).pipe(
-    catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  getLabs(): Observable<any> {
-    return this.http.get(`${this.apiBase}/api/auth/labs`, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  createLab(lab: Lab): Observable<any> {
-    return this.http.post(`${this.apiBase}/api/auth/labs`, lab, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  updateLab(lab: Lab): Observable<any> {
-    return this.http.put(`${this.apiBase}/api/auth/labs/` + lab.id, lab, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  deleteLab(id: string): Observable<any> {
-    return this.http.delete(`${this.apiBase}/api/auth/labs/` + id, this.jwt()).pipe(
     catchError(res => this.httpHandler.handleError(res)));
   }
 

@@ -73,7 +73,7 @@ export class NavbarEditUserDialog {
           );
         },
         error => {
-          if (error.endsWith('incorrect password')) {
+          if (error.indexOf && error.indexOf('incorrect password') > -1) {
             this.removeUserPasswordInput.setErrors({invaéid: true});
           } else {
             this.removeUserError = true;

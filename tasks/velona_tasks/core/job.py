@@ -18,8 +18,6 @@ from ..common.utils import random_string
 from .connections import conn1
 from .queues import available_queues
 
-from .tasks import copy_files
-
 KNOWN_TASK_FUNCTIONS = None
 
 def _as_text(v):
@@ -64,9 +62,6 @@ def _known_task_functions():
     This file should contain methods meant to be called via rq
     """
     task_functions = {}
-
-    # core
-    task_functions["copy_files"] = copy_files
 
     # modules
     task_source_file_names = []

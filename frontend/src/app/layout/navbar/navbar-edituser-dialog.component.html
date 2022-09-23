@@ -5,10 +5,6 @@
 
     <h2 class="mat-subheading-2">Username <strong>{{data.user.username}}</strong></h2>
 
-    <mat-chip-list class="velona-badges" *ngIf="data.user.domainLogin">
-      <mat-chip style="margin-bottom:4px">GLIMS</mat-chip>
-    </mat-chip-list>
-
     <mat-form-field style="width:100%">
       <input
         matInput
@@ -33,23 +29,13 @@
     </mat-form-field>
   </form>
 
-  <h3 class="mat-subheading-2">Groups</h3>
-  <mat-chip-list class="velona-badges">
-    <mat-chip style="margin-bottom:4px" *ngFor="let group of data.user.groups">{{group.title}}</mat-chip>
-  </mat-chip-list>
-
   <h3 class="mat-subheading-2">Privileges</h3>
-  <mat-chip-list class="velona-badges">
+  <mat-chip-list class="oto-badges">
     <mat-chip style="margin-bottom:4px" *ngFor="let priv of data.user.privileges">{{priv}}</mat-chip>
   </mat-chip-list>
 
-  <h3 class="mat-subheading-2">LIMS Privileges</h3>
-  <mat-chip-list class="velona-badges">
-    <mat-chip style="margin-bottom:4px" *ngFor="let priv of data.user.limsPrivileges">{{priv}}</mat-chip>
-  </mat-chip-list>
-
   <form #removeUserForm="ngForm" *ngIf="removingUser">
-    <mat-form-field class="velona-remove-user-form-field">
+    <mat-form-field>
       <input
         matInput
         required

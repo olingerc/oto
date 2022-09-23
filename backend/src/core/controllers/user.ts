@@ -11,7 +11,6 @@ const config = configFunc();
 let methods: any = {
   list: function(req, res) {
     User.find({})
-      .populate({path: "groups", populate: {path: "lab"}})
       .sort('username')
       .exec(
         function(err, users) {
@@ -58,7 +57,6 @@ let methods: any = {
     let id = req.params.id;
     User
       .findOne({id: id})
-      .populate({path: "groups", populate: {path: "lab"}})
       .exec(function(err, user) {
         if (err) {
           res.status(400).json({success: false, message: JSON.stringify(err)});
@@ -101,7 +99,6 @@ let methods: any = {
     let id = req.params.id;
     User
       .findOne({id: id})
-      .populate({path: "groups", populate: {path: "lab"}})
       .exec(function(err, user) {
         if (err) {
           res.status(400).json({success: false, message: JSON.stringify(err)});
@@ -140,7 +137,6 @@ let methods: any = {
     let id = req.params.id;
     User
       .findOne({id: id})
-      .populate({path: "groups", populate: {path: "lab"}})
       .exec(function(err, user) {
         if (err) {
           res.status(400).json({success: false, message: JSON.stringify(err)});
@@ -172,7 +168,6 @@ let methods: any = {
     let id = req.params.id;
     let user = User
       .findOne({id: id})
-      .populate({path: "groups", populate: {path: "lab"}})
       .exec(function(err, user) {
         if (err) {
           res.status(400).json({success: false, message: JSON.stringify(err)});
@@ -195,38 +190,11 @@ let methods: any = {
       }
     );
   },
-  changeActiveGroup: function(req, res, next) {
-    let id = req.params.id;
-    let groupId = req.body.groupId;
-    let user = User
-      .findOne({id:id})
-      .populate({path: "groups", populate: {path: "lab"}})
-      .exec(function(err, user) {
-        if (err) {
-          res.status(400).json({success: false, message: JSON.stringify(err)});
-        } else {
-          if (!user) {
-            return res.status(400).json({success: false, message: 'Failed finding user ' + id});
-          }
-          user.lastActiveGroupId = groupId;
-
-          user.save(function(err, user) {
-            if (err) {
-              res.status(400).json({success: false, message: JSON.stringify(err)});
-            } else {
-              res.status(200).json(user.censor());
-            }
-          });
-        }
-      }
-    );
-  },
   changeActiveRole: function(req, res, next) {
     let id = req.params.id;
     let role = req.body.role;
     let user = User
       .findOne({id:id})
-      .populate({path: "groups", populate: {path: "lab"}})
       .exec(function(err, user) {
         if (err) {
           res.status(400).json({success: false, message: JSON.stringify(err)});
@@ -254,7 +222,6 @@ let methods: any = {
     let id = req.params.id;
     User
       .findOne({id:id})
-      .populate({path: "groups", populate: {path: "lab"}})
       .exec(function(err, user) {
         if (err) {
           res.status(400).json({success: false, message: JSON.stringify(err)});
@@ -337,31 +304,6 @@ let methods: any = {
         console.log('An initial admin user has been created: admin/123');
       }
     });
-  },
-  removeTasksApiToken: function(req, res, next) {
-    let id = req.params.id;
-    let user = User
-      .findOne({id: id})
-      .populate({path: "groups", populate: {path: "lab"}})
-      .exec(function(err, user) {
-        if (err) {
-          res.status(400).json({success: false, message: JSON.stringify(err)});
-        } else {
-          if (!user) {
-            return res.status(400).json({success: false, message: 'Failed finding user ' + id});
-          }
-
-          user.tasksApiToken = null;
-          user.save(function(err, user) {
-            if (err) {
-              res.status(400).json({success: false, message: JSON.stringify(err)});
-            } else {
-              res.status(200).json(user.censor());
-            }
-          });
-        }
-      }
-    );
   },
 
 };

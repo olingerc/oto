@@ -46,7 +46,8 @@ export class NavbarChangePasswordDialog {
           this.dialogRef.close(true);
         },
         error => {
-          if (error.endsWith('incorrect password')) {
+          console.log(error)
+          if (error.indexOf && error.indexOf('incorrect password') > -1) {
             this.changePasswordForm.controls["oldPassword"].setErrors({invalid: true});
           } else {
             this.changePasswordError = error;

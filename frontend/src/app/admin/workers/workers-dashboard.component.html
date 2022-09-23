@@ -7,9 +7,9 @@
       <div fxFlex=60%>
 
         <!-- Workers -->
-        <mat-card class="worker-card velona-mat-card-compact">
+        <mat-card class="worker-card oto-mat-card-compact">
           <mat-card-header class="analysis-card-header">
-            <mat-toolbar class="velona-toolbar lims-analysis-toolbar-header" fxLayout="row" fxLayoutAlign="start center">
+            <mat-toolbar class="oto-toolbar lims-analysis-toolbar-header" fxLayout="row" fxLayoutAlign="start center">
               <mat-toolbar-row>
                 <label>Workers&nbsp;</label>
                 <span>
@@ -73,6 +73,7 @@
                 <div fxLayout="column" class="add-queue-buttons">
                   <h5>Add queue</h5>
                   <button mat-button (click)="addWorker('single')">Single</button>
+                  <button mat-button (click)="addWorker('scheduled')">Scheduled</button>
                 </div>
               </div>
             </div>

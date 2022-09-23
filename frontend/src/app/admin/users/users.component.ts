@@ -4,8 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'lodash';
 
 import { User } from '../../core/user.model';
-import { Group } from '../../core/group.model';
-import { Lab } from '../../core/lab.model';
 import { UserService } from '../../core/user/user.service';
 import { AlertService } from '../../core/alert/alert.service';
 
@@ -22,9 +20,6 @@ export class UsersComponent {
   public loading = false;
   public tableLoading = false;
   public users: User[] = [];
-  public groups: Group[] = [];
-  public groupTableLoading = false;
-  public labs: Lab[] = [];
   public labTableLoading = false;
 
   constructor(
@@ -35,7 +30,6 @@ export class UsersComponent {
 
   ngOnInit() {
     this.loadAllUsers();
-    this.loadAllGroups();
   }
 
   private loadAllUsers() {
@@ -50,19 +44,6 @@ export class UsersComponent {
           this.alertService.error('Check console for detailed error message', 'Failed reaching server');
           console.error(error);
           this.tableLoading = false;
-        }
-      );
-  }
-
-  private loadAllGroups() {
-    this.userService.getGroups()
-      .subscribe(
-        groups => {
-          this.groups = groups;
-        },
-        error => {
-          this.alertService.error(error);
-          this.groups = [];
         }
       );
   }
@@ -83,7 +64,7 @@ export class UsersComponent {
     let dialogRef = this.dialog.open(UserDialogComponent, {
       width: '1280px',
       autoFocus: false,
-      data: { action: 'update', user: user, groups: this.groups}
+      data: { action: 'update', user: user}
     });
 
     dialogRef.beforeClosed().subscribe(() => {

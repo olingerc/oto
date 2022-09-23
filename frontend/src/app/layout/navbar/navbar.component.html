@@ -1,7 +1,7 @@
 <!-- TOP NAVBAR-->
 
 <mat-toolbar
-  class="velona-toolbar velona-navbar"
+  class="oto-toolbar oto-navbar"
   [ngClass]="{
     visible: visible,
     'mat-elevation-z5': !secondaryToolbar
@@ -12,7 +12,7 @@
     <!-- Brand -->
     <span *ngIf="!onHome">
       <a title="Go to homepage" routerLink="/home">
-        <span><img src="/assets/apple-touch-icon-120x120.png" class="navbar-velona-logo"/></span>
+        <span><img src="/assets/apple-touch-icon-120x120.png" class="navbar-oto-logo"/></span>
       </a>
     </span>
 
@@ -23,13 +23,13 @@
         <!-- not the last, show triangle -->
         <span *ngIf="!last" class="parent-link">
           <a mat-icon-button routerLink="{{crumb.link}}" >{{crumb.title}}</a>
-          <mat-icon class="velona-navbar-triangle">play_arrow</mat-icon>
+          <mat-icon class="oto-navbar-triangle">play_arrow</mat-icon>
         </span>
 
         <!-- last, no triangle except if sublinks -->
         <span *ngIf="last || !crumb.link" class="last-link">
           <label>{{crumb.title}}</label>
-          <mat-icon *ngIf="crumb.sublinks && crumb.sublinks.length > 0" class="velona-navbar-triangle">play_arrow</mat-icon>
+          <mat-icon *ngIf="crumb.sublinks && crumb.sublinks.length > 0" class="oto-navbar-triangle">play_arrow</mat-icon>
         </span>
 
         <!-- sublinks -->
@@ -65,20 +65,8 @@
       <span>
         <button mat-button title="User" [mat-menu-trigger-for]="userMenu">
           <mat-icon>person</mat-icon>
-          <mat-icon color="warn" *ngIf="!currentUser.defaultPasswordChanged && !currentUser.domainLogin">info</mat-icon>
+          <mat-icon color="warn" *ngIf="!currentUser.defaultPasswordChanged">info</mat-icon>
           <span>&nbsp;{{currentUser.fullname || currentUser.username}} <small>({{currentUser.activeRole}})</small></span>
-        </button>
-      </span>
-
-      <!-- Group -->
-      <span>
-        <button mat-button title="Group" [mat-menu-trigger-for]="groupMenu">
-          <mat-icon>group</mat-icon>
-          <span *ngIf="currentUser.activeGroup">
-            <span class="mat-caption">&nbsp;&nbsp;{{currentUser.activeGroup.lab?.title}}&nbsp;</span>
-            {{currentUser.activeGroup.title}}
-          </span>
-          <span *ngIf="!currentUser.activeGroup">&nbsp;only me</span>
         </button>
       </span>
     </ng-container>
@@ -96,7 +84,7 @@
   <label class="mat-caption muted-color">User</label>
   <button mat-menu-item (click)="openEditUserDialog()">Edit details</button>
   <button mat-menu-item
-    *ngIf="currentUser && !currentUser.defaultPasswordChanged && !currentUser.domainLogin"
+    *ngIf="currentUser && !currentUser.defaultPasswordChanged"
     (click)="openSetPasswordDialog()">
     <mat-chip-list class="chip-list-inline">
       <mat-chip class="mat-warn" color="warn">1</mat-chip>
@@ -105,7 +93,7 @@
   </button>
   <button
     mat-menu-item
-    *ngIf="currentUser && currentUser.defaultPasswordChanged && !currentUser.domainLogin"
+    *ngIf="currentUser && currentUser.defaultPasswordChanged"
     (click)="openChangePasswordDialog()">
     Change password
   </button>
@@ -137,25 +125,4 @@
     (click)="$event.stopPropagation()">
     Debug
   </mat-checkbox>
-</mat-menu>
-
-<mat-menu [overlapTrigger]="false" #groupMenu="matMenu"  class="mat-elevation-z9">
-  <label class="mat-caption muted-color">Group</label>
-  <ng-container *ngIf="currentUser">
-    <ng-container *ngFor="let group of currentUser.groups">
-      <button
-        mat-menu-item
-        *ngIf="group.selectable"
-        (click)="changeActiveGroup(group)">
-        <span class="mat-caption">{{group.lab?.title}}</span>
-        {{group.title}}
-      </button>
-    </ng-container>
-  </ng-container>
-
-  <button mat-menu-item (click)="changeActiveGroup(null)">only me</button>
-  <section myVisibleForPrivilege="otoAdmin">
-    <hr>
-    <button mat-menu-item (click)="changeToSystemGroup()">SYSTEM</button>
-  </section>
 </mat-menu>

@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 """Utility functions."""
 from datetime import datetime
-import json
 import random
 import re
 import string
-
-from config import Config
-
 
 """
 

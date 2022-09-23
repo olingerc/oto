@@ -39,7 +39,7 @@ export class AuthActivateGuard implements CanActivate {
                 // rights to visit home (no otoUser) Happens only if admin forgot
                 // to set it
                 this.router.navigate(['/401']);
-                this.alertService.error(`No privileges were set for you in velona`);
+                this.alertService.error(`No privileges were set for you in OTO`);
               } else {
                 this.alertService.error(`
                   You need one of "${route.data['accessPrivileges']}" rights to visit ${route.url}.`);

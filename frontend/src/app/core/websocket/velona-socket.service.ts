@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 
 import { Observable, BehaviorSubject, Subject, Subscription } from 'rxjs';
-import { map } from "rxjs/operators";
 import { io, Socket } from "socket.io-client";
 import * as _ from "lodash";
 
 import { User } from '../user.model';
 import { EnvService } from '../../core/env/env.service';
-import { BioinfHttpService } from "../../bioinf-core/services/bioinf-http.service";
-import { AlertService } from '../alert/alert.service';
 
 @Injectable({
   "providedIn": "root"
@@ -27,14 +24,11 @@ export class VelonaSocketService {
   private connectionStatus$: BehaviorSubject<string> = new BehaviorSubject('connecting...');
   private onTasksProgressMessage: Subject<any> = new Subject();
 
-  static socketIoOptions(username, groupId, path) {
+  static socketIoOptions(username, path) {
     // function because username changes
     let query = {};
     if (username) {
       query['username'] = username;
-    }
-    if (groupId) {
-      query['groupId'] = groupId;
     }
     return {
       'multiplex': false,
@@ -46,9 +40,7 @@ export class VelonaSocketService {
   }
 
   constructor(
-    private env: EnvService,
-    private httpService: BioinfHttpService,
-    private alertService: AlertService
+    private env: EnvService
   ) {
     this.websocketUrl = this.env.backendUrl + '/';
   }
@@ -69,7 +61,6 @@ export class VelonaSocketService {
       this.websocketUrl,
       VelonaSocketService.socketIoOptions(
         currentUser.username,
-        currentUser.activeGroup ? currentUser.activeGroup.id : null,
         path)
     );
 
@@ -88,7 +79,7 @@ export class VelonaSocketService {
 
     this.socket.on('connect_error', (data) => {
       this.connectionStatus$.next('no connection');
-      console.error('Velona-socket-connection-error', data);
+      console.error('socket-connection-error', data);
     });
 
     this.socket.on('error', (data) => {
@@ -149,24 +140,6 @@ export class VelonaSocketService {
 
   sendTasksProgressMessage(data) {
     this.onTasksProgressMessage.next(data);
-  }
-
-  cancelExport(pipelineid, callback = null) {
-    this.httpService.cancelExport(pipelineid)
-      .subscribe(
-        response => {
-          if (callback && typeof(callback) === "function") {
-            callback(null);
-          }
-        },
-        error => {
-          if (callback && typeof(callback) === "function") {
-            callback(error);
-          }
-          this.alertService.error(error);
-          console.error("error cancelling pipeline batch", error);
-        }
-      );
   }
 
 }

@@ -4,8 +4,6 @@ FROM python:3.8.10-slim
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     build-essential \ 
-    curl unzip nano \
-    git \
     pipenv \
     openssh-client \
     && rm -rf /var/lib/apt/lists/* && apt-get clean

@@ -33,7 +33,7 @@ def import_glims_route():
     replace = request_json.get("replace")
     which_part = request_json.get("which_part")
     func_string = "execute_glims_import"
-    job_def = {"queue": "single", "result_ttl": TWO_WEEKS, "ttl": 60*60*2, "meta": {"username": client_username}}
+    job_def = {"queue": "scheduled", "result_ttl": TWO_WEEKS, "ttl": 60*60*2, "meta": {"username": client_username}}
     kwargs = {"replace": replace, "which_part": which_part}
 
     try:

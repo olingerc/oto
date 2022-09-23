@@ -2,11 +2,9 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AdminComponent } from './admin.component';
 import { UsersComponent } from './users/users.component';
-import { GroupsComponent } from './groups/groups.component';
 import { ScheduledjobsComponent } from './scheduledjobs/scheduledjobs.component';
 import { WorkersDashboardComponent } from "./workers/workers-dashboard.component";
 import { FailedjobsDashboardComponent } from "./failedjobs/failedjobs-dashboard.component";
-import { QueuesDashboardComponent } from "./queues/queues-dashboard.component";
 import { DangerZoneComponent } from "./danger-zone/danger-zone.component";
 import { InfrastructureDashboardComponent } from "./infrastructure/infrastructure-dashboard.component";
 
@@ -24,11 +22,6 @@ const routes: Routes = [
         data: {}
       },
       {
-        path: 'groups',
-        component: GroupsComponent,
-        data: {}
-      },
-      {
         path: 'scheduledjobs',
         component: ScheduledjobsComponent,
         data: {}
@@ -41,11 +34,6 @@ const routes: Routes = [
       {
         path: 'workers',
         component: WorkersDashboardComponent,
-        data: {}
-      },
-      {
-        path: 'queues',
-        component: QueuesDashboardComponent,
         data: {}
       },
       {

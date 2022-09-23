@@ -33,14 +33,14 @@ class ToSchedule(object):
         self.scheduled_funcs = [
             {
                 "type": "interval",
-                "seconds": 5,
+                "seconds": 8,
                 "func": "send_job_to_rq",
                 "args": [
                     "execute_glims_import",
-                    {"queue": "single", "result_ttl": TWO_WEEKS, "ttl": ONE_HOUR * 2, "meta": {"username": "system"}}
+                    {"queue": "scheduled", "result_ttl": TWO_WEEKS, "ttl": ONE_HOUR * 2, "meta": {"username": "system"}}
                 ],
                 "kwargs": {"replace": False, "which_part": "covid"},
-                "schedule_on_start": config.SCHEDULE_ON_START,
+                "schedule_on_start": True, #config.SCHEDULE_ON_START,
                 "run_on_start": False
             }
 

@@ -62,110 +62,13 @@ export class AdminHttpService {
       catchError(res => this.httpHandler.handleError(res)));
   }
 
-  getQueuedJobs(): Observable<any> {
-    return this.http.get(`${this.apiBase}/tasksapi/get_queued_jobs`, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
   getScheduledJobs(): Observable<any> {
     return this.http.get(`${this.apiBase}/tasksapi/get_scheduled_jobs`, this.jwt()).pipe(
       catchError(res => this.httpHandler.handleError(res)));
   }
 
-  generateHomepage(): Observable<any> {
-    return this.http.post(`${this.apiBase}/tasksapi/glimshome`, {}, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  doInfraCheck(): Observable<any> {
-    return this.http.post(`${this.apiBase}/tasksapi/infracheck`, {}, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  parseHubToDb(): Observable<any> {
-    return this.http.post(`${this.apiBase}/tasksapi/hub/parse`, {}, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
   importGlims(which_part: string, replace: boolean): Observable<any> {
     return this.http.post(`${this.apiBase}/tasksapi/glimsimport/import`, {which_part, replace}, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  parseVeriseq(): Observable<any> {
-    return this.http.post(`${this.apiBase}/tasksapi/veriseq/parse`, {}, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  parseVeriseqComplete(): Observable<any> {
-    return this.http.post(`${this.apiBase}/tasksapi/veriseq/parsecomplete`, {}, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  checkRecent(): Observable<any> {
-    return this.http.post(`${this.apiBase}/tasksapi/ngssync/parseonlyrecent`, {}, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  checkAll(): Observable<any> {
-    return this.http.post(`${this.apiBase}/tasksapi/ngssync/parsecomplete`, {}, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  copyNewRuns(): Observable<any> {
-    return this.http.post(`${this.apiBase}/tasksapi/ngssync/copynewruns`, {}, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  importGlimsVeriseq(): Observable<any> {
-    return this.http.post(`${this.apiBase}/tasksapi/veriseq/importglims`, {}, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  createInitialVeriseqDb(): Observable<any> {
-    return this.http.post(`${this.apiBase}/tasksapi/veriseq/createdb`, {}, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  convertConseil(): Observable<any> {
-    return this.http.post(`${this.apiBase}/tasksapi/conseil/convert`, {}, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  getTasksStatus(): Observable<any> {
-    const options = this.jwt();
-
-    return this.http.get(`${this.apiBase}/tasksapi/state`, options).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  getInfraChecks(): Observable<any> {
-    return this.http.get(`${this.apiBase}/tasksapi/infracheck/get`, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  doCompleteVdbRecount(): Observable<any> {
-    return this.http.get(`${this.apiBase}/tasksapi/bioinf_variants/docompletevdbrecount`, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  updateContextCounts(): Observable<any> {
-    return this.http.get(`${this.apiBase}/tasksapi/bioinf_variants/updatecontexttotals`, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  reinjectAll(): Observable<any> {
-    return this.http.get(`${this.apiBase}/tasksapi/bioinf_variants/reinjectall`, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  findNewMappings(): Observable<any> {
-    return this.http.get(`${this.apiBase}/tasksapi/bioinf_variants/findnewmappings`, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  findNewMappingsCnv(): Observable<any> {
-    return this.http.get(`${this.apiBase}/tasksapi/bioinf_variants/findnewmappingscnv`, this.jwt()).pipe(
       catchError(res => this.httpHandler.handleError(res)));
   }
 

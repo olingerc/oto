@@ -27,7 +27,6 @@ COPY docker-entrypoint.sh \
     tsconfig.app.json \
     tsconfig.spec.json \
     .browserslistrc \
-    #proxy.conf.json \
     ./
 RUN chown -R oto:oto ./ && chmod +x docker-entrypoint.sh
 
@@ -39,6 +38,5 @@ COPY src src
 # Copy angular.json to avoid rebuilds when simply testing stuff on angular.json
 COPY angular.json \
     ./
-#######ENV NODE_OPTIONS="--max_old_space_size=16384"
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
