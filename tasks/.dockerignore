@@ -1,0 +1,5 @@
+venv
+.venv
+worker/.venv
+.git
+.vscode

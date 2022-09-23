@@ -17,5 +17,5 @@
     "logLevel": "debug",
     "changeOrigin": true,
     "ws": true
-  },
+  }
 }
