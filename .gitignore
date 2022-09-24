@@ -1,6 +1,6 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# secrets
+secrets/certificates/id_rsa_dev
 
 # compiled output
 frontend/dist
