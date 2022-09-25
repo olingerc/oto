@@ -1,5 +1,11 @@
 Host dev_docker_host
 	Hostname host.docker.internal
+	User bsq_coli
+	IdentityFile /run/secrets/SSH_KEY_DOCKER_HOST
+	Port 22
+	StrictHostKeyChecking no
+Host kitchenpi
+	Hostname host.docker.internal
 	User pi
 	IdentityFile /run/secrets/SSH_KEY_DOCKER_HOST
 	Port 22

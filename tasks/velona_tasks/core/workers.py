@@ -63,14 +63,14 @@ def _run_worker_docker(queues, worker_name, host):
     env_dict["FLASK_SECRET"] = config.FLASK_SECRET
     # -------- HANDLE SECRETS PASSWORDS END ---------
 
-    # NOTE: prefix velona_ since created by docker-compose
+    # NOTE: prefix oto_ since created by docker-compose
     volumes = {
     }
     privileged = False
     extra_hosts = {}
 
     if os.environ.get("FLASK_ENV", "development") == 'development':
-        volumes["velona_tasks_source"] = {"bind": "/home/velona/app/velona_tasks", "mode": "rw"}
+        volumes["oto_tasks_source"] = {"bind": "/home/oto/app/velona_tasks", "mode": "rw"}
         extra_hosts["host.docker.internal"] = "host-gateway"  # WSL2 does not set host.docker.internal by default
 
     d = _get_docker(host)
@@ -96,7 +96,7 @@ def _run_worker_docker(queues, worker_name, host):
     # -------- HANDLE SECRETS CERTIFICATES START ---------
     # NOTE: Remove when switching workers to K8s with correct secrets
 
-    # Velona host has passwords via secrets files /run/secrets/... as created by docker-compose
+    # OTO host has passwords via secrets files /run/secrets/... as created by docker-compose
     # but worker has no secrets since directly started via docker
     # until I have k8s, I inject manually into the same location as expected by config
     secrets_to_inject = [
@@ -121,7 +121,7 @@ def add_new_worker(queues, host):
     return None for no error and string if error
     """
     logger.info("Starting worker docker on queues %s on host %s" % (queues, host))
-    _run_worker_docker(queues, "velona_worker_%s---%s" % (random_string(4), host), host)
+    _run_worker_docker(queues, "oto_worker_%s---%s" % (random_string(4), host), host)
 
 
 def remove_all_worker_containers():
@@ -132,7 +132,7 @@ def remove_all_worker_containers():
         existing = d.containers.list()
         for container in existing:
             print("remove_all_worker_containers", container.name)
-            if container.name.startswith("velona_worker"):
+            if container.name.startswith("oto_worker"):
                 logger.debug('Removing worker container %s' % container.name)
                 container.remove(force=True)
 

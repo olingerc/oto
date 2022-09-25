@@ -27,7 +27,7 @@ def connect_mongo():
         connect(config.MONGODB_DB, host=config.MONGODB_HOST,
                 username=config.MONGODB_USER, password=config.MONGODB_PW,
                 connect=False,
-                authentication_source="velona")
+                authentication_source="oto")
         """print(" * Connecting to mongo ...")
         print(" * Test actual connection. Should get Batch or None, but not fail: ", BatchSchema.objects.first())
         print(" * Successfully connected to mongodb db %s on %s" % (
