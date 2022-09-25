@@ -5,14 +5,11 @@
 @use './../app/home/home-theme';
 @use './../app/login/login-theme';
 @use './../app/admin/admin-theme';
-@use './../app/shared/components/footer/footer-theme';
-@use './../app/layout/navbar/navbar-theme';
 
 @use './general';
-@use './sidenav-theme';
 @use './header-theme';
 @use './toolbar-theme';
-@use './tables';
+/*@use './tables';*/
 
 
 // Styles for the app that are based on the current theme.
@@ -38,14 +35,11 @@
 
   @include general.oto-general($theme);
 
-  @include footer-theme.footer-theme($theme);
-  @include navbar-theme.navbar-theme($theme);
   @include home-theme.home-theme($theme);
   @include admin-theme.admin-theme($theme);
   @include login-theme.login-theme($theme);
   
-  @include sidenav-theme.sidenav-theme($theme);
-  @include tables.tables-theme($theme);
+    /*@include tables.tables-theme($theme);*/
   @include toolbar-theme.toolbar-theme($theme);
   @include header-theme.header-theme($theme);
 }

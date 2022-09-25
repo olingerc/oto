@@ -1,6 +1,2 @@
-creating workers manually does not wor
-
-
-
-buttons for edit user
-active navbar links
+creating workers manually does not work
+buttons for edit user / change ...

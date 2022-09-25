@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 
 import { SharedModule } from '../shared/shared.module';
 
-import { ToolsComponent } from './tools.component';
+import { CamsComponent } from './cams.component';
 
 // routing
-import { routing } from './tools.routing';
+import { routing } from './cams.routing';
 
 @NgModule({
   imports: [
@@ -13,7 +13,7 @@ import { routing } from './tools.routing';
     SharedModule
   ],
   declarations: [
-    ToolsComponent
+    CamsComponent
   ]
 })
-export class ToolsModule { }
+export class CamsModule { }

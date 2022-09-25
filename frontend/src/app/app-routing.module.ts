@@ -29,11 +29,11 @@ const routes: Routes = [
       data: { accessLevel: 'privileged', accessPrivileges: ["otoAdmin"] }
     },
     {
-      path: 'tools',
-      loadChildren: () => import('./tools/tools.module').then(m => m.ToolsModule),
+      path: 'cams',
+      loadChildren: () => import('./cams/cams.module').then(m => m.CamsModule),
       canLoad: [ AuthLoadGuard ],
       canActivate: [ AuthActivateGuard ],
-      data: { accessLevel: 'privileged', accessPrivileges: ["toolsUser"] }
+      data: { accessLevel: 'privileged', accessPrivileges: ["camsUser"] }
     },
 
     { path: '404', component: Page404Component },

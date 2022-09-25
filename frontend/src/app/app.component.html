@@ -56,9 +56,9 @@
   <mat-sidenav  #sidenav role="navigation">
     <mat-nav-list>
       <a mat-list-item (click)="sidenav.close()" routerLinkActive="active"
-        routerLink="/tools">
+        routerLink="/cams">
         <mat-icon class="icon">search</mat-icon>
-        <span class="label">Tools</span>
+        <span class="label">Cams</span>
       </a>
       <a mat-list-item (click)="sidenav.close()" routerLinkActive="active"
         [myVisibleForPrivileges]="['otoAdmin']"
@@ -111,9 +111,9 @@
           </li>
           <li>
             <a routerLinkActive="active"
-              routerLink="/tools">
+              routerLink="/cams">
               <mat-icon class="icon">search</mat-icon>
-              <span class="label">Tools</span>
+              <span class="label">Cams</span>
             </a>
           </li>
           <li>
