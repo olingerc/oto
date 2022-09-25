@@ -1,8 +1,16 @@
-RewriteEngine On 
-  # If an existing asset or directory is requested go to it as it is 
-  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR] 
-  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d 
-  RewriteRule ^ - [L] 
- 
-  # If the requested resource doesn't exist, use index.html 
-  RewriteRule ^ /index.html
+# Check if mod_rewrite module is available
+<IfModule mod_rewrite.c>
+
+  # Turn the rewrite engine on and set URI base
+  RewriteEngine On
+  RewriteBase /
+
+  # Serve files when they are found 
+  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR] 
+  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d 
+  RewriteRule ^ - [L] 
+
+  # When file is not found, serve index.html instead
+  RewriteRule ^ /index.html
+
+</IfModule>
