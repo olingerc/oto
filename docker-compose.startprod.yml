@@ -122,6 +122,37 @@ services:
        --requirepass "$$(cat $$REDIS_PASS_FILE)"
       '
     ]
+
+  # In dev we start a worker immediately via docker-compose to make development easier
+  worker:
+    scale: 0
+    build:
+      context: ./tasks
+      dockerfile: ./worker/Dockerfile
+    image: oto_worker:alpha
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - mongodb
+      - redis
+    env_file:
+      - ./tasks/worker/.env.development
+    # In prod it is tasks that starts worker and injects secrets into env. In dev new workers also follow that way
+    secrets:
+      - MONGODB_USER
+      - MONGODB_PW
+      - REDIS_PW
+      - FLASK_SECRET
+      - SSH_KEY_DOCKER_HOST
+    environment:
+      - QUEUES=single,scheduled
+      - WORKER_NAME_SUFFIX=dev_docker_host  # docker host that worker will look for to be able to start new containers
+      - FLASK_ENV=development
+      - PYTHONUNBUFFERED=1
+    volumes: 
+      # for development
+      - tasks_source:/home/oto/app/velona_tasks
+
 volumes:
   mongodb:
     driver: local
