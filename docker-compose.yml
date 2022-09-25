@@ -41,8 +41,6 @@ services:
   tasks:
     build:
       context: ./tasks
-    ports:
-      - "5500:5500"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
