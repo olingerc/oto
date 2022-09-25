@@ -5,7 +5,7 @@ Host dev_docker_host
 	Port 22
 	StrictHostKeyChecking no
 Host kitchenpi
-	Hostname localhost
+	Hostname 192.168.178.45
 	User chris
 	IdentityFile /run/secrets/SSH_KEY_DOCKER_HOST
 	Port 22
