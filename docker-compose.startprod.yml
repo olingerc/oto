@@ -15,6 +15,7 @@ services:
     environment:
       - "TZ=Europe/Luxembourg"
       - "NODE_ENV=production"
+    restart: always
 
   backend:
     build:
