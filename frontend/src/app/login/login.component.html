@@ -1,14 +1,12 @@
-<div class="oto-login-container">
-
-  <div class="oto-login-header">
-    <img class="oto-logo" src="/assets/apple-touch-icon-120x120.png"/>
-  </div>
-
   <div class="oto-login-content">
+
+    <div class="oto-login-image">
+      <img src="/assets/apple-touch-icon-120x120.png"/>
+      <p>Organize the Olingers</p>
+    </div>
+
     <mat-card class="form-card">
-
-      <h3 class="mat-title">Sign In</h3>
-
+      <h3>Sign In</h3>
       <form
         #loginForm="ngForm"
         (ngSubmit)="login()"
@@ -27,15 +25,6 @@
               <mat-icon>person</mat-icon>
               Username
             </mat-placeholder>
-            <button
-              type="button"
-              mat-icon-button
-              matSuffix
-              tabindex="-1"
-              *ngIf="usernameFormControl.value"
-              (click)="usernameFormControl.setValue('');"
-              ><mat-icon>clear</mat-icon>
-            </button>
         </mat-form-field>
 
         <mat-form-field class="oto-login-full-width">
@@ -55,15 +44,6 @@
               <mat-icon>lock</mat-icon>
               Password
             </mat-placeholder>
-            <button mat-icon-button
-              type="button"
-              matSuffix
-              tabindex="-1"
-              *ngIf="passwordFormControl.value"
-              (click)="passwordFormControl.setValue('');"
-              ><mat-icon>clear</mat-icon>
-            </button>
-
         </mat-form-field>
 
         <div *ngIf="loading" class="oto-loader oto-loader-big message"></div>
@@ -76,11 +56,6 @@
         </button>
 
       </form>
-
     </mat-card>
 
   </div>
-
-</div>
-
-<app-footer></app-footer>

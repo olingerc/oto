@@ -8,8 +8,7 @@ import { AlertService } from '../core/alert/alert.service';
 @Component({
   selector: 'my-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements AfterViewInit {
 
@@ -20,7 +19,7 @@ export class LoginComponent implements AfterViewInit {
 
   ]);
   public passwordFormControl = new FormControl('', [
-    Validators.required
+    
   ]);
 
   @ViewChild('usernameElement', { static: true } as any) public usernameElement: any;

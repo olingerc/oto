@@ -14,7 +14,6 @@ import { ToastModule } from 'primeng/toast';
 
 // feature modules
 import { CoreModule } from './core/core.module';
-import { BioinfCoreModule } from './bioinf-core/bioinf-core.module';
 import { LayoutModule } from './layout/layout.module';
 import { SharedModule } from './shared/shared.module';
 
@@ -29,7 +28,6 @@ import { SharedModule } from './shared/shared.module';
     ConfirmationModule,
     ToastModule,
     CoreModule,
-    BioinfCoreModule,
     LayoutModule,
     SharedModule
   ],

@@ -33,6 +33,7 @@ import { AlertService } from './alert/alert.service';
 import { UtilitiesService } from './utilities.service';
 import { VelonaSocketService } from './websocket/velona-socket.service';
 import { UploadService } from './upload.service';
+import { BioinfHttpService } from './bioinf-http.service';
 import { HttpHandler } from './http-handler';
 import { ConfirmationService } from './confirmation/confirmation.service';
 
@@ -46,22 +47,6 @@ import { ConfirmationService } from './confirmation/confirmation.service';
   providers: [
     EnvServiceProvider,
     MessageService
-    /*AuthLoadGuard,
-    AuthActivateGuard,
-
-    AlertService,
-    AuthenticationService,
-    UserService,
-    UtilitiesService,
-    VelonaSocketService,
-    UploadService,
-    HttpHandler,
-    ConfirmationService*/
-
-    // providers used to create fake backend
-    // fakeAuthBackendProvider,
-    // MockBackend,
-    // BaseRequestOptions
   ]
 })
 export class CoreModule {

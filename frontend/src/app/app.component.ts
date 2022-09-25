@@ -35,7 +35,7 @@ export class AppComponent {
   constructor(
     private router: Router,
     private alertService: AlertService,
-    private authenticationService: AuthenticationService,
+    public authenticationService: AuthenticationService,
     private socketService: VelonaSocketService
     ) {
     router.events.subscribe((event: RouterEvent) => {
@@ -205,6 +205,14 @@ export class AppComponent {
     if (event instanceof NavigationError) {
       this.loadingRoute = false;
     }
+  }
+
+  logout() {
+    this.authenticationService.logout(
+      () => {
+        this.router.navigate(['/login']);
+      }
+    );
   }
 
 }

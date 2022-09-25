@@ -11,10 +11,14 @@
 
   $green: #50be46;
 
+  html {
+    height: 100%;
+  }
 
   body {
     font-family: "Roboto","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
     margin: 0;
+    height: 100%;
   }
 
   /*https://google-webfonts-helper.herokuapp.com/fonts*/
@@ -46,18 +50,6 @@
     src: local('Roboto Medium'), local('Roboto-Medium'),
          url('/assets/fonts/roboto-v18-latin-500.woff') format('woff'), /* Chrome 26+, Opera 23+, Firefox 39+ */
          url('/assets/fonts/roboto-v18-latin-500.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-  }
-
-  
-  h1, h2 {
-    font-weight: 400;
-  }
-
-  pre {
-    // Pre elements won't wrap text by default and can exceed the boundaries of their parent element.
-    // This adds extra scroll space when visiting the docs mobile. Pre-wrapping the code examples
-    // will ensure that the code never exceeds the page width.
-    white-space: pre-wrap;
   }
 
   .pointer,

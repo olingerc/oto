@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 
 import { Subscription } from "rxjs";
-import { map } from "rxjs/operators";
 import * as _ from "lodash";
 import { ConfirmationService } from "../../core/confirmation/confirmation.service";
 
 import { VelonaSocketService } from "../../core/websocket/velona-socket.service";
 import { AlertService } from "../../core/alert/alert.service";
-import { BioinfHttpService } from "../../bioinf-core/services/bioinf-http.service";
+import { BioinfHttpService } from "../../core/bioinf-http.service";
 import { AdminHttpService } from "../admin-http.service";
 
 @Component({

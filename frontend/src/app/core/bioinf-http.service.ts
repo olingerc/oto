@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 
 import { Observable } from "rxjs";
 
-import { EnvService } from "../../core/env/env.service";
+import { EnvService } from "./env/env.service";
 
 @Injectable()
 export class BioinfHttpService {

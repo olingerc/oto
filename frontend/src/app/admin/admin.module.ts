@@ -4,8 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 
 import { SharedModule } from '../shared/shared.module';
-import { BioinfCoreModule } from '../bioinf-core/bioinf-core.module';
-
 import { AdminComponent } from './admin.component';
 import { UsersComponent } from './users/users.component';
 import { AdminHttpService } from './admin-http.service';
@@ -26,8 +24,7 @@ import { routing } from './admin.routing';
     ReactiveFormsModule,
     routing,
     SharedModule,
-    TableModule,
-    BioinfCoreModule,
+    TableModule
   ],
   declarations: [
     AdminComponent,

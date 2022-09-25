@@ -60,7 +60,7 @@ export class AuthenticationService {
       catchError(res => this.httpHandler.handleError(res)),);
   }
 
-  logout(callback): void {
+  logout(callback=null): void {
     // clear token remove user from local storage to log user out
     localStorage.removeItem('currentUser');
 
