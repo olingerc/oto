@@ -6,7 +6,7 @@ Host dev_docker_host
 	StrictHostKeyChecking no
 Host kitchenpi
 	Hostname host.docker.internal
-	User pi
+	User chris
 	IdentityFile /run/secrets/SSH_KEY_DOCKER_HOST
 	Port 22
 	StrictHostKeyChecking no
