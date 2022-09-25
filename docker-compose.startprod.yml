@@ -122,6 +122,13 @@ services:
        --requirepass "$$(cat $$REDIS_PASS_FILE)"
       '
     ]
+volumes:
+  mongodb:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/oto/mongo
+      o: bind
 
 secrets:
   SSH_KEY_DOCKER_HOST:
