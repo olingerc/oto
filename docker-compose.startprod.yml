@@ -5,8 +5,142 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
     ports:
       - "8080:80"
     environment:
       - "TZ=Europe/Luxembourg"
       - "NODE_ENV=production"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+    depends_on:
+      - mongodb
+    env_file:
+      - backend.env
+    secrets:
+      - MONGODB_USER
+      - MONGODB_PW
+      - WEBTOKEN_SECRET
+    environment:
+      - "TZ=Europe/Luxembourg"
+      - "NODE_ENV=production"
+    healthcheck:
+      test: "/usr/local/bin/nodejs /home/oto/app/healthcheck"
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+    restart: always
+
+  tasks:
+    build:
+      context: ./tasks
+      dockerfile: Dockerfile
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - velona_net
+    ports:
+      - "5600:5500"
+    secrets:
+      - MONGODB_USER
+      - MONGODB_PW
+      - REDIS_PW
+      - WEBTOKEN_SECRET
+      - FLASK_SECRET
+      - SSH_KEY_DOCKER_HOST
+    environment:
+      - "TZ=Europe/Luxembourg"
+      - "FLASK_ENV=production"
+      - "WORKER_IMAGE_TAG=oto_worker"
+    env_file:
+      - tasks.env
+    healthcheck:
+      test: curl --fail -s http://localhost:5500/tasksapi/version || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+    restart: always
+
+
+  mongodb:
+    image: mongo:5.0
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+    ports:
+      - "27017:27017"
+    secrets:
+      - MONGO_INITDB_ROOT_PASSWORD
+      # For first_run to be able to load creadentials
+      - MONGODB_USER
+      - MONGODB_PW
+    environment:
+      TZ: Europe/Luxembourg
+      # mongo docker understands _FILE and loads the content
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/MONGO_INITDB_ROOT_PASSWORD
+    command: mongod --bind_ip 0.0.0.0
+    volumes:
+      - mongodb:/data/db
+
+  redis:
+    image: redis:7
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+    ports:
+      - "6379:6379"
+    secrets:
+      - REDIS_PW
+    environment:
+      TZ: Europe/Luxembourg
+      REDIS_PASS_FILE: /run/secrets/REDIS_PW
+    command: [
+      "bash", "-c",
+      '
+       docker-entrypoint.sh
+       --requirepass "$$(cat $$REDIS_PASS_FILE)"
+      '
+    ]
+
+secrets:
+  SSH_KEY_DOCKER_HOST:
+    # Used by tasks service to launch worker dockers on docker host
+    # Used by workers themselves to start docker pipelines on docker host
+    file: ./secrets/certificates/id_rsa_dev
+
+  # passwords
+  MONGODB_USER:
+    file: ./secrets/passwords/MONGODB_USER
+  MONGODB_PW:
+    file: ./secrets/passwords/MONGODB_PW
+  MONGO_INITDB_ROOT_PASSWORD:
+    file: ./secrets/passwords/MONGO_INITDB_ROOT_PASSWORD
+  REDIS_PW:
+    file: ./secrets/passwords/REDIS_PW
+  WEBTOKEN_SECRET:
+    file: ./secrets/passwords/WEBTOKEN_SECRET
+  FLASK_SECRET:
+    file: ./secrets/passwords/FLASK_SECRET
