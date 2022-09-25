@@ -80,11 +80,6 @@ services:
 
   mongodb:
     image: mongo:4.4
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "10"
     ports:
       - "27017:27017"
     secrets:
@@ -100,14 +95,11 @@ services:
     command: mongod --bind_ip 0.0.0.0
     volumes:
       - mongodb:/data/db
+    logging:
+      driver: "none"
 
   redis:
     image: redis:7
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "10"
     ports:
       - "6379:6379"
     secrets:
@@ -122,6 +114,8 @@ services:
        --requirepass "$$(cat $$REDIS_PASS_FILE)"
       '
     ]
+    logging:
+      driver: "none"
 
   # In dev we start a worker immediately via docker-compose to make development easier
   worker:
