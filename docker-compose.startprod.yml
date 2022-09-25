@@ -155,7 +155,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/oto/mongo
+      device: /home/chris/oto/mongo
       o: bind
 
 secrets:
