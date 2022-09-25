@@ -32,6 +32,9 @@ export class AppComponent {
   public tasksProgressMessages: any[] = [];
   public delayedHide = false;
 
+  public visible: boolean;
+  public onHome: boolean;
+
   constructor(
     private router: Router,
     private alertService: AlertService,
@@ -190,6 +193,14 @@ export class AppComponent {
   // Shows and hides the loading spinner during
   // RouterEvent changes
   navigationInterceptor(event: RouterEvent): void {
+    this.visible = true;
+    this.onHome = false;
+    if (this.router.url === '/login') {
+      this.visible = false;
+    } else if (this.router.url === '/home') {
+      this.onHome = true;
+    }
+
     if (event instanceof NavigationStart) {
       this.loadingRoute = true;
     }

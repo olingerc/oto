@@ -46,7 +46,8 @@ import { ConfirmationService } from './confirmation/confirmation.service';
   exports: [],
   providers: [
     EnvServiceProvider,
-    MessageService
+    MessageService,
+    BioinfHttpService
   ]
 })
 export class CoreModule {

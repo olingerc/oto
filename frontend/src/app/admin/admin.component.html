@@ -1,70 +1,36 @@
-<mat-sidenav-container class="oto-sidenav-container">
-  <mat-sidenav
-    class="oto-sidenav"
-    [opened]="true"
-    [mode]="'side'"
-    disableClose
-    >
-    <!-- sidenav content -->
-    <nav>
-      <h3 [myVisibleForPrivileges]="['otoUser']">Infrastructure</h3>
-      <ul [myVisibleForPrivileges]="['otoUser']">
-        <li>
-          <a
-            routerLinkActive="oto-sidenav-item-selected"
-            routerLink="infrastructure">
-            Status
-          </a>
-        </li>
-      </ul>
-      <h3 [myVisibleForPrivileges]="['otoAdmin']">Jobs</h3>
-      <ul>
-        <li [myVisibleForPrivileges]="['otoAdmin']">
-          <a
-            routerLinkActive="oto-sidenav-item-selected"
-            routerLink="scheduledjobs">
-            Background Jobs
-          </a>
-        </li>
-        <li [myVisibleForPrivileges]="['otoAdmin']">
-          <a
-            routerLinkActive="oto-sidenav-item-selected"
-            routerLink="failedjobs">
-            Failed Jobs
-          </a>
-        </li>
-        <li [myVisibleForPrivileges]="['otoAdmin']">
-          <a
-            routerLinkActive="oto-sidenav-item-selected"
-            routerLink="workers">
-            Workers
-          </a>
-        </li>
-      </ul>
-      <h3 [myVisibleForPrivileges]="['otoAdmin']">Access</h3>
-      <ul [myVisibleForPrivileges]="['otoAdmin']">
-        <li>
-          <a
-            routerLinkActive="oto-sidenav-item-selected"
-            routerLink="users">
-            Users
-          </a>
-        </li>
-      </ul>
-      <h3 [myVisibleForPrivileges]="['devAdmin']">Dev only</h3>
-      <li [myVisibleForPrivileges]="['devAdmin']">
+
+<mat-toolbar color="primary">
+  <div fxFlex fxLayout>
+    <ul fxLayout fxLayoutGap="20px" class="navigation-items">
+      <li>
         <a
-          routerLinkActive="oto-sidenav-item-selected"
-          routerLink="dangerzone">
-          Danger Zone
+          routerLinkActive="active"
+          routerLink="scheduledjobs">
+          <span class="label">Jobs</span>
         </a>
       </li>
-    </nav>
-  </mat-sidenav>
-
-  <div class="oto-sidenav-content">
-    <router-outlet></router-outlet>
-    <!--<app-footer></app-footer>-->
+      <li>
+        <a
+          routerLinkActive="active"
+          routerLink="failedjobs">
+          <span class="label">Failed</span>
+        </a>
+      </li>
+      <li>
+        <a
+          routerLinkActive="active"
+          routerLink="workers">
+          <span class="label">Workers</span>
+        </a>
+      </li>
+      <li>
+        <a
+          routerLinkActive="active"
+          routerLink="users">
+          <span class="label">Users</span>
+        </a>
+      </li>
+    </ul>
   </div>
-
-</mat-sidenav-container>
+</mat-toolbar>
+<router-outlet></router-outlet>

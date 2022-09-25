@@ -10,8 +10,6 @@ import { AdminHttpService } from './admin-http.service';
 import { ScheduledjobsComponent } from './scheduledjobs/scheduledjobs.component';
 import { WorkersDashboardComponent } from "./workers/workers-dashboard.component";
 import { FailedjobsDashboardComponent } from "./failedjobs/failedjobs-dashboard.component";
-import { InfrastructureDashboardComponent } from "./infrastructure/infrastructure-dashboard.component";
-import { DangerZoneComponent } from "./danger-zone/danger-zone.component";
 
 import { UserDialogComponent } from './users/user-dialog.component';
 import { JobdetailsDialog } from './scheduledjobs/jobdetails-dialog.component';
@@ -33,9 +31,7 @@ import { routing } from './admin.routing';
     ScheduledjobsComponent,
     WorkersDashboardComponent,
     FailedjobsDashboardComponent,
-    JobdetailsDialog,
-    DangerZoneComponent,
-    InfrastructureDashboardComponent
+    JobdetailsDialog
   ],
   providers: [
     AdminHttpService

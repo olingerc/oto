@@ -5,8 +5,6 @@ import { UsersComponent } from './users/users.component';
 import { ScheduledjobsComponent } from './scheduledjobs/scheduledjobs.component';
 import { WorkersDashboardComponent } from "./workers/workers-dashboard.component";
 import { FailedjobsDashboardComponent } from "./failedjobs/failedjobs-dashboard.component";
-import { DangerZoneComponent } from "./danger-zone/danger-zone.component";
-import { InfrastructureDashboardComponent } from "./infrastructure/infrastructure-dashboard.component";
 
 
 const routes: Routes = [
@@ -15,7 +13,7 @@ const routes: Routes = [
     data: {breadCrumbs: [{ title: "Dashboard" }]},
     component: AdminComponent,
     children: [
-      { path: '', redirectTo: 'infrastructure', pathMatch: 'full' },
+      { path: '', redirectTo: 'scheduledjobs', pathMatch: 'full' },
       {
         path: 'users',
         component: UsersComponent,
@@ -34,16 +32,6 @@ const routes: Routes = [
       {
         path: 'workers',
         component: WorkersDashboardComponent,
-        data: {}
-      },
-      {
-        path: 'dangerzone',
-        component: DangerZoneComponent,
-        data: {}
-      },
-      {
-        path: 'infrastructure',
-        component: InfrastructureDashboardComponent,
         data: {}
       }
     ]

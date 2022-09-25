@@ -1,3 +1,6 @@
 creating workers manually does not wor
 
-https://devdactic.com/angular-material-app-capacitor
+
+
+buttons for edit user
+active navbar links

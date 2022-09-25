@@ -57,6 +57,10 @@
     cursor: pointer;
   }
 
+  a.active {
+    color: mat.get-color-from-palette($accent) !important;
+  }
+
   /* matTooltips are cut off by default!! */
   .mat-tooltip-panel {
     word-break: break-all !important;

@@ -6,6 +6,11 @@ mat-sidenav {
   width: 250px;
 }
 
+.toolbar-icon {
+  padding: 8px 0 0 4px;
+  height: 48px
+}
+
 a {
   text-decoration: none;
   color: white;
@@ -38,4 +43,8 @@ a:active {
   line-height: 30px;
   margin: 0;
   width: 85%;
+}
+
+.list-item {
+  padding-left: 16px
 }
