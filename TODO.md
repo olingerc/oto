@@ -1,1 +1,3 @@
 buttons for edit user / change ...
+user: add nutton not displayed as avtive. css theme problem?
+avoid uppercase automtic on username
