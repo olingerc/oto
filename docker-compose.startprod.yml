@@ -149,9 +149,6 @@ services:
       - WORKER_NAME_SUFFIX=dev_docker_host  # docker host that worker will look for to be able to start new containers
       - FLASK_ENV=development
       - PYTHONUNBUFFERED=1
-    volumes: 
-      # for development
-      - tasks_source:/home/oto/app/velona_tasks
 
 volumes:
   mongodb:
