@@ -37,9 +37,10 @@ export class CamsComponent implements OnInit {
       var url = URL.createObjectURL(blob);
       var img = new Image;
       var ctx = this.streamingCanvas.nativeElement.getContext("2d");
-      img.onload = function() {
+      img.onload = () => {
         URL.revokeObjectURL(url);
-        ctx.drawImage(img,0,0);
+        // incoming is 640
+        ctx.drawImage(img,0,0,320, 180);
       };
       img.src = url;
     });
@@ -63,4 +64,5 @@ export class CamsComponent implements OnInit {
       this.socketStatus = "Error."
     });
   }
+
 }

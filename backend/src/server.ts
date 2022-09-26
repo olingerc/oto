@@ -158,7 +158,7 @@ const camPw = fs.readFileSync("/run/secrets/CAM_PW").toString().trim();
 
 const myCam = `rtsp://${camUser}:${camPw}@192.168.178.88:554/h264Preview_01_main`;
 /* Setup stream */
-var stream = new rtsp.FFMpeg({input: myCam, resolution: '320x240', quality: 3});
+var stream = new rtsp.FFMpeg({input: myCam, resolution: '640x360', quality: 3});
 stream.on('start', function() {
 	console.log('stream started');
 });
