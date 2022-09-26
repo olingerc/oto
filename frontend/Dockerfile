@@ -1,11 +1,5 @@
 FROM node:16.15-slim
 
-# RUN apt-get update \
-#     && apt-get install -y --no-install-recommends \
-#     build-essential \
-#     git \
-#     && rm -rf /var/lib/apt/lists/*
-
 # Prepare running as non-root user
 RUN useradd -ms /bin/bash oto
 WORKDIR /home/oto

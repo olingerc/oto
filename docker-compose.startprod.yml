@@ -70,7 +70,7 @@ services:
     environment:
       - "TZ=Europe/Luxembourg"
       - "FLASK_ENV=production"
-      - "WORKER_IMAGE_TAG=oto_worker"
+      - "WORKER_IMAGE_TAG=oto_worker:alpha"
     env_file:
       - ./tasks/.env.production
     healthcheck:

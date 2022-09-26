@@ -1,5 +1,4 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
-import JSMpeg from '@cycjimmy/jsmpeg-player';
 
 import { io, Socket } from "socket.io-client";
 
