@@ -40,7 +40,7 @@ export class CamsComponent implements OnInit {
       var ctx = this.streamingCanvas.nativeElement.getContext("2d");
       img.onload = function() {
         URL.revokeObjectURL(url);
-        ctx.drawImage(img,100,100);
+        ctx.drawImage(img,0,0);
       };
       img.src = url;
     });
