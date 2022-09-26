@@ -80,7 +80,6 @@ services:
       retries: 3
     restart: always
 
-
   mongodb:
     image: mongo:4.4
     ports:
@@ -147,13 +146,6 @@ services:
       - WORKER_NAME_SUFFIX=dev_docker_host  # docker host that worker will look for to be able to start new containers
       - FLASK_ENV=development
       - PYTHONUNBUFFERED=1
-
-  cams:
-    build:
-      context: ./cams
-    secrets:
-      - CAM_USER
-      - CAM_PW
 
 volumes:
   mongodb:
