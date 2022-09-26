@@ -34,6 +34,8 @@ services:
       - MONGODB_USER
       - MONGODB_PW
       - WEBTOKEN_SECRET
+      - CAM_USER
+      - CAM_PW
     environment:
       - "TZ=Europe/Luxembourg"
       - "NODE_ENV=production"
@@ -120,7 +122,8 @@ services:
 
   # In dev we start a worker immediately via docker-compose to make development easier
   worker:
-    scale: 0
+    deploy:
+      replicas: 0
     build:
       context: ./tasks
       dockerfile: ./worker/Dockerfile
@@ -144,6 +147,13 @@ services:
       - WORKER_NAME_SUFFIX=dev_docker_host  # docker host that worker will look for to be able to start new containers
       - FLASK_ENV=development
       - PYTHONUNBUFFERED=1
+
+  cams:
+    build:
+      context: ./cams
+    secrets:
+      - CAM_USER
+      - CAM_PW
 
 volumes:
   mongodb:
@@ -172,3 +182,7 @@ secrets:
     file: ./secrets/passwords/WEBTOKEN_SECRET
   FLASK_SECRET:
     file: ./secrets/passwords/FLASK_SECRET
+  CAM_USER:
+    file: ./secrets/passwords/CAM_USER
+  CAM_PW:
+    file: ./secrets/passwords/CAM_PW

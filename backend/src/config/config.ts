@@ -33,8 +33,8 @@ export const configFunc: any = function() {
         superSecret: "",
 
         debug: process.env.DEBUG
-
       };
+
       const MONGODB_USER = fs.readFileSync("/run/secrets/MONGODB_USER").toString().trim();
       const MONGODB_PW = fs.readFileSync("/run/secrets/MONGODB_PW").toString().trim();
 

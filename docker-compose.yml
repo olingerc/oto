@@ -26,6 +26,8 @@ services:
       - MONGODB_USER
       - MONGODB_PW
       - WEBTOKEN_SECRET
+      - CAM_USER
+      - CAM_PW
     environment:
       NODE_ENV: development
       TZ: Europe/Luxembourg
@@ -98,6 +100,15 @@ services:
       # for development
       - tasks_source:/home/oto/app/velona_tasks
 
+  cams:
+    build:
+      context: ./cams
+    ports:
+      - "6147:6147"
+    secrets:
+      - CAM_USER
+      - CAM_PW
+
   mongodb:
     image: mongo:5.0
     ports:
@@ -119,8 +130,6 @@ services:
 
   redis:
     image: redis:7
-    ports:
-      - "6379:6379"
     secrets:
       - REDIS_PW
     environment:
@@ -164,3 +173,7 @@ secrets:
     file: ./secrets/passwords/WEBTOKEN_SECRET
   FLASK_SECRET:
     file: ./secrets/passwords/FLASK_SECRET
+  CAM_USER:
+    file: ./secrets/passwords/CAM_USER
+  CAM_PW:
+    file: ./secrets/passwords/CAM_PW
