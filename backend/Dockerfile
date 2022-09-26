@@ -8,6 +8,7 @@ ENV PATH /home/oto/app/node_modules/.bin:$PATH
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     build-essential \
+    ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g typescript@4.1.3 ts-node-dev 

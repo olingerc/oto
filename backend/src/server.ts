@@ -1,6 +1,10 @@
 /*jslint node: true */
 import express from 'express';
 import mongoose from 'mongoose';
+import fs from 'fs';
+
+import socketio from "socket.io";
+import rtsp from 'rtsp-ffmpeg';
 
 import http from 'http';
 import _ from 'lodash';
@@ -134,7 +138,49 @@ app.use(handle404);
  * Configure Server
  */
 app.set('port', process.env.PORT || config.port);
-let server = http.createServer(app);
+const server = http.createServer(app);
+
+/** SOCKET */
+const io = new socketio.Server(server,{
+  path: "/camssocket",
+  cors: {
+    origin: "*",
+    credentials: false,
+  }
+});
+io.on("connection", function (socket) {
+  console.log("Made socket connection");
+});
+
+/** CAMS */
+const camUser = fs.readFileSync("/run/secrets/CAM_USER").toString().trim();
+const camPw = fs.readFileSync("/run/secrets/CAM_PW").toString().trim();
+
+const myCam = `rtsp://${camUser}:${camPw}@192.168.178.88:554/h264Preview_01_main`;
+/* Setup stream */
+var stream = new rtsp.FFMpeg({input: myCam, resolution: '320x240', quality: 3});
+stream.on('start', function() {
+	console.log('stream started');
+});
+stream.on('stop', function() {
+	console.log('stream stopped');
+});
+
+/* Connect stream to socket */
+var namespace = io.of('/cam0');
+namespace.on('connection', function(wsocket) {
+	console.log('connected to /cam0');
+	var pipeStream = function(data) {
+		wsocket.emit('data', data);
+	};
+  stream.removeListener('data', pipeStream);
+	stream.on('data', pipeStream);
+
+	wsocket.on('disconnect', function() {
+		console.log('disconnected from /cam0');
+		stream.removeListener('data', pipeStream);
+	});
+});
 
 /**
  * Start server

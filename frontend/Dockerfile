@@ -22,7 +22,6 @@ COPY docker-entrypoint.sh \
     karma.conf.js \
     package.json \
     package-lock.json \
-    proxy.conf.json \
     tsconfig.json \
     tsconfig.app.json \
     tsconfig.spec.json \
@@ -37,6 +36,7 @@ RUN npm install
 COPY src src
 # Copy angular.json to avoid rebuilds when simply testing stuff on angular.json
 COPY angular.json \
+    proxy.conf.json \
     ./
 
 ENTRYPOINT ["./docker-entrypoint.sh"]

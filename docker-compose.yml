@@ -100,15 +100,6 @@ services:
       # for development
       - tasks_source:/home/oto/app/velona_tasks
 
-  cams:
-    build:
-      context: ./cams
-    ports:
-      - "6147:6147"
-    secrets:
-      - CAM_USER
-      - CAM_PW
-
   mongodb:
     image: mongo:5.0
     ports:
@@ -130,6 +121,8 @@ services:
 
   redis:
     image: redis:7
+    ports:
+      - "6379:6379"
     secrets:
       - REDIS_PW
     environment:

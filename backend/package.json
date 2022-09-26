@@ -22,7 +22,9 @@
     "moment": "^2.29.1",
     "mongoose": "6.4.7",
     "morgan": "^1.10.0",
-    "mv": "2.1.1"
+    "mv": "2.1.1",
+    "rtsp-ffmpeg": "^0.0.16",
+    "socket.io": "^4.5.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.12",

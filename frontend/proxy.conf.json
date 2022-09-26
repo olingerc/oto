@@ -17,5 +17,12 @@
     "logLevel": "debug",
     "changeOrigin": true,
     "ws": true
+  },
+  "/camssocket": {
+    "target": "http://backend:5000",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "ws": true
   }
 }
