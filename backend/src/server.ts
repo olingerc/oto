@@ -157,6 +157,7 @@ const camUser = fs.readFileSync("/run/secrets/CAM_USER").toString().trim();
 const camPw = fs.readFileSync("/run/secrets/CAM_PW").toString().trim();
 
 const myCam = `rtsp://${camUser}:${camPw}@192.168.178.88:554/h264Preview_01_main`;
+const myCam2 = `rtsp://${camUser}:${camPw}@192.168.178.90:554/h264Preview_01_main`;
 /* Setup stream */
 var stream = new rtsp.FFMpeg({input: myCam, resolution: '640x360', quality: 3});
 stream.on('start', function() {
@@ -164,6 +165,13 @@ stream.on('start', function() {
 });
 stream.on('stop', function() {
 	console.log('stream stopped');
+});
+var stream2 = new rtsp.FFMpeg({input: myCam2, resolution: '640x360', quality: 3});
+stream2.on('start', function() {
+	console.log('stream 2 started');
+});
+stream2.on('stop', function() {
+	console.log('stream 2 stopped');
 });
 
 /* Connect stream to socket */
@@ -179,6 +187,21 @@ namespace.on('connection', function(wsocket) {
 	wsocket.on('disconnect', function() {
 		console.log('disconnected from /cam0');
 		stream.removeListener('data', pipeStream);
+	});
+});
+/* Connect stream to socket */
+var namespace2 = io.of('/cam1');
+namespace2.on('connection', function(wsocket) {
+	console.log('connected to /cam1');
+	var pipeStream = function(data) {
+		wsocket.emit('data', data);
+	};
+  stream2.removeListener('data', pipeStream);
+	stream2.on('data', pipeStream);
+
+	wsocket.on('disconnect', function() {
+		console.log('disconnected from /cam1');
+		stream2.removeListener('data', pipeStream);
 	});
 });
 
