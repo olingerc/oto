@@ -1,4 +1,3 @@
-version: '3'
 services:
 
   frontend:
@@ -94,11 +93,14 @@ services:
       # mongo docker understands _FILE and loads the content
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/MONGO_INITDB_ROOT_PASSWORD
-    command: mongod --bind_ip 0.0.0.0
+    command: mongod  --quiet --logpath /dev/null --bind_ip 0.0.0.0
     volumes:
       - mongodb:/data/db
     logging:
-      driver: "none"
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
 
   redis:
     image: redis:7
@@ -117,7 +119,10 @@ services:
       '
     ]
     logging:
-      driver: "none"
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
 
   # In dev we start a worker immediately via docker-compose to make development easier
   worker:
@@ -146,6 +151,11 @@ services:
       - WORKER_NAME_SUFFIX=dev_docker_host  # docker host that worker will look for to be able to start new containers
       - FLASK_ENV=development
       - PYTHONUNBUFFERED=1
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
 
 volumes:
   mongodb:

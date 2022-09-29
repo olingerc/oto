@@ -1,6 +1,4 @@
 # For development only
-version: '3'
-
 services:
   frontend:
     build:
@@ -72,7 +70,8 @@ services:
 
   # In dev we start a worker immediately via docker-compose to make development easier
   worker:
-    scale: 2
+    deploy:
+      replicas: 2
     build:
       context: ./tasks
       dockerfile: ./worker/Dockerfile
@@ -113,11 +112,9 @@ services:
       # mongo docker understands _FILE and loads the content
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/MONGO_INITDB_ROOT_PASSWORD
-    command: mongod --bind_ip 0.0.0.0
+    command: mongod  --quiet --logpath /dev/null --bind_ip 0.0.0.0
     volumes:
       - mongodb:/data/db
-    logging:
-      driver: "none"
 
   redis:
     image: redis:7
@@ -135,8 +132,6 @@ services:
        --requirepass "$$(cat $$REDIS_PASS_FILE)"
       '
     ]
-    logging:
-      driver: "none"
 
 volumes:
   mongodb: {}
