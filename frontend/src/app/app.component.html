@@ -54,6 +54,7 @@
 <mat-sidenav-container>
 
   <mat-sidenav  #sidenav role="navigation">
+    <div class="list-container" fxLayout="column">
     <mat-nav-list>
       <a mat-list-item (click)="sidenav.close()" routerLinkActive="active"
         routerLink="/cams">
@@ -66,39 +67,45 @@
         <mat-icon class="icon">speed</mat-icon>
         <span class="label">Dashboard</span>
       </a>
-      <ng-container *ngIf="authenticationService.currentUser">
-        <hr>
-        <div fxLayout="row" fxLayoutAlign="start center"  class="list-item">
-          <mat-icon>person</mat-icon>
-          <mat-icon color="warn" *ngIf="!authenticationService.currentUser?.defaultPasswordChanged">info</mat-icon>
-          <span>&nbsp;{{authenticationService.currentUser.fullname || authenticationService.currentUser.username}}
-            <!--<small>({{authenticationService.currentUser.activeRole}})</small>-->
-          </span>
-        </div>
-      </ng-container>
-      <hr>
-      <a mat-list-item (click)="sidenav.close()"
-          *ngIf="authenticationService.currentUser"
-          (click)="logout()" type="button">
-        <mat-icon class="icon">input</mat-icon>
-        <span class="label">LogOut</span>
-      </a>
     </mat-nav-list>
+    <div fxFlex></div>
+    <mat-nav-list>
+      <ng-container *ngIf="authenticationService.currentUser">
+        <mat-divider></mat-divider>
+        <h3 matSubheader>
+          <div fxLayout="row" fxLayoutAlign="start center"  class="list-item">
+            <mat-icon>person</mat-icon>
+            <mat-icon color="warn" *ngIf="!authenticationService.currentUser?.defaultPasswordChanged">info</mat-icon>
+            <span>&nbsp;{{authenticationService.currentUser.fullname || authenticationService.currentUser.username}}
+              <!--<small>({{authenticationService.currentUser.activeRole}})</small>-->
+            </span>
+          </div>
+        </h3>
+        <a mat-list-item (click)="sidenav.close()"
+            *ngIf="authenticationService.currentUser"
+            (click)="logout()" type="button">
+          <mat-icon class="icon">input</mat-icon>
+          <span class="label">LogOut</span>
+        </a>
+      </ng-container>
+    </mat-nav-list>
+  </div>
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <mat-toolbar color="primary" *ngIf="authenticationService.currentUser">
+    <mat-toolbar *ngIf="authenticationService.currentUser">
       <div fxHide.gt-xs>
         <button mat-icon-button (click)="sidenav.toggle()">
           <mat-icon>menu</mat-icon>
         </button>
       </div>
+      <div fxFlex></div>
       <div *ngIf="!onHome">
         <a routerLink="/">
           <img class="toolbar-icon" src="/assets/apple-touch-icon-76x76.png"/>
         </a>
       </div>
-      <div fxFlex fxLayout fxLayoutAlign="flex-end"  fxHide.xs>
+      <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
         <ul fxLayout fxLayoutGap="20px" class="navigation-items">
           <li>
             <small fxLayout="row" fxLayoutAlign="start center"  class="list-item">

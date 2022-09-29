@@ -7,8 +7,8 @@
 
 
 // Define the light theme.
-$primary:  mat.define-palette(mat.$grey-palette, 900);
-$accent: mat.define-palette(mat.$orange-palette, 700, 100, 900);
+$primary:  mat.define-palette(mat.$grey-palette, 100);
+$accent: mat.define-palette(mat.$amber-palette, 600);
 $warn: mat.define-palette(mat.$red-palette, 600);
 
 $theme: mat.define-dark-theme($primary, $accent);

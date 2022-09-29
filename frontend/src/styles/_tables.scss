@@ -27,7 +27,7 @@
     margin: 0 0 32px 0;
 
     th {
-      color: rgba(0, 0, 0, 0.54); /* material design */
+      color:  mat.get-color-from-palette($primary, default-contrast);
       border-bottom : 1px solid $border-color;
       font-size: 12px; /* material design */
       font-weight: 400;
@@ -50,7 +50,7 @@
         font-size: 12px;  /* material design */
         height: 48px - 4px - 4px; //remove padding
         padding: 4px 16px;
-        color: rgba(0, 0, 0, 0.87); /* material design */
+        color:  mat.get-color-from-palette($primary, default-contrast);
         vertical-align: middle;
       }
     }
@@ -121,10 +121,9 @@
   p-table .p-datatable-striped.oto-primeng-table {
 
     font-size: 12px;
-    color: rgba(0, 0, 0, 0.87);
+    color:  mat.get-color-from-palette($primary, default-contrast);
     border-left: 0;
     border-right: 0;
-    background: none;
 
     /* Filter TODO not primeng 10 yet */
     .ui-column-filter {
@@ -158,13 +157,12 @@
 
     /* Header */
     .p-datatable-header {
-      background: #f4f4f4;
       border : 1px solid $border-color;
       border-bottom: 0
     }
 
     .p-datatable-scrollable-header {
-      background: #f4f4f4;
+      
     }
 
     .p-datatable-thead {
@@ -173,9 +171,8 @@
         border-right: 0;
         border-bottom : 1px solid $border-color;
         border-top : 1px solid $border-color;
-        background-color: #f4f4f4;
-        background: #f4f4f4;
-        color: rgba(0, 0, 0, 0.54); /* material design */
+
+        color:  mat.get-color-from-palette($primary, default-contrast);
         font-size: 12px; /* material design */
         font-weight: 400;
         padding: 8px 8px;
@@ -187,10 +184,10 @@
         /* a thead active for sorting */
         background: mat.get-color-from-palette($primary);
         border-color: $border-color;
-        color: white;
+        color:  mat.get-color-from-palette($primary, 900);
 
         .p-sortable-column-icon {
-          color: white;
+          color: mat.get-color-from-palette($primary, 900);
           line-height: inherit; /* hack when i switched to md-light */
         }
 
@@ -205,11 +202,11 @@
     .p-datatable-tbody {
       /* Row */
       > tr {
-        background: none;
+        
       }
 
       > tr:not(.no-hover):hover {
-        background: rgba(0,0,0,.04);
+        
       }
 
       /* Selected row */
@@ -217,8 +214,8 @@
       tr.p-highlight:nth-child(odd),
       tr.p-highlight:nth-child(even),
       tr.p-highlight:hover {
-        background: #cce6ff;
-        color: #145a84;
+        background: mat.get-color-from-palette($accent);
+        color:mat.get-color-from-palette($primary);
 
         .mat-primary {
           color: mat.get-color-from-palette($primary, default-contrast);

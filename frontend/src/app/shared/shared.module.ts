@@ -49,8 +49,6 @@ import { MyTruncatePipe } from "./pipes/truncate.pipe";
 import { ReversePipe } from "./pipes/reverse.pipe";
 import { MyExplorerItemsFilterPipe } from "./pipes/explorer-items-filter.pipe";
 
-import { FooterComponent } from "./components/footer/footer.component";
-
 @NgModule({
   imports: [
     CommonModule,
@@ -93,9 +91,7 @@ import { FooterComponent } from "./components/footer/footer.component";
     MyArrayFilterByKeyPipe,
     MyTruncatePipe,
     MyExplorerItemsFilterPipe,
-    ReversePipe,
-
-    FooterComponent
+    ReversePipe
   ],
 
   // All exports here will be available to other modules if they import SharedModule
@@ -144,9 +140,7 @@ import { FooterComponent } from "./components/footer/footer.component";
     MyArrayFilterByKeyPipe,
     MyTruncatePipe,
     MyExplorerItemsFilterPipe,
-    ReversePipe,
-
-    FooterComponent
+    ReversePipe
   ]
 })
 export class SharedModule { }

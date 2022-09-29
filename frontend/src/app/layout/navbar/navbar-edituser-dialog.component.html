@@ -59,7 +59,7 @@
 
 <mat-dialog-actions>
   <button
-    mat-button
+  mat-raised-button
     color="primary"
     type="button"
     (click)="confirmDialog()"
@@ -70,7 +70,7 @@
   <button
     color="primary"
     matDialogClose
-    mat-button
+    mat-raised-button
     type="button"
     >CLOSE
   </button>
@@ -78,7 +78,7 @@
   <button
     *ngIf="!removingUser"
     color="warn"
-    mat-button
+    mat-raised-button
     type="button"
     (click)="startRemovingUser()">
     REMOVE USER

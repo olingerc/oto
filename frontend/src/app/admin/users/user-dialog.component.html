@@ -1,9 +1,9 @@
 <h1 mat-dialog-title *ngIf="data.action === 'add'">Add User</h1>
 <h1 mat-dialog-title *ngIf="data.action === 'update'">
-  <div fxLayout="row">
-    Edit User
+  <div fxLayout="row" fxLayoutGap="8px">
+    <span>Edit</span>
     <div fxFlex></div>
-    <button color="primary" *ngIf="data.action === 'update'" mat-button (click)="removePassword(user)">RESET PW</button>
+    <button color="primary" *ngIf="data.action === 'update'" mat-raised-button (click)="removePassword(user)">RESET PW</button>
     <button *ngIf="data.action === 'update'" mat-raised-button color="warn" (click)="deleteUser(user.id)">DELETE</button>
   </div>
 </h1>
@@ -84,7 +84,7 @@
 
       <button
         color="primary"
-        mat-button
+        mat-raised-button
         type="button"
         (click)="confirmDialog()"
         [disabled]="!userForm.valid">
@@ -94,7 +94,7 @@
       <button
         color="primary"
         matDialogClose
-        mat-button
+        mat-raised-button
         type="button"
         >CLOSE
       </button>

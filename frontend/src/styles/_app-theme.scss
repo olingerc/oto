@@ -24,10 +24,6 @@
     background: mat.get-color-from-palette($background, background);
   }
 
-  .oto-footer {
-    background: mat.get-color-from-palette($primary);
-    color: mat.get-color-from-palette($primary, default-contrast);
-  }
 
   mat-chip.mat-warn {
     background-color: mat.get-color-from-palette($warn) !important;
