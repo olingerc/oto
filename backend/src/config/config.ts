@@ -32,7 +32,8 @@ export const configFunc: any = function() {
          */
         superSecret: "",
 
-        debug: process.env.DEBUG
+        debug: process.env.DEBUG,
+        prusaApiKey: ""
       };
 
       const MONGODB_USER = fs.readFileSync("/run/secrets/MONGODB_USER").toString().trim();
@@ -44,6 +45,7 @@ export const configFunc: any = function() {
       }
 
       env_config.superSecret = fs.readFileSync("/run/secrets/WEBTOKEN_SECRET").toString().trim();
+      env_config.prusaApiKey = fs.readFileSync("/run/secrets/PRUSAAPIKEY").toString().trim();
 
       // Compile based on env
       let compiled: any = {

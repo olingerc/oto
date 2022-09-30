@@ -17,6 +17,7 @@ import * as User_Ctrl from './core/controllers/user';
 
 // Routes
 import { routes as coreCroutes } from './core/coreRoutes';
+import { routes as printerRoutes } from './api/routes';
 
 /**
  * Define environment. Should be pre-set via grunt already or in commandline!
@@ -78,7 +79,7 @@ routes = routes.concat(coreCroutes);
 
 // Add module API ROUTES (plugin entry point, just add routes to this array)
 
-// routes = routes.concat(bioinfRoutes);
+routes = routes.concat(printerRoutes);
 
 // Clean up routes
 routes = _.uniq(routes);

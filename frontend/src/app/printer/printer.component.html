@@ -1,5 +1,20 @@
 <div class="oto-content">
   <p>Printer: {{socketStatus}}</p>
   <canvas #streaming></canvas>
-  <pre>{{printerStatus | json}}</pre>
+
+  <button
+    mat-icon-button
+    matTooltip="Refresh"
+    (click)="getPrinterStatus()">
+    <mat-icon>refresh</mat-icon>
+  </button>
+
+  <mat-card>
+    <h5>JOB</h5>
+    <pre>{{printerStatus.job | json}}</pre>
+  </mat-card>
+  <mat-card style="margin-top: 8px">
+    <h5>PRINTER</h5>
+    <pre>{{printerStatus.status | json}}</pre>
+  </mat-card>
 </div>

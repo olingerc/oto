@@ -1,6 +1,10 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { Observable } from "rxjs";
 
 import { io, Socket } from "socket.io-client";
+
+import { EnvService } from "../core/env/env.service";
 
 @Component({
   selector: 'printer-component-sidenav',
@@ -14,6 +18,13 @@ export class PrinterComponent implements OnInit {
   private socket: Socket = null;
   public socketStatus = "Init";
   public printerStatus: any = {"waiting": true};
+
+  constructor(
+    private http: HttpClient,
+    private env: EnvService
+  ) {
+
+  }
 
   ngOnInit() {
     const namespace = "cam0";
@@ -65,6 +76,34 @@ export class PrinterComponent implements OnInit {
       this.socketStatus = "Error."
     });
 
+    /* Printer */
+    this.getPrinterStatus();
+
+  }
+
+  getPrinterStatus() {
+    const options = this.jwt();
+    this.http.get(`/api/printer/status`, options)
+      .subscribe(data =>{
+        this.printerStatus = data;
+      });
+  }
+
+
+  private jwt() {
+    // create authorization header with jwt token
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    let headers;
+    if (currentUser && currentUser.token) {
+      headers = new HttpHeaders().set('Authorization', currentUser.token);
+    } else {
+      headers = new HttpHeaders().set('Authorization', '');
+    }
+    let requestOptions = {
+      headers: headers,
+      params: new HttpParams()
+    };
+    return requestOptions;
   }
 
 }

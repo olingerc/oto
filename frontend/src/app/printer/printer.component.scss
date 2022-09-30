@@ -1,10 +1,15 @@
 .oto-content {
   margin-top: 96px;
   text-align: center;
+  padding: 8px
 }
 
-#canvas {
+canvas {
   width: 640px;
   height: 360px;
   border: 1px solid black;
+}
+
+mat-card {
+  text-align: left;
 }
