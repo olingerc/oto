@@ -1,5 +1,5 @@
-import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
-import {
+import { Component } from '@angular/core';
+import { 
     Router,
     // import as RouterEvent to avoid confusion with the DOM Event
     Event as RouterEvent,
@@ -9,24 +9,32 @@ import {
     NavigationError
 } from '@angular/router'
 
+import { MatDialog } from '@angular/material/dialog';
+
 import { Subscription } from "rxjs";
 import _ from "lodash";
 
+import { User } from './core/user.model';
+import { UserService } from './core/user/user.service';
 import { VelonaSocketService } from "./core/websocket/velona-socket.service";
 import { AlertService } from "./core/alert/alert.service";
-import { User } from './core/user.model';
 import { AuthenticationService } from './core/authentication/authentication.service';
+
+import { NavbarEditUserDialog } from './layout/navbar/navbar-edituser-dialog.component';
+import { NavbarSetPasswordDialog } from './layout/navbar/navbar-setpassword-dialog.component';
+import { NavbarChangePasswordDialog } from './layout/navbar/navbar-changepassword-dialog.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'oto';
 
   private newTasksProgressMessageSubscription: Subscription;
+
+  public currentUser: User;
 
   public loadingRoute: boolean = true;
   public tasksProgressMessages: any[] = [];
@@ -38,8 +46,10 @@ export class AppComponent {
   constructor(
     private router: Router,
     private alertService: AlertService,
+    private userService: UserService,
+    private dialog: MatDialog,
+    private socketService: VelonaSocketService,
     public authenticationService: AuthenticationService,
-    private socketService: VelonaSocketService
     ) {
     router.events.subscribe((event: RouterEvent) => {
       this.navigationInterceptor(event);
@@ -48,20 +58,21 @@ export class AppComponent {
 
   ngOnInit() {
     // Get current user from local storage
-    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (currentUser) {
-      this.socketService.connect("/taskssocket", currentUser);
-      this.socketService.setupSystemSocketSubscriptions();
-    };
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
     // subscribe to authentication status updates to set and remove the current user on login and logout
-    this.authenticationService.getCurrentUserChange()
-      .subscribe(currentUser => {
-        if (currentUser) {
-          this.socketService.connect("/taskssocket", currentUser);
-          this.socketService.setupSystemSocketSubscriptions();
-        };
-      });
+    this.authenticationService.getCurrentUserChange().subscribe(currentUser => {
+      this.currentUser = currentUser;
+      if (currentUser) {
+        this.socketService.connect("/taskssocket", currentUser);
+        this.socketService.setupSystemSocketSubscriptions();
+      };
+    });
+
+    if (this.currentUser) {
+      this.socketService.connect("/taskssocket", this.currentUser);
+      this.socketService.setupSystemSocketSubscriptions();
+    };
 
     /*
     * Tasks progress messages
@@ -216,6 +227,71 @@ export class AppComponent {
     if (event instanceof NavigationError) {
       this.loadingRoute = false;
     }
+  }
+
+  /* Authentication */
+
+  openEditUserDialog() {
+    let newUser = new User();
+    _.extend(newUser, this.currentUser);
+
+    let dialogRef = this.dialog.open(NavbarEditUserDialog, {
+      width: '500px',
+      data: { user: newUser }
+    });
+
+    dialogRef.beforeClosed().subscribe(updatedUser => {
+      if (!updatedUser) {
+        return;
+      }
+      _.extend(this.currentUser, updatedUser);
+      this.authenticationService.setCurrentUser(this.currentUser);
+    });
+  }
+
+  openSetPasswordDialog() {
+    let dialogRef = this.dialog.open(NavbarSetPasswordDialog, {
+      width: '300px',
+      data: {userId: this.currentUser.id}
+    });
+
+    dialogRef.beforeClosed().subscribe(success => {
+      if (!success) {
+        return;
+      }
+      this.currentUser.defaultPasswordChanged = true;
+      this.authenticationService.setCurrentUser(this.currentUser);
+      this.alertService.info('Password has been set.');
+    });
+  }
+
+  openChangePasswordDialog() {
+    let dialogRef = this.dialog.open(NavbarChangePasswordDialog, {
+      width: '300px',
+      data: {userId: this.currentUser.id}
+    });
+
+    dialogRef.beforeClosed().subscribe(success => {
+      if (!success) {
+        return;
+      }
+      this.alertService.info('Password has been changed.');
+    });
+  }
+
+  changeActiveRole(role: any = null) {
+    this.userService.changeActiveRole(this.currentUser, role)
+      .subscribe(
+        (user) => {
+          this.currentUser.activeRole = user.activeRole;
+          this.currentUser.activePrivileges = user.activePrivileges;
+          this.authenticationService.setCurrentUser(this.currentUser);
+        },
+        error => {
+          this.alertService.error(error);
+          console.log(error);
+        }
+      );
   }
 
   logout() {

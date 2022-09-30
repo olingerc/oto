@@ -24,5 +24,11 @@
     "logLevel": "debug",
     "changeOrigin": true,
     "ws": true
+  },
+  "/prusalive": {
+    "target": "http://192.168.178.52",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": false
   }
 }

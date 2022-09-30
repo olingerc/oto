@@ -10,7 +10,6 @@ import { FailedjobsDashboardComponent } from "./failedjobs/failedjobs-dashboard.
 const routes: Routes = [
   {
     path: '',
-    data: {breadCrumbs: [{ title: "Dashboard" }]},
     component: AdminComponent,
     children: [
       { path: '', redirectTo: 'scheduledjobs', pathMatch: 'full' },

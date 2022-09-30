@@ -22,6 +22,13 @@ const routes: Routes = [
       data: { accessLevel: 'anon', accessPrivileges: ["otoUser"] }
     },
     {
+      path: 'printer',
+      loadChildren: () => import('./printer/printer.module').then(m => m.PrinterModule),
+      canLoad: [ AuthLoadGuard ],
+      canActivate: [ AuthActivateGuard ],
+      data: { accessLevel: 'anon', accessPrivileges: ["printerUser"] }
+    },
+    {
       path: 'admin',
       loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
       canLoad: [ AuthLoadGuard ],
