@@ -15,7 +15,7 @@
 </div>
 
 <!-- phone sidebar -->
-<mat-sidenav-container>
+<mat-sidenav-container class="mat-typography">
 
   <mat-sidenav  #sidenav role="navigation">
     <div class="list-container" fxLayout="column">
@@ -188,7 +188,7 @@
   </mat-sidenav-content>
 </mat-sidenav-container>
 
-<mat-menu [overlapTrigger]="false" #userMenu="matMenu" class="mat-elevation-z9">
+<mat-menu [overlapTrigger]="false" #userMenu="matMenu" class="mat-elevation-z9 mat-typography">
   <label class="mat-caption muted-color">User</label>
   <button mat-menu-item (click)="openEditUserDialog()">Edit details</button>
   <button mat-menu-item

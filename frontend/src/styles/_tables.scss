@@ -9,7 +9,7 @@
   $background: map.get($theme, background);
   $foreground: map.get($theme, foreground);
 
-  $border-color: rgba(0,0,0,.06);
+  $border-color: mat.get-color-from-palette($primary, 700);
 
   //
   // https://material.io/guidelines/components/data-tables.html#data-tables-tables-within-cards
@@ -27,7 +27,7 @@
     margin: 0 0 32px 0;
 
     th {
-      color:  mat.get-color-from-palette($primary, default-contrast);
+      color:  mat.get-color-from-palette($primary);
       border-bottom : 1px solid $border-color;
       font-size: 12px; /* material design */
       font-weight: 400;
@@ -50,7 +50,7 @@
         font-size: 12px;  /* material design */
         height: 48px - 4px - 4px; //remove padding
         padding: 4px 16px;
-        color:  mat.get-color-from-palette($primary, default-contrast);
+        color:  mat.get-color-from-palette($primary);
         vertical-align: middle;
       }
     }

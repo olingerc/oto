@@ -9,7 +9,7 @@
 @use './general';
 @use './header-theme';
 @use './toolbar-theme';
-/*@use './tables';*/
+@use './tables';
 
 
 // Styles for the app that are based on the current theme.
@@ -35,7 +35,7 @@
   @include admin-theme.admin-theme($theme);
   @include login-theme.login-theme($theme);
   
-    /*@include tables.tables-theme($theme);*/
+  @include tables.tables-theme($theme);
   @include toolbar-theme.toolbar-theme($theme);
   @include header-theme.header-theme($theme);
 }

@@ -200,31 +200,18 @@
   /*
   mat-card header
   use mat-card-header tag with an h2
-  I try to have a height of 72px
+  I try to have a height of 24px
   */
   mat-card-header.mat-card-header.oto-card-header {
-    color: mat.get-color-from-palette($primary, default-contrast);
-    background-color: mat.get-color-from-palette($primary);
+    color: mat.get-color-from-palette($primary);
+    background-color: mat.get-color-from-palette($primary, 900);
 
-    margin: -16px -16px 16px -16px;
+    margin: -16px -16px 8px -16px;
     border-radius: 4px 4px 0 0;
-    padding: 18px 24px 18px 8px; /*8px because of header-text element*/
-    h2 {
+    padding: 8px 24px 8px 8px; /*8px because of header-text element*/
+    h2, h3, h4, h5 {
       margin: 0;
-      mat-icon {
-        position: relative;
-        top:2px;
-      }
-    }
-  }
-
-  mat-card.oto-mat-card-compact {
-    mat-card-header.mat-card-header.oto-card-header {
-      height: auto;
-      margin: 0;
-      padding: 22px 24px 22px 24px;
-
-      h2 {margin: 0;}
+      margin-left: 8px;
     }
   }
 
@@ -240,9 +227,15 @@
     padding-left: 0;
     padding-right: 0;
 
+    mat-card-header.mat-card-header.oto-card-header {
+      height: auto;
+      margin: 0;
+
+      h2 {margin: 0;}
+    }
+
     mat-card-header {
-      height: 56px;
-      padding-left: 0;
+      min-height: 24px;
       padding-right: 0;
 
       .mat-card-header-text {

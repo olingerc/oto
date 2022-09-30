@@ -47,6 +47,15 @@
       </mat-form-field>
 
     </form>
+
+    <div>Default passord changed: {{user.defaultPasswordChanged}}</div>
+    <div>
+      Cerated: {{user.created | date:'yyyy-MM-dd'}}
+    </div>
+    <div>
+      Last login: {{user.last_login | date:'yyyy-MM-dd HH:mm'}}
+    </div>
+
     <div fxFlex *ngIf="data.action === 'update'">
       <h3 style="margin:0">Privileges</h3>
       <div style="overflow: auto; max-height:400px">

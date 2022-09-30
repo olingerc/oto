@@ -1,6 +1,6 @@
-import { Component, ViewEncapsulation, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 
 import { AuthenticationService } from '../core/authentication/authentication.service';
 import { AlertService } from '../core/alert/alert.service';

@@ -1,92 +1,89 @@
 <div fxLayout="column" fxFlex class="jobs-container">
   
-  <!-- Page title -->
   <div fxLayout="column" class="jobs-content" fxLayoutGap="24px">
 
-    <div fxLayout="row" fxLayoutGap="24px">
-      <div fxFlex=60%>
+    <div fxLayout="column" fxLayoutGap="24px">
 
-        <!-- Workers -->
-        <mat-card class="worker-card oto-mat-card-compact">
-          <mat-card-header class="analysis-card-header">
-            <mat-toolbar class="oto-toolbar lims-analysis-toolbar-header" fxLayout="row" fxLayoutAlign="start center">
-              <mat-toolbar-row>
-                <label>Workers&nbsp;</label>
-                <span>
-                  <small *ngIf="workers">{{workers.length}}</small>
-                </span>
-                <button mat-raised-button color="accent" (click)="defaultWorkers()">DEFAULT</button>
-                <button mat-raised-button color="warn" (click)="cancelAllWorkers()">STOP ALL</button>
-                <span>
-                  <small *ngIf="!workers">&nbsp;(waiting for info ...)</small>
-                  <small *ngIf="workerLoading">&nbsp;server is working ...</small>
-                </span>
-              </mat-toolbar-row>
-            </mat-toolbar>
-          </mat-card-header>
-          <mat-card-content>
-            <div fxLayout="row" fxLayoutGap="24px">
-              <div>
-                <table class="oto-table oto-table-hover workerTable">
-                  <thead>
-                    <th>Name</th>
-                    <th>State</th>
-                    <th>Queues</th>
-                    <th>Stop</th>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let worker of workers; trackBy: trackWorkers">
-                      <td>{{worker.name  | myTruncate:false:40:" ..."}}
-                        <button
-                          mat-button
-                          *ngIf="worker.currentjob"
-                          (click)="showWorkerDetail(worker.currentjob)">
-                          <mat-icon>search</mat-icon>
-                          <span *ngIf="worker.currentjob.status=='failed'">&nbsp;last job failed</span>
-                          <span *ngIf="worker.currentjob.status=='started'">&nbsp;job running</span>
-                        </button>
-                      </td>
-                      <td [ngClass]="{'success-color': worker.status == 'idle', 'attention-color': worker.status == 'busy'}" class="worker-status">{{worker.status}}</td>
-                      <td><span *ngFor="let q of worker.queues">{{q}}&nbsp;</span></td>
-                      <td class="worker-buttons">
-                        <button
-                          mat-button
-                          matTooltip="wait to finish then exit"
-                          (click)="cancel_worker(worker.name)"
-                          [disabled]="worker.warm_shutdown_requested">
-                          SOFT
-                          <small *ngIf="worker.warm_shutdown_requested">(already requested)</small>
-                        </button>
-                        <button
-                          mat-button
-                          color="warn"
-                          matTooltip="kill now, this will lose jobs!"
-                          (click)="kill_worker(worker.name)">
-                          FORCE
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div>
-                <div fxLayout="column" class="add-queue-buttons">
-                  <h5>Add queue</h5>
-                  <button mat-button (click)="addWorker('single')">Single</button>
-                  <button mat-button (click)="addWorker('scheduled')">Scheduled</button>
-                </div>
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
+      <!-- Workers -->
+      <mat-card class="oto-mat-card-compact">
+        <mat-card-header>
+          <mat-toolbar class="oto-toolbar" fxLayout="row" fxLayoutAlign="start center">
+            <mat-toolbar-row>
+              <label>Workers&nbsp;</label>
+              <span>
+                <small *ngIf="workers">{{workers.length}}</small>
+              </span>
+              <button mat-raised-button color="accent" (click)="defaultWorkers()">DEFAULT</button>
+              <button mat-raised-button color="warn" (click)="cancelAllWorkers()">STOP ALL</button>
+            </mat-toolbar-row>
+          </mat-toolbar>
+        </mat-card-header>
+        <mat-card-content>
+          <table class="oto-table oto-table-hover">
+            <thead>
+              <th>Name</th>
+              <th>Queues</th>
+              <th>Stop</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let worker of workers; trackBy: trackWorkers">
+                <td>
+                  {{worker.name  | myTruncate:false:10:" ..."}}
+                  <button
+                    mat-button
+                    *ngIf="worker.currentjob"
+                    (click)="showWorkerDetail(worker.currentjob)">
+                    <mat-icon>search</mat-icon>
+                    <span *ngIf="worker.currentjob.status=='failed'">&nbsp;last job failed</span>
+                    <span *ngIf="worker.currentjob.status=='started'">&nbsp;job running</span>
+                  </button>
+                  <div [ngClass]="{'success-color': worker.status == 'idle', 'attention-color': worker.status == 'busy'}" class="worker-status">{{worker.status}}</div>
+                </td>
+                <td><span *ngFor="let q of worker.queues">{{q}}&nbsp;</span></td>
+                <td class="worker-buttons">
+                  <div fxLayout="column">
+                    <button
+                      mat-button
+                      matTooltip="wait to finish then exit"
+                      (click)="cancel_worker(worker.name)"
+                      [disabled]="worker.warm_shutdown_requested">
+                      SOFT
+                      <small *ngIf="worker.warm_shutdown_requested">(already requested)</small>
+                    </button>
+                    <button
+                      mat-button
+                      color="warn"
+                      matTooltip="kill now, this will lose jobs!"
+                      (click)="kill_worker(worker.name)">
+                      FORCE
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-card-content>
+      </mat-card>
+
+      <div>
+        <div>
+          <h5>Add queue</h5>
+          <button mat-button (click)="addWorker('single')">Single</button>
+          <button mat-button (click)="addWorker('scheduled')">Scheduled</button>
+        </div>
       </div>
-      <div fxFlex=40%>
-        <mat-card *ngIf="workerDetail">
-          <pre> {{workerDetail}}</pre>
-        </mat-card>
-      </div>
+
+      <p>
+        <small *ngIf="!workers">&nbsp;(waiting for info ...)</small>
+        <small *ngIf="workerLoading">&nbsp;server is working ...</small>
+      </p>
 
     </div>
 
+    <mat-card *ngIf="workerDetail">
+      <pre> {{workerDetail}}</pre>
+    </mat-card>
+
   </div>
+
 </div>

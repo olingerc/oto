@@ -3,18 +3,41 @@
   <canvas #streaming></canvas>
 
   <button
+    *ngIf="printerStatus || printerError"
     mat-icon-button
     matTooltip="Refresh"
     (click)="getPrinterStatus()">
     <mat-icon>refresh</mat-icon>
   </button>
 
-  <mat-card>
-    <h5>JOB</h5>
-    <pre>{{printerStatus.job | json}}</pre>
+  <mat-spinner *ngIf="!printerStatus && !printerError"></mat-spinner>
+
+
+  <mat-card *ngIf="printerError">
+    <h5 class="mat-h5" color="warn">ERROR</h5>
+    <p>{{printerError.error | json}}</p>
   </mat-card>
-  <mat-card style="margin-top: 8px">
-    <h5>PRINTER</h5>
-    <pre>{{printerStatus.status | json}}</pre>
+
+  <mat-card *ngIf="printerStatus" class="oto-mat-card-compact">
+    <mat-card-header class="oto-card-header">
+      <h3>Job</h3>
+    </mat-card-header>
+    <table class="oto-table">
+      <tr><td class="mat-caption">State</td><td>{{printerStatus.job.state}}</td></tr>
+      <tr><td class="mat-caption">Job</td><td>{{printerStatus.job.job || '-'}}</td></tr>
+      <tr><td class="mat-caption">Progress</td><td>{{printerStatus.job.progress || '-'}}</td></tr>
+    </table>
+  </mat-card>
+  <mat-card *ngIf="printerStatus" style="margin-top: 8px" class="oto-mat-card-compact">
+    <mat-card-header class="oto-card-header">
+      <h3>Printer</h3>
+    </mat-card-header>
+    <table class="oto-table">
+      <tr><td class="mat-caption">Head</td><td>{{printerStatus.status.temperature.tool0.actual }} / {{ printerStatus.status.temperature.tool0.target}} °C</td></tr>
+      <tr><td class="mat-caption">Bed</td><td>{{printerStatus.status.temperature.bed.actual }} / {{printerStatus.status.temperature.bed.target}} °C</td></tr>
+      <tr><td class="mat-caption">Speed</td><td>{{printerStatus.status.telemetry["print-speed"]}} %</td></tr>
+      <tr><td class="mat-caption">Z-Height</td><td>{{printerStatus.status.telemetry["z-height"]}}</td></tr>
+      <tr><td class="mat-caption">Material</td><td>{{printerStatus.status.telemetry["material"]}}</td></tr>
+    </table>
   </mat-card>
 </div>

@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from "@angular/common/http";
 import { Observable } from "rxjs";
 
 import { io, Socket } from "socket.io-client";
@@ -17,11 +17,11 @@ export class PrinterComponent implements OnInit {
 
   private socket: Socket = null;
   public socketStatus = "Init";
-  public printerStatus: any = {"waiting": true};
+  public printerStatus: any;
+  public printerError: HttpErrorResponse;
 
   constructor(
-    private http: HttpClient,
-    private env: EnvService
+    private http: HttpClient
   ) {
 
   }
@@ -84,9 +84,17 @@ export class PrinterComponent implements OnInit {
   getPrinterStatus() {
     const options = this.jwt();
     this.http.get(`/api/printer/status`, options)
-      .subscribe(data =>{
-        this.printerStatus = data;
-      });
+      .subscribe(
+        data =>{
+          this.printerStatus = data;
+          this.printerError = null;
+        },
+        error => {
+          console.log("EE")
+          this.printerStatus = null;
+          this.printerError = error;
+        }
+      );
   }
 
 

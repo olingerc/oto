@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'lodash';
@@ -12,8 +12,7 @@ import { UserDialogComponent } from './user-dialog.component';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./users.component.scss']
 })
 export class UsersComponent {
   // User list
