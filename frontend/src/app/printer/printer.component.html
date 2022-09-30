@@ -31,7 +31,7 @@
         <tr><td class="mat-caption">File</td><td>{{printerStatus.job.job.file.name}}</td></tr>
         <tr><td class="mat-caption">Total</td><td>{{(printerStatus.job.job.estimatedPrintTime / 60) | number : '1.0-0' }} min</td></tr>
         <tr><td class="mat-caption">Time Left</td><td>{{(printerStatus.job.progress.printTimeLeft / 60) | number : '1.0-0' }} min</td></tr>
-        <tr><td class="mat-caption">Progress</td><td>{{printerStatus.job.progress.completion}} %</td></tr>
+        <tr><td class="mat-caption">Progress</td><td>{{printerStatus.job.progress.completion * 100}} %</td></tr>
       </ng-container>
     </table>
   </mat-card>
