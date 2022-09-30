@@ -35,6 +35,7 @@ services:
       - WEBTOKEN_SECRET
       - CAM_USER
       - CAM_PW
+      - PRUSAAPIKEY
     environment:
       - "TZ=Europe/Luxembourg"
       - "NODE_ENV=production"
@@ -188,3 +189,5 @@ secrets:
     file: ./secrets/passwords/CAM_USER
   CAM_PW:
     file: ./secrets/passwords/CAM_PW
+  PRUSAAPIKEY:
+    file: ./secrets/passwords/PRUSAAPIKEY
