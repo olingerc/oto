@@ -1,43 +1,58 @@
-<div class="oto-content">
-  <p>Printer: {{socketStatus}}</p>
-  <canvas #streaming></canvas>
-
-  <button
-    *ngIf="printerStatus || printerError"
-    mat-icon-button
-    matTooltip="Refresh"
-    (click)="getPrinterStatus()">
-    <mat-icon>refresh</mat-icon>
-  </button>
-
-  <mat-spinner *ngIf="!printerStatus && !printerError"></mat-spinner>
+<div class="oto-content"
+  fxLayout="row"
+  fxLayout.sm="column"
+  fxLayout.xs="column"
+  fxLayoutGap="24px"
+  >
 
 
-  <mat-card *ngIf="printerError">
-    <h5 class="mat-h5" color="warn">ERROR</h5>
-    <p>{{printerError.error | json}}</p>
-  </mat-card>
+  <div
+    [ngStyle.xl]="{'width': '1024px', 'height.px': 1024/ 1.777777}"
+    >
+    <p>Printer cam: {{socketStatus}}</p>
+    <canvas #streaming></canvas>
+  </div>
 
-  <mat-card *ngIf="printerStatus" class="oto-mat-card-compact">
-    <mat-card-header class="oto-card-header">
-      <h3>Job</h3>
-    </mat-card-header>
-    <table class="oto-table">
-      <tr><td class="mat-caption">State</td><td>{{printerStatus.job.state}}</td></tr>
-      <tr><td class="mat-caption">Job</td><td>{{printerStatus.job.job || '-'}}</td></tr>
-      <tr><td class="mat-caption">Progress</td><td>{{printerStatus.job.progress || '-'}}</td></tr>
-    </table>
-  </mat-card>
-  <mat-card *ngIf="printerStatus" style="margin-top: 8px" class="oto-mat-card-compact">
-    <mat-card-header class="oto-card-header">
-      <h3>Printer</h3>
-    </mat-card-header>
-    <table class="oto-table">
-      <tr><td class="mat-caption">Head</td><td>{{printerStatus.status.temperature.tool0.actual }} / {{ printerStatus.status.temperature.tool0.target}} °C</td></tr>
-      <tr><td class="mat-caption">Bed</td><td>{{printerStatus.status.temperature.bed.actual }} / {{printerStatus.status.temperature.bed.target}} °C</td></tr>
-      <tr><td class="mat-caption">Speed</td><td>{{printerStatus.status.telemetry["print-speed"]}} %</td></tr>
-      <tr><td class="mat-caption">Z-Height</td><td>{{printerStatus.status.telemetry["z-height"]}}</td></tr>
-      <tr><td class="mat-caption">Material</td><td>{{printerStatus.status.telemetry["material"]}}</td></tr>
-    </table>
-  </mat-card>
+  <div fxFlex *ngIf="!printerStatus && !printerError">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div fxFlex *ngIf="printerError">
+    <mat-card>
+      <h5 class="mat-h5" color="warn">ERROR</h5>
+      <p>{{printerError.error | json}}</p>
+    </mat-card>
+  </div>
+
+  <div fxFlex *ngIf="printerStatus">
+    <mat-card class="oto-mat-card-compact">
+      <mat-card-header class="oto-card-header">
+        <h3>Job</h3>
+      </mat-card-header>
+      <table class="oto-table" *ngIf="printerStatus.job.job">
+        <tr><td class="mat-caption">File</td><td style="word-break: break-all">{{printerStatus.job.job.file.name}}</td></tr>
+        <tr><td class="mat-caption">Total</td><td>{{(printerStatus.job.job.estimatedPrintTime / 60 ) | number:'1.0-0'}} min</td></tr>
+        <tr><td class="mat-caption">Time left</td><td>{{(printerStatus.job.progress.printTimeLeft / 60)  | number:'1.0-0' || '-'}} min</td></tr>
+        <tr><td class="mat-caption">Progress</td><td>{{printerStatus.job.progress.completion * 100  | number:'1.0-0' || '-'}} %</td></tr>
+      </table>
+      <table class="oto-table" *ngIf="!printerStatus.job.job">
+        <tr><td>none</td></tr>
+      </table>
+    </mat-card>
+  </div>
+
+  <div fxFlex *ngIf="printerStatus">
+    <mat-card class="oto-mat-card-compact">
+      <mat-card-header class="oto-card-header">
+        <h3>Printer</h3>
+      </mat-card-header>
+      <table class="oto-table">
+        <tr><td class="mat-caption">Head</td><td>{{printerStatus.status.temperature.tool0.actual }} / {{ printerStatus.status.temperature.tool0.target}} °C</td></tr>
+        <tr><td class="mat-caption">Bed</td><td>{{printerStatus.status.temperature.bed.actual }} / {{printerStatus.status.temperature.bed.target}} °C</td></tr>
+        <tr><td class="mat-caption">Speed</td><td>{{printerStatus.status.telemetry["print-speed"]}} %</td></tr>
+        <tr><td class="mat-caption">Z-Height</td><td>{{printerStatus.status.telemetry["z-height"]}} mm</td></tr>
+        <tr><td class="mat-caption">Material</td><td>{{printerStatus.status.telemetry["material"]}}</td></tr>
+      </table>
+    </mat-card>
+  </div>
 </div>

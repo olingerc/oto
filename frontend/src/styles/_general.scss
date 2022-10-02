@@ -223,9 +223,7 @@
   * within a mat-card-header tag
   */
   mat-card.oto-mat-card-compact {
-    padding-top: 0;
-    padding-left: 0;
-    padding-right: 0;
+    padding: 0;
 
     mat-card-header.mat-card-header.oto-card-header {
       height: auto;

@@ -55,6 +55,10 @@
       }
     }
 
+    tr:last-child td {
+      border-bottom : none;
+    }
+
   }
 
   .oto-table-compact {
