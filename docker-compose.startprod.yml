@@ -139,7 +139,7 @@ services:
       - mongodb
       - redis
     env_file:
-      - ./tasks/worker/.env.development
+      - ./tasks/worker/.env.production
     # In prod it is tasks that starts worker and injects secrets into env. In dev new workers also follow that way
     secrets:
       - MONGODB_USER
@@ -150,7 +150,7 @@ services:
     environment:
       - QUEUES=single,scheduled
       - WORKER_NAME_SUFFIX=dev_docker_host  # docker host that worker will look for to be able to start new containers
-      - FLASK_ENV=development
+      - FLASK_ENV=production
       - PYTHONUNBUFFERED=1
     logging:
       driver: "json-file"
