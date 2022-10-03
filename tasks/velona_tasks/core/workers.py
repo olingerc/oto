@@ -78,7 +78,7 @@ def _run_worker_docker(queues, worker_name, host):
         worker_image = config.WORKER_IMAGE_TAG
         container = d.containers.run(
             worker_image,
-            #auto_remove=True, # NOTE: comment this to get to logs if container does not start. use docker ps -a
+            auto_remove=True, # NOTE: comment this to get to logs if container does not start. use docker ps -a
             detach=True,
             environment=env_dict,
             name=worker_name.split("---")[0],
