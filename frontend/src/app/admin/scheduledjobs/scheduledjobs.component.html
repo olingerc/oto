@@ -11,17 +11,20 @@
   </div>
 
   <div class="admin-glimsimport-content" fxLayout="row" fxLayoutGap="24px">
-    <div fxLayout="column" fxFlex="50%">
-      <mat-card class="jobs-card" [myVisibleForPrivileges]="['otoAdmin']">
-        <h4>Remaining</h4>
-        <div fxLayout="row" fxLayoutGap="8px" class="toolbar">
-          <button mat-raised-button color="primary" (click)="importGlims()">
-            DO
-          </button>
-        </div>
+    <div fxLayout="column" fxFlex>
+      <mat-card class="jobs-card oto-mat-card-compact" [myVisibleForPrivileges]="['otoAdmin']">
+        <mat-card-header>
+          <mat-toolbar class="oto-toolbar" fxLayout="row" fxLayoutAlign="start center">
+            <mat-toolbar-row>
+              <button mat-raised-button color="accent" (click)="importGlims()">
+                DO
+              </button>
+            </mat-toolbar-row>
+          </mat-toolbar>
+        </mat-card-header>
         <mat-card-content style="height: 240px">
           <p-table
-            styleClass="oto-primeng-table oto-primeng-table-smaller p-datatable-striped"
+            styleClass="oto-primeng-table oto-primeng-table-smaller"
             [value]="remainingJobs"
             
             [scrollable]="true" scrollHeight="flex"
@@ -38,9 +41,11 @@
               <tr (click)="showJobDetails(job)" [pSelectableRow]="job" class="pointer">
                 <td>{{ job.description }} - {{job.status}}</td>
                 <td>
-                  {{ job.created_at | date:"yyyy-MM-dd H:mm:ss" }}
-                  <span *ngIf="!job.ended_at">({{timeToFinish(job.started_at, lastLoad)}} ago)</span>
-                  <span *ngIf="job.ended_at">(took {{timeToFinish(job.started_at, job.ended_at)}})</span>
+                  <div fxLayout="column">
+                    <div>{{ job.created_at | date:"yyyy-MM-dd H:mm:ss" }}</div>
+                    <div *ngIf="!job.ended_at">({{timeToFinish(job.started_at, lastLoad)}} ago)</div>
+                    <div *ngIf="job.ended_at">(took {{timeToFinish(job.started_at, job.ended_at)}})</div>
+                  </div>
                 </td>
               </tr>
             </ng-template>

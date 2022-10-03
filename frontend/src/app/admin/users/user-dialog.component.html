@@ -9,7 +9,7 @@
 </h1>
 
 <mat-dialog-content>
-  <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="start start">
+  <div fxLayout="column" fxLayoutGap="8px" fxLayoutAlign="start start">
     <form fxFlex [formGroup]="userForm">
 
       <mat-form-field style="width: 100%">
@@ -47,44 +47,45 @@
       </mat-form-field>
 
     </form>
-
-    <div>Default passord changed: {{user.defaultPasswordChanged}}</div>
-    <div>
-      Cerated: {{user.created | date:'yyyy-MM-dd'}}
-    </div>
-    <div>
-      Last login: {{user.last_login | date:'yyyy-MM-dd HH:mm'}}
-    </div>
-
-    <div fxFlex *ngIf="data.action === 'update'">
+    <div style="width: 100%" *ngIf="data.action === 'update'">
       <h3 style="margin:0">Privileges</h3>
-      <div style="overflow: auto; max-height:400px">
-        <table class="oto-table" *ngIf="user.username !== 'admin'">
-          <ng-container *ngFor="let role of ['user', 'manager', 'admin']">
-            <tr><td colspan="2"><h3>{{role | titlecase}}</h3></td></tr>
-            <ng-container *ngFor="let priv of privTypes">
-              <tr *ngIf="priv.role == role">
-                <td>{{ priv.module }}</td>
-                <td>
-                  <button
-                    mat-icon-button
-                    (click)="addPrivilege(user, priv.key)"
-                    [disabled]="(user.privileges | myArrayFilter:priv.key).length > 0"
-                    ><mat-icon>add</mat-icon>
-                  </button>
-                  <button
-                    mat-icon-button
-                    (click)="removePrivilege(user, priv.key)"
-                    [disabled]="(user.privileges | myArrayFilter:priv.key).length == 0"
-                    ><mat-icon>clear</mat-icon>
-                  </button>
-                </td>
-              </tr>
-            </ng-container>
+      <table class="oto-table" *ngIf="user.username !== 'admin'">
+        <ng-container *ngFor="let role of ['user', 'manager', 'admin']">
+          <tr><td colspan="2"><h3>{{role | titlecase}}</h3></td></tr>
+          <ng-container *ngFor="let priv of privTypes">
+            <tr *ngIf="priv.role == role">
+              <td>{{ priv.module }}</td>
+              <td>
+                <button
+                  mat-icon-button
+                  (click)="addPrivilege(user, priv.key)"
+                  [disabled]="(user.privileges | myArrayFilter:priv.key).length > 0"
+                  ><mat-icon>add</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  (click)="removePrivilege(user, priv.key)"
+                  [disabled]="(user.privileges | myArrayFilter:priv.key).length == 0"
+                  ><mat-icon>clear</mat-icon>
+                </button>
+              </td>
+            </tr>
           </ng-container>
-        </table>
+        </ng-container>
+      </table>
+    </div>
+
+
+    <div *ngIf="user">
+      <div>Default passord changed: {{user.defaultPasswordChanged}}</div>
+      <div>
+        Created: {{user.created | date:'yyyy-MM-dd'}}
+      </div>
+      <div>
+        Last login: {{user.last_login | date:'yyyy-MM-dd HH:mm'}}
       </div>
     </div>
+
   </div>
 </mat-dialog-content>
 

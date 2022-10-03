@@ -1,4 +1,5 @@
 import { Component, ViewChild } from "@angular/core";
+import { MatDialog } from '@angular/material/dialog';
 
 import * as _ from "lodash";
 import * as moment from "moment";
@@ -6,6 +7,7 @@ import * as moment from "moment";
 import { AlertService } from "../../core/alert/alert.service";
 import { UtilitiesService } from "../../core/utilities.service";
 import { AdminHttpService } from "../admin-http.service";
+import { JobdetailsDialog } from '../scheduledjobs/jobdetails-dialog.component';
 
 @Component({
   selector: "app-failedjobs-dashboard",
@@ -23,6 +25,7 @@ export class FailedjobsDashboardComponent {
   @ViewChild("jobsTable", { static: true } as any) public jobsTable: any;
 
   constructor(
+    private dialog: MatDialog,
     private alertService: AlertService,
     private httpService: AdminHttpService,
     private utilities: UtilitiesService,
@@ -88,6 +91,17 @@ export class FailedjobsDashboardComponent {
 
   trackById(index, item) {
     return item.id;
+  }
+
+  
+  showJobDetails(job) {
+    let dialogRef = this.dialog.open(JobdetailsDialog, {
+      width: '800px',
+      autoFocus: false,
+      data: {
+        job: job
+      }
+    });
   }
 
 }

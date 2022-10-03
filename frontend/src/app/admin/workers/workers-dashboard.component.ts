@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { MatDialog } from '@angular/material/dialog';
 
 import { Subscription } from "rxjs";
 import * as _ from "lodash";
 import { ConfirmationService } from "../../core/confirmation/confirmation.service";
 
+import { JobdetailsDialog } from '../scheduledjobs/jobdetails-dialog.component';
 import { VelonaSocketService } from "../../core/websocket/velona-socket.service";
 import { AlertService } from "../../core/alert/alert.service";
 import { BioinfHttpService } from "../../core/bioinf-http.service";
@@ -26,6 +28,7 @@ export class WorkersDashboardComponent implements OnInit, OnDestroy {
   private statusChangeSubscription: Subscription;
 
   constructor(
+    private dialog: MatDialog,
     private confirmationService: ConfirmationService,
     private socketService: VelonaSocketService,
     private alertService: AlertService,
@@ -162,12 +165,14 @@ export class WorkersDashboardComponent implements OnInit, OnDestroy {
     this.socketService.emit("cancel_all_workers");
   }
 
-  showWorkerDetail(detail) {
-    this.workerDetail = JSON.stringify(detail, null, 4);
-  }
-
-  hideWorkerDetail() {
-    this.workerDetail = false;
+  showJobDetails(job) {
+    let dialogRef = this.dialog.open(JobdetailsDialog, {
+      width: '800px',
+      autoFocus: false,
+      data: {
+        job: job
+      }
+    });
   }
 
   trackWorkers(index, item) {

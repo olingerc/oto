@@ -123,7 +123,6 @@
   /* Prime icons colors if selected */
   p-table .oto-primeng-table,
   p-table .p-datatable-striped.oto-primeng-table {
-
     font-size: 12px;
     color:  mat.get-color-from-palette($primary, default-contrast);
     border-left: 0;
@@ -161,8 +160,7 @@
 
     /* Header */
     .p-datatable-header {
-      border : 1px solid $border-color;
-      border-bottom: 0
+      border : 0;
     }
 
     .p-datatable-scrollable-header {
@@ -174,9 +172,9 @@
         border-left: 0;
         border-right: 0;
         border-bottom : 1px solid $border-color;
-        border-top : 1px solid $border-color;
+        color:mat.get-color-from-palette($primary);
+        background: mat.get-color-from-palette($primary, 800);
 
-        color:  mat.get-color-from-palette($primary, default-contrast);
         font-size: 12px; /* material design */
         font-weight: 400;
         padding: 8px 8px;
@@ -186,12 +184,12 @@
 
       tr > th.p-highlight {
         /* a thead active for sorting */
-        background: mat.get-color-from-palette($primary);
+        background: mat.get-color-from-palette($primary, 300);
         border-color: $border-color;
-        color:  mat.get-color-from-palette($primary, 900);
+        color:  mat.get-color-from-palette($primary, default-contrast);
 
         .p-sortable-column-icon {
-          color: mat.get-color-from-palette($primary, 900);
+          color: mat.get-color-from-palette($primary, default-contrast);
           line-height: inherit; /* hack when i switched to md-light */
         }
 
@@ -206,7 +204,7 @@
     .p-datatable-tbody {
       /* Row */
       > tr {
-        
+        background: none;
       }
 
       > tr:not(.no-hover):hover {
@@ -218,8 +216,8 @@
       tr.p-highlight:nth-child(odd),
       tr.p-highlight:nth-child(even),
       tr.p-highlight:hover {
-        background: mat.get-color-from-palette($accent);
         color:mat.get-color-from-palette($primary);
+        background: mat.get-color-from-palette($accent);
 
         .mat-primary {
           color: mat.get-color-from-palette($primary, default-contrast);
@@ -240,6 +238,10 @@
         border-bottom : 1px solid $border-color;
         padding: 0 16px;
         height: 48px;
+      }
+
+      > tr:last-child td {
+        border-bottom : none;
       }
     }
 

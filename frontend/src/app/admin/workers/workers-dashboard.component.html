@@ -32,7 +32,7 @@
                   <button
                     mat-button
                     *ngIf="worker.currentjob"
-                    (click)="showWorkerDetail(worker.currentjob)">
+                    (click)="showJobDetails(worker.currentjob)">
                     <mat-icon>search</mat-icon>
                     <span *ngIf="worker.currentjob.status=='failed'">&nbsp;last job failed</span>
                     <span *ngIf="worker.currentjob.status=='started'">&nbsp;job running</span>
@@ -79,11 +79,6 @@
       </p>
 
     </div>
-
-    <mat-card *ngIf="workerDetail">
-      <pre> {{workerDetail}}</pre>
-    </mat-card>
-
   </div>
 
 </div>

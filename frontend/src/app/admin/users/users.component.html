@@ -1,23 +1,12 @@
 <div fxFlex fxLayout="column">
 
   <div
-    fxLayout="column"
-    fxLayoutGap="24px"
-    fxLayoutAlign="start start"
     class="admin-users-content mat-app-background"
     >
-
-      <!-- view all users -->
-      <h2>
-        <button color="accent" mat-raised-button (click)="startUserAdd()">
-          <mat-icon>add</mat-icon>
-        </button>
-      </h2>
-
       <!-- user table -->
       <mat-card class="oto-mat-card-compact">
         <p-table
-          styleClass="oto-primeng-table oto-primeng-table-smaller user-table p-datatable-striped"
+          styleClass="oto-primeng-table oto-primeng-table-smaller user-table"
           [value]="users"
           [paginator]="false"
           [scrollable]="true"
@@ -36,6 +25,11 @@
                   placeholder="Search user"
                   (input)="usersTable.filterGlobal($event.target['value'], 'contains')">
               </mat-form-field>
+              <div>
+                <button color="accent" mat-raised-button (click)="startUserAdd()">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
             </div>
           </ng-template>
           <ng-template pTemplate="header">

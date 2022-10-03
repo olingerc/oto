@@ -31,10 +31,10 @@
           <mat-card-content>
             <div fxLayout="row" fxLayoutAlign="start start">
 
-              <div fxFlex="50%" style="height: 440px">
+              <div fxFlex>
                 <p-table
                   #jobsTable
-                  styleClass="oto-primeng-table oto-primeng-table-smaller  p-datatable-striped"
+                  styleClass="oto-primeng-table oto-primeng-table-smaller"
                   [value]="allJobs"
                   
                   [lazy]="true" (onLazyLoad)="loadJobs($event)" [paginator]="true"
@@ -42,7 +42,7 @@
 
                   [scrollable]="true" scrollHeight="flex"
                   sortField="created_at" [sortOrder]="-1"
-                  selectionMode="single" [(selection)]="selectedJob" dataKey="id"
+                  dataKey="id"
                   [rowTrackBy]="trackById"
                   >
                   <ng-template pTemplate="header">
@@ -53,7 +53,7 @@
                     </tr>
                   </ng-template>
                   <ng-template pTemplate="body" let-job>
-                    <tr [pSelectableRow]="job">
+                    <tr [pSelectableRow]="job" class="pointer" (click)="showJobDetails(job)">
                       <td>{{ job.description }}</td>
                       <td>{{job.origin}}</td>
                       <td>{{ job.created_at | date:"yyyy-MM-dd H:mm:ss" }}</td>
@@ -67,76 +67,6 @@
                     </tr>
                   </ng-template>
                 </p-table>
-              </div>
-
-              <div fxFlex="50%" *ngIf="selectedJob">
-                <table class="oto-table oto-table-compact jobs-table">
-                  <tr>
-                    <td class="mat-body-2">Status</td>
-                    <td>{{selectedJob.status}}</td>
-                  </tr>
-                  <tr>
-                    <td class="mat-body-2">Queue</td>
-                    <td>{{selectedJob.origin}}</td>
-                  </tr>
-                  <tr>
-                    <td class="mat-body-2">Created</td>
-                    <td>{{selectedJob.created_at | date:"yyyy-MM-dd HH:mm"}}</td>
-                  </tr>
-                  <tr>
-                    <td class="mat-body-2">Enqueued</td>
-                    <td>{{selectedJob.enqueued_at | date:"yyyy-MM-dd HH:mm"}}</td>
-                  </tr>
-                  <tr>
-                    <td class="mat-body-2">Started</td>
-                    <td>{{selectedJob.started_at | date:"yyyy-MM-dd HH:mm"}}</td>
-                  </tr>
-                  <tr>
-                    <td class="mat-body-2">Finished</td>
-                    <td>
-                      <span *ngIf="selectedJob.ended_at">
-                        {{selectedJob.ended_at | date:"yyyy-MM-dd HH:mm"}} (took {{timeToFinish(selectedJob.started_at, selectedJob.ended_at)}})
-                      </span>
-                    </td>
-                  </tr>
-                  <tr *ngIf="selectedJob.exc_info">
-                    <td colspan="2">
-                      <pre>{{selectedJob.exc_info}}</pre>
-                      <small>ttl of error: {{prettyMs(selectedJob.failure_ttl)}}</small>
-                    </td>
-                  </tr>
-                  <tr *ngIf="selectedJob.meta">
-                    <td colspan="2">
-                      <pre>{{selectedJob.meta | json}}</pre>
-                      <small>metadata</small>
-                    </td>
-                  </tr>
-                  <tr *ngIf="selectedJob.kwargs">
-                    <td colspan="2">
-                      <pre>{{selectedJob.kwargs | json}}</pre>
-                      <small>kwargs</small>
-                    </td>
-                  </tr>
-                  <tr *ngIf="selectedJob.result">
-                    <td colspan="2">
-                      <pre>{{selectedJob.result}}</pre>
-                      <small *ngIf="selectedJob.result_ttl">ttl of result: {{prettyMs(selectedJob.result_ttl)}}</small>
-                      <small *ngIf="!selectedJob.result_ttl">ttl of result: forever</small>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="mat-body-2">ttl on queue</td>
-                    <td>{{prettyMs(selectedJob.ttl)}}</td>
-                  </tr>
-                  <tr>
-                    <td class="mat-body-2">max execution time</td>
-                    <td>{{prettyMs(selectedJob.timeout)}}</td>
-                  </tr>
-                  <tr>
-                    <td class="mat-body-2">ID</td>
-                    <td>{{selectedJob.id}}</td>
-                  </tr>
-                </table>
               </div>
             </div>
           </mat-card-content>
