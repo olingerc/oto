@@ -440,12 +440,15 @@
 
   /* Primeng messages */
   p-toast .p-toast {
-    /* to not cover my login menu buttons */
-    top: auto;
+    left: 0;
+    top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    width: 100%;
+    max-width: 520px;
 
     .p-toast-message .p-toast-message-content .p-toast-message-text {
     /* Fixx needed for too small close icon*/
-      width: 320px;
       word-break: break-all;
     }
   }
