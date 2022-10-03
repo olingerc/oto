@@ -34,16 +34,19 @@ export class CamsComponent implements OnInit {
     });
 
     this.socket.on('data', (data) => {
-      this.socketStatus = "Receiving"
+      this.socketStatus = "Receiving";
       var bytes = new Uint8Array(data);
       var blob = new Blob([bytes], {type: 'application/octet-binary'});
       var url = URL.createObjectURL(blob);
-      var img = new Image;
+      var img = new Image();
       var ctx = this.streamingCanvas.nativeElement.getContext("2d");
       img.onload = () => {
         URL.revokeObjectURL(url);
-        // incoming is 640
-        ctx.drawImage(img,0,0,320, 180);
+        const iWidth = img.naturalWidth;
+        const iHeight = img.naturalHeight;
+        this.streamingCanvas.nativeElement.width = iWidth;
+        this.streamingCanvas.nativeElement.height = iHeight;
+        ctx.drawImage(img, 0, 0);
       };
       img.src = url;
     });
@@ -84,16 +87,19 @@ export class CamsComponent implements OnInit {
     });
 
     this.socket2.on('data', (data) => {
-      this.socketStatus2 = "Receiving"
+      this.socketStatus = "Receiving";
       var bytes = new Uint8Array(data);
       var blob = new Blob([bytes], {type: 'application/octet-binary'});
       var url = URL.createObjectURL(blob);
-      var img = new Image;
+      var img = new Image();
       var ctx = this.streamingCanvas2.nativeElement.getContext("2d");
       img.onload = () => {
         URL.revokeObjectURL(url);
-        // incoming is 640
-        ctx.drawImage(img,0,0,320, 180);
+        const iWidth = img.naturalWidth;
+        const iHeight = img.naturalHeight;
+        this.streamingCanvas2.nativeElement.width = iWidth;
+        this.streamingCanvas2.nativeElement.height = iHeight;
+        ctx.drawImage(img, 0, 0);
       };
       img.src = url;
     });
