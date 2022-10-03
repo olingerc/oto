@@ -117,7 +117,6 @@ export class PrinterComponent implements OnInit, OnDestroy {
           }
         },
         error => {
-          console.log("EE")
           this.printerStatus = null;
           this.printerError = error;
         }
