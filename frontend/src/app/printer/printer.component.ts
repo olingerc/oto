@@ -34,7 +34,7 @@ export class PrinterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const namespace = "cam1";
+    const namespace = "cam0";
     this.socket = io(
       "/" + namespace,
       {
