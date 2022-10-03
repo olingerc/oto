@@ -3,8 +3,10 @@ import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from "@angular
 import { Subscription, interval } from "rxjs";
 
 import { io, Socket } from "socket.io-client";
+import * as moment from 'moment';
 
 import { EnvService } from "../core/env/env.service";
+import { UtilitiesService } from "../core/utilities.service";
 
 @Component({
   selector: 'printer-component-sidenav',
@@ -21,10 +23,12 @@ export class PrinterComponent implements OnInit, OnDestroy {
   public socketStatus = "Init";
   public printerStatus: any;
   public printerError: HttpErrorResponse;
+  public jobEndTime: string;
 
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    public utils: UtilitiesService
   ) {
 
   }
@@ -111,6 +115,16 @@ export class PrinterComponent implements OnInit, OnDestroy {
         data =>{
           this.printerStatus = data;
           this.printerError = null;
+
+          if (this.printerStatus.job) {
+            const printTime = this.printerStatus.job.progress.printTimeLeft;
+            const endTime = moment().add(printTime, 'seconds');
+            if (endTime.format('DD/MM/YYYY') == moment().format('DD/MM/YYYY')) {
+              this.jobEndTime = endTime.format('HH:mm');
+            } else {
+              this.jobEndTime = endTime.format('DD/MM/YYYY HH:mm');
+            }
+          }
         },
         error => {
           console.log("EE")

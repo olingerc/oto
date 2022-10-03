@@ -5,7 +5,6 @@
   fxLayoutGap="24px"
   >
 
-
   <div
     [ngStyle.xl]="{'width': '1024px', 'height.px': 1024/ 1.777777}"
     >
@@ -31,8 +30,18 @@
       </mat-card-header>
       <table class="oto-table" *ngIf="printerStatus.job.job">
         <tr><td class="mat-caption">File</td><td style="word-break: break-all">{{printerStatus.job.job.file.name}}</td></tr>
-        <tr><td class="mat-caption">Total</td><td>{{(printerStatus.job.job.estimatedPrintTime / 60 ) | number:'1.0-0'}} min</td></tr>
-        <tr><td class="mat-caption">Time left</td><td>{{(printerStatus.job.progress.printTimeLeft / 60)  | number:'1.0-0' || '-'}} min</td></tr>
+        <tr>
+          <td class="mat-caption">Total</td>
+          <td>{{(utils.prettyMs(printerStatus.job.job.estimatedPrintTime * 1000)).substr(0, utils.prettyMs(printerStatus.job.job.estimatedPrintTime * 1000).length - 4)}}</td>
+        </tr>
+        <tr>
+          <td class="mat-caption">Time left</td>
+          <td>{{utils.prettyMs(printerStatus.job.progress.printTimeLeft * 1000) || '-'}}</td>
+        </tr>
+        <tr>
+          <td class="mat-caption">End Time</td>
+          <td>{{jobEndTime}}</td>
+        </tr>
         <tr><td class="mat-caption">Progress</td><td>{{printerStatus.job.progress.completion * 100  | number:'1.0-0' || '-'}} %</td></tr>
       </table>
       <table class="oto-table" *ngIf="!printerStatus.job.job">
