@@ -108,7 +108,7 @@ export class UserDialogComponent {
       .subscribe(
         () => {
           this.loading = false;
-          user.defaultPasswordChanged = false;
+          user.default_password_changed = false;
           this.alertService.info("Password reset");
           this.dialogRef.close();
         },

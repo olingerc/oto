@@ -63,14 +63,14 @@
           <h3 matSubheader>
             <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
               <mat-icon>person</mat-icon>
-              <mat-icon color="warn" *ngIf="!authenticationService.currentUser?.defaultPasswordChanged">info</mat-icon>
+              <mat-icon color="warn" *ngIf="!authenticationService.currentUser?.default_password_changed">info</mat-icon>
               <span>{{authenticationService.currentUser.fullname || authenticationService.currentUser.username}}</span>
             </div>
           </h3>
 
           <button mat-menu-item (click)="sidenav.close();openEditUserDialog()">Edit details</button>
           <button mat-menu-item
-            *ngIf="currentUser && !currentUser.defaultPasswordChanged"
+            *ngIf="currentUser && !currentUser.default_password_changed"
             (click)="sidenav.close();openSetPasswordDialog()">
             <mat-chip-listbox class="chip-list-inline">
               <mat-chip class="mat-warn" color="warn">1</mat-chip>
@@ -79,7 +79,7 @@
           </button>
           <button
             mat-menu-item
-            *ngIf="currentUser && currentUser.defaultPasswordChanged"
+            *ngIf="currentUser && currentUser.default_password_changed"
             (click)="sidenav.close();openChangePasswordDialog()">
             Change password
           </button>
@@ -88,7 +88,7 @@
             <h3 matSubheader>Role</h3>
             <ng-container *ngFor="let role of currentUser.roles">
               <button
-                [ngClass]="{'background-primary-color': currentUser.activeRole == role}"
+                [ngClass]="{'background-primary-color': currentUser.active_role == role}"
                 mat-menu-item
                 (click)="changeActiveRole(role)">
                 <span *ngIf="role == 'user'">User</span>
@@ -169,9 +169,9 @@
               <a title="User" [mat-menu-trigger-for]="userMenu">
                 <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
                   <mat-icon>person</mat-icon>
-                  <mat-icon color="warn" *ngIf="!currentUser.defaultPasswordChanged">info</mat-icon>
+                  <mat-icon color="warn" *ngIf="!currentUser.default_password_changed">info</mat-icon>
                   <span>{{currentUser.fullname || currentUser.username}}</span>
-                  <!--<small>({{authenticationService.currentUser.activeRole}})</small>-->
+                  <!--<small>({{authenticationService.currentUser.active_role}})</small>-->
                 </div>
               </a>
             </small>
@@ -192,7 +192,7 @@
   <label class="mat-caption muted-color">User</label>
   <button mat-menu-item (click)="openEditUserDialog()">Edit details</button>
   <button mat-menu-item
-    *ngIf="currentUser && !currentUser.defaultPasswordChanged"
+    *ngIf="currentUser && !currentUser.default_password_changed"
     (click)="openSetPasswordDialog()">
     <mat-chip-listbox class="chip-list-inline">
       <mat-chip class="mat-warn" color="warn">1</mat-chip>
@@ -201,7 +201,7 @@
   </button>
   <button
     mat-menu-item
-    *ngIf="currentUser && currentUser.defaultPasswordChanged"
+    *ngIf="currentUser && currentUser.default_password_changed"
     (click)="openChangePasswordDialog()">
     Change password
   </button>
@@ -210,7 +210,7 @@
     <label class="mat-caption muted-color">Role</label>
     <ng-container *ngFor="let role of currentUser.roles">
       <button
-        [ngClass]="{'background-primary-color': currentUser.activeRole == role}"
+        [ngClass]="{'background-primary-color accent-color': currentUser.active_role == role}"
         mat-menu-item
         (click)="changeActiveRole(role)">
         <span *ngIf="role == 'user'">User</span>

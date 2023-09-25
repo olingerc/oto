@@ -259,7 +259,7 @@ export class AppComponent {
       if (!success) {
         return;
       }
-      this.currentUser.defaultPasswordChanged = true;
+      this.currentUser.default_password_changed = true;
       this.authenticationService.setCurrentUser(this.currentUser);
       this.alertService.info('Password has been set.');
     });
@@ -283,8 +283,8 @@ export class AppComponent {
     this.userService.changeActiveRole(this.currentUser, role)
       .subscribe(
         (user) => {
-          this.currentUser.activeRole = user.activeRole;
-          this.currentUser.activePrivileges = user.activePrivileges;
+          this.currentUser.active_role = user.active_role;
+          this.currentUser.active_privileges = user.active_privileges;
           this.authenticationService.setCurrentUser(this.currentUser);
         },
         error => {

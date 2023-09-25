@@ -1,9 +1,10 @@
 
-import {of as observableOf,  Observable } from 'rxjs';
-
-import {catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+
+import {of as observableOf,  Observable } from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
+import * as _ from 'lodash';
 
 import { AuthenticationService } from './authentication.service';
 import { AlertService } from '../alert/alert.service';
@@ -22,7 +23,7 @@ export class AuthActivateGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (currentUser && currentUser.activePrivileges) {
+    if (currentUser && currentUser.active_privileges) {
       // logged in, but first check if token still valid
       return this.authenticationService
         .checkTokenValidity()
@@ -36,11 +37,34 @@ export class AuthActivateGuard implements CanActivate {
                 // NOTE: Problem if authLoadGuard did not run since module was already
                 //  loaded (other user was logged in berfore)
                 // this will create an endless loop if the user does not even have
-                // rights to visit home (no otoUser) Happens only if admin forgot
+                // rights to visit home (no velonaUser) Happens only if admin forgot
                 // to set it
                 this.router.navigate(['/401']);
-                this.alertService.error(`No privileges were set for you in OTO`);
+                this.alertService.error(`No privileges were set for you in velona`);
               } else {
+                // Test if this is a child route and we have another child route the user could go to
+                if (route.parent?.routeConfig.children && route.parent?.routeConfig.children.length > 0) {
+                  let firstRouteWithAccess = null;
+                  route.parent?.routeConfig.children.forEach((childRoute: any) => {
+                    let authorized = false;
+                    if (childRoute.data?.accessPrivileges) {
+                      _.each(childRoute.data.accessPrivileges, (privilege) => {
+                        if (!authorized && currentUser.active_privileges) {
+                          authorized = currentUser.active_privileges.indexOf(privilege) > -1;
+                        }
+                      });
+                      if (!firstRouteWithAccess && authorized) {
+                        firstRouteWithAccess = childRoute;
+                      }
+                    }
+                  });
+                  if (firstRouteWithAccess) {
+                    this.router.navigateByUrl(state.url.split("/")[1] + "/" + firstRouteWithAccess.path)
+                    return false;
+                  }
+                }
+
+                // No rights, send to home
                 this.alertService.error(`
                   You need one of "${route.data['accessPrivileges']}" rights to visit ${route.url}.`);
                 this.router.navigate(['/', 'home']); // this will go to load guard

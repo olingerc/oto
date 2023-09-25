@@ -1,4 +1,3 @@
-from mongoengine import DoesNotExist
 
 from .models.users import UserSchema
 

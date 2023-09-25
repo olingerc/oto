@@ -12,6 +12,13 @@
     mat-chip-list.mat-chip-list {display: inline-block;}
   }
 
+  .workers-card {
+    .mat-mdc-card-header,
+    .mat-mdc-card-content {
+      padding:0
+    }
+  }
+
   .jobs-table pre {
     max-height: 240px;
     overflow-x: auto;

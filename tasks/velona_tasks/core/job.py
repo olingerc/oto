@@ -141,7 +141,6 @@ def job_to_dict(job):
     _id = job.id
     try:
         job_args = job.args  # not in to_dict
-        # I had deleted pipelines raising Deserialization errors because Mongo could no longer find them
     except DeserializationError:
         job_args = None
     try:

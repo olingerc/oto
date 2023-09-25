@@ -47,6 +47,10 @@ export class AuthenticationService {
           (loginUser: any) => {
             // login successful if there's a jwt token in the response
             if (loginUser && loginUser.token) {
+              if (loginUser.last_active_groupid) {
+                loginUser.activeGroup = _.find(loginUser.groups, {id: loginUser.last_active_groupid});
+              }
+
               this.setCurrentUser(loginUser);
 
               // return true to indicate successful login
@@ -60,7 +64,7 @@ export class AuthenticationService {
       catchError(res => this.httpHandler.handleError(res)),);
   }
 
-  logout(callback=null): void {
+  logout(callback): void {
     // clear token remove user from local storage to log user out
     localStorage.removeItem('currentUser');
 
@@ -114,7 +118,7 @@ export class AuthenticationService {
       this.alertService.error("Unknown privilege: " + privilege);
     }
 
-    return this.currentUser && this.currentUser.activePrivileges && this.currentUser.activePrivileges.indexOf(privilege) > -1;
+    return this.currentUser && this.currentUser.active_privileges && this.currentUser.active_privileges.indexOf(privilege) > -1;
   }
 
   authorizeMany(privileges: string[]) {
@@ -124,8 +128,8 @@ export class AuthenticationService {
         this.alertService.error("Unknown privilege: " + privilege);
       }
       // test for each until authoriuzed = true
-      if (!authorized && this.currentUser.activePrivileges) {
-        authorized = this.currentUser.activePrivileges.indexOf(privilege) > -1;
+      if (!authorized && this.currentUser.active_privileges) {
+        authorized = this.currentUser.active_privileges.indexOf(privilege) > -1;
       }
     });
     return authorized;

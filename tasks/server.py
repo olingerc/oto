@@ -20,7 +20,6 @@ import sys  # noqa: E402
 
 from velona_tasks.core.app import app, socketio  # noqa: E402
 from velona_tasks.core.workers import default_workers, remove_all_worker_containers, cancel_all_workers  # noqa: F401
-from velona_tasks.core.connections import connect_mongo  # noqa: E402
 from velona_tasks.core.monitor import websocket_monitors  # noqa: E402
 
 # Scheduler
@@ -51,9 +50,6 @@ def init_workers():
 
 # Start app
 if __name__ == '__main__':
-
-    # Mongo connection
-    connect_mongo()
 
     port = app.config['PORT']
     exclude_patterns = []

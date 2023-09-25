@@ -5,10 +5,10 @@
     <div fxLayout="column" fxLayoutGap="24px">
 
       <!-- Workers -->
-      <mat-card class="oto-mat-card-compact">
+      <mat-card class="workers-card">
         <mat-card-header>
-          <mat-toolbar class="oto-toolbar" fxLayout="row" fxLayoutAlign="start center">
-            <mat-toolbar-row>
+          <mat-toolbar class="oto-toolbar">
+            <mat-toolbar-row fxLayoutGap="8px" fxLayout="row" fxLayoutAlign="start center">
               <label>Workers&nbsp;</label>
               <span>
                 <small *ngIf="workers">{{workers.length}}</small>

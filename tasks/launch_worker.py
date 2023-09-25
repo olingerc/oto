@@ -29,8 +29,6 @@ if len(sys.argv) > 1:
 
 # Set up connections that every worker will need
 # It is less perfroamnt if you connect at the beginning of each job. 
-# However, NOT mongo, it is not fork safe
-# connect_mongo()
 if os.environ.get("WORKER_NAME_SUFFIX", None):
     # This is only on dev machine in order to be able to do scale > 1
     # the worker name needs to include the container name, since it it used to 

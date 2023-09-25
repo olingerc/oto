@@ -16,7 +16,7 @@ export class AuthLoadGuard implements CanLoad {
   ) { }
 
   canLoad(route: Route) {
-    if (this.authenticationService.currentUser && this.authenticationService.currentUser.activePrivileges) {
+    if (this.authenticationService.currentUser && this.authenticationService.currentUser.active_privileges) {
       /* Logged in */
 
       // logged in users should not go to login

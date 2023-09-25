@@ -2,3 +2,10 @@
   padding: 24px;
   height: 100%;
 }
+
+.jobs-card {
+  .mat-mdc-card-header,
+  .mat-mdc-card-content {
+    padding:0
+  }
+}

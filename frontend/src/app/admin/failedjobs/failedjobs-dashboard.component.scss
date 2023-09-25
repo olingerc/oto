@@ -8,4 +8,11 @@
     overflow-x: auto;
   }
 
+  .jobs-card {
+    .mat-mdc-card-header,
+    .mat-mdc-card-content {
+      padding:0
+    }
+  }
+
 }

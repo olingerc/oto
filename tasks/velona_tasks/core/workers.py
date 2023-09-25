@@ -57,8 +57,6 @@ def _run_worker_docker(queues, worker_name, host):
     # but worker has no secrets since directly started via docker
     # until I have k8s, I push from tasks to worker environment
     # certificates are injected into /run/secrets after container creation below
-    env_dict["MONGODB_USER"] = config.MONGODB_USER
-    env_dict["MONGODB_PW"] = config.MONGODB_PW
     env_dict["REDIS_PW"] = config.REDIS_PW
     env_dict["FLASK_SECRET"] = config.FLASK_SECRET
     # -------- HANDLE SECRETS PASSWORDS END ---------

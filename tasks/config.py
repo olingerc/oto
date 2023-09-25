@@ -41,19 +41,26 @@ class Config(object):
     # during devel, it's coming from webpack devel server on 8080
     CORS_ALLOWED = os.getenv("CORS_ALLOWED", "").split(",")
 
-    # MONGODB
-    MONGODB_DB = os.getenv("MONGODB_DB")
-    MONGODB_HOST = os.getenv("MONGODB_HOST")
+    # Postgres
+    POSTGRES_DB = os.getenv("POSTGRES_DB")
+    POSTGRES_HOST = os.getenv("POSTGRES_HOST")
+    POSTGRES_PORT = os.getenv("POSTGRES_PORT") or 5432
     try:
-        with open('/run/secrets/MONGODB_USER', 'r') as f:
-            MONGODB_USER = f.read().strip()
+        with open('/run/secrets/POSTGRES_USER', 'r') as f:
+            POSTGRES_USER = f.read().strip()
     except:
-        MONGODB_USER = os.getenv("MONGODB_USER")
+        POSTGRES_USER = os.getenv("POSTGRES_USER")
     try:
-        with open('/run/secrets/MONGODB_PW', 'r') as f:
-            MONGODB_PW = f.read().strip()
+        with open('/run/secrets/POSTGRES_PW', 'r') as f:
+            POSTGRES_PW = f.read().strip()
     except:
-        MONGODB_PW = os.getenv("MONGODB_PW")
+        POSTGRES_PW = os.getenv("POSTGRES_PW")
+
+    POSTGRES_URI = 'postgresql://{0}:{1}@{2}:{4}/{3}'.format(POSTGRES_USER,
+                                                                    POSTGRES_PW,
+                                                                    POSTGRES_HOST,
+                                                                    POSTGRES_DB,
+                                                                    POSTGRES_PORT)
 
     # REDIS
     REDIS_HOST = os.getenv("REDIS_HOST")

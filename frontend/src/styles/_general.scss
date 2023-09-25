@@ -328,6 +328,119 @@
   Hacks
   */
 
+    /*
+  angular material 15 changed spacing from normal to 1.25px. I prefer normal
+  */
+  .mdc-button {
+    letter-spacing: normal;
+  }
+  .mat-mdc-dialog-container .mdc-dialog__content {
+    letter-spacing: normal;
+  }
+  .mdc-tab {
+    letter-spacing: normal;
+  }
+
+  .mdc-button.raised-icon-button {
+    padding:0;
+    min-width: 48px;
+    
+    mat-icon {
+      margin: 0;
+    }
+  }
+
+  /* Mat tabs border for inactive (was removec in angular material 15 */
+  .mat-mdc-tab-labels {
+    .mat-mdc-tab {
+      min-width: 160px
+    }
+  
+    border-bottom: 1px solid rgba(0,0,0,.12)
+  }
+
+  /*
+  Angular 15 applied a huge line height
+  */
+  mat-dialog-content.mat-mdc-dialog-content {
+    --mdc-dialog-supporting-text-tracking: 0px; /* letter-spacing */
+    --mdc-dialog-supporting-text-line-height: 14px;
+  }
+
+  /*
+  angular material 15 changed default values here that made icons very small
+  create class to override
+  */
+  .mdc-button.with-icon {
+    letter-spacing: normal;
+
+    > .mat-icon {
+      font-size: 24px;
+      height: 24px;
+      width: 24px;
+      margin-right: 0
+    }
+  }
+
+  /*
+  angular material 15 changed from 40 to 48. Use this in case you want smaller again
+  */
+  a.mat-mdc-icon-button.mat-icon-button-smaller {
+    .mat-icon {
+      margin-top: 8px;
+    }
+  }
+  .mat-mdc-icon-button.mat-icon-button-smaller {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+
+    .mat-icon {
+      margin-top: 4px;
+    }
+
+    .mat-mdc-button-touch-target {
+      width:40px;
+      height: 40px;
+      line-height: 40px;
+    }
+  }
+
+  /*
+  angular 15 has put a lot of padding within the default chips: remove
+  */
+  .velona-tag {
+    font-weight: normal;
+    font-size: 10px;
+    border-radius: 16px;
+    padding: 2px 8px 1px 8px;
+    height: 24px;
+    min-height: 24px;
+    align-items: center;
+    letter-spacing: normal;
+  }
+
+  .velona-tag-larger {
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 16px;
+    padding: 4px 8px 3px 8px;
+    height: 28px;
+    min-height: 24px;
+    align-items: center;
+    letter-spacing: normal;
+  }
+
+  /* for chips in a menu, cf header with set pasword */
+  mat-chip-set.chip-set-inline {
+    display: inline-block !important;
+
+    .mat-mdc-chip {
+      line-height: 8px;
+      padding: 7px 8px;
+    }
+  }
+
   /* for chips in a menu, cf header with set pasword */
   mat-chip-list.chip-list-inline {
     display: inline-block !important;
