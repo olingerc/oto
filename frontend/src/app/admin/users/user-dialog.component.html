@@ -4,7 +4,7 @@
     <span>Edit</span>
     <div fxFlex></div>
     <button color="primary" *ngIf="data.action === 'update'" mat-raised-button (click)="removePassword(user)">RESET PW</button>
-    <button *ngIf="data.action === 'update'" mat-raised-button color="warn" (click)="deleteUser(user.id)">DELETE</button>
+    <button *ngIf="data.action === 'update'" mat-raised-button color="warn" (click)="deleteUser(user.username)">DELETE</button>
   </div>
 </h1>
 

@@ -48,7 +48,6 @@ export class UserDialogComponent {
   ) {
 
     this.userForm = this.fb.group({
-      id: null, // for updates
       username: [null, Validators.required],
       fullname: null,
       password: null,
@@ -104,7 +103,7 @@ export class UserDialogComponent {
 
   removePassword(user) {
     this.loading = true;
-    this.userService.removePasswordByAdmin(user.id)
+    this.userService.removePasswordByAdmin(user.username)
       .subscribe(
         () => {
           this.loading = false;
@@ -118,9 +117,9 @@ export class UserDialogComponent {
         });
   }
 
-  deleteUser(userId) {
+  deleteUser(username) {
     this.loading = true;
-    this.userService.deleteByAdmin(userId)
+    this.userService.deleteByAdmin(username)
       .subscribe(
         () => {
           this.loading = false;

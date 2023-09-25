@@ -252,7 +252,7 @@ export class AppComponent {
   openSetPasswordDialog() {
     let dialogRef = this.dialog.open(NavbarSetPasswordDialog, {
       width: '300px',
-      data: {userId: this.currentUser.id}
+      data: {userId: this.currentUser.username}
     });
 
     dialogRef.beforeClosed().subscribe(success => {
@@ -268,7 +268,7 @@ export class AppComponent {
   openChangePasswordDialog() {
     let dialogRef = this.dialog.open(NavbarChangePasswordDialog, {
       width: '300px',
-      data: {userId: this.currentUser.id}
+      data: {userId: this.currentUser.username}
     });
 
     dialogRef.beforeClosed().subscribe(success => {

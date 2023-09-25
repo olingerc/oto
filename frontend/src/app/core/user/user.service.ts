@@ -40,12 +40,14 @@ export class UserService {
   }
 
   create(user: User): Observable<any> {
+    delete user.tasksapitokenSet;
     return this.http.post(`${this.apiBase}/api/auth/users`, user, this.jwt()).pipe(
       catchError(res => this.httpHandler.handleError(res)));
   }
 
   // can not be used to change password
   update(user: User): Observable<any> {
+    delete user.tasksapitokenSet;
     return this.http.put(`${this.apiBase}/api/auth/users/` + user.username, user, this.jwt()).pipe(
       catchError(res => this.httpHandler.handleError(res)));
   }

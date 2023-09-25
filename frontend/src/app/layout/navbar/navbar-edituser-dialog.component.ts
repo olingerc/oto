@@ -62,7 +62,7 @@ export class NavbarEditUserDialog {
   confirmRemovingUser() {
     this.removeUserError = false;
 
-    this.userService.deleteByUser(this.data.user.id, this.removeUserPassword)
+    this.userService.deleteByUser(this.data.user.username, this.removeUserPassword)
       .subscribe(
         data => {
           this.removingUser = false;
@@ -74,7 +74,7 @@ export class NavbarEditUserDialog {
         },
         error => {
           if (error.indexOf && error.indexOf('incorrect password') > -1) {
-            this.removeUserPasswordInput.setErrors({invaéid: true});
+            this.removeUserPasswordInput.setErrors({invalid: true});
           } else {
             this.removeUserError = true;
           }
