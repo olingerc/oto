@@ -14,7 +14,6 @@ from .job import (send_job_to_rq, job_to_dict, get_failed_jobs, get_jobs_from_qu
 from .logutils import setup_task_logger
 from .queues import clear_failed_queue
 from .status import status
-from .state import get_state
 from .utils import crossdomain
 from .workers import kill_worker_evil, add_new_worker
 
@@ -34,22 +33,6 @@ def login():
     # not doing a http session first will create strange results
     # Storage of username handled in on_connect of websocket
     return jsonify(message="ok"), 200
-
-
-@app.route('/tasksapi/state', methods=['GET', 'OPTIONS'])
-@crossdomain(origin=app.config['CORS_ALLOWED'], headers=['Content-Type', 'Access-Control-Allow-Origin', 'X-XSRF-TOKEN'])
-@jwt_required()
-def get_state_route():
-    user = get_jwt()
-    client_username = user.get('username', None)
-
-    try:
-        return jsonify(get_state()), 200
-    except Exception as e:
-        if os.environ.get("FLASK_ENV", "development") == 'development':
-            type, value, tb = exc_info()
-            print(traceback.format_exc())
-        return jsonify(message="%s" % e), 500
 
 
 @app.route('/tasksapi/status', methods=['GET', 'OPTIONS'])

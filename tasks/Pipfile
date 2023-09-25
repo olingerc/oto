@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 apscheduler = "==3.9.1"
 docker = "==5.0.3"
-eventlet = "==0.33.0"
+eventlet = "==0.33.3"
 flask-jwt-extended = "==4.4.1"
 flask-session = "==0.3.2"
 flask-socketio = "==5.2.0"
