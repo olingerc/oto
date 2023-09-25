@@ -1,309 +1,335 @@
 /*jslint node: true */
 
 import _ from 'lodash';
+import crypto from 'crypto';
 
-import User, { IUser } from '../models/User';
+import { User } from '../models/User';
 
 import * as Privileges from '../models/Privileges';
+import * as auth from './auth';
 import { configFunc } from '../../config/config';
 const config = configFunc();
 
-let methods: any = {
-  list: function(req, res) {
-    User.find({})
-      .sort('username')
-      .exec(
-        function(err, users) {
-          _.each(users, function(user, index) {
-            user.censor();
-          });
-        res.status(200).json(users);
-      }
-    );
-  },
-  create: function(req, res, next) {
-    /*try { //TODO: validate using model requirements
-        User.validate(req.body);
+/**
+ * INTENRAL USER FUNCTIONS
+ */
+
+/**
+ * Make salt
+ *
+ * @return {String}
+ * @api public
+ */
+function _makeSalt () {
+  return crypto.randomBytes(16).toString('base64');
+}
+
+function _setPassword(password, userDoc) {
+  userDoc.salt = _makeSalt();
+  userDoc.hashed_password = auth.encryptPassword(password, userDoc);
+  delete userDoc.password;
+  return userDoc;
+}
+
+/**
+ * Pre-save hook
+ */
+function _preSave(userDoc) {
+
+  // UPDATE AND NEW
+  // keep roles and privilges in sync
+  let roles = [];
+  let roleType = null;
+  _.each(userDoc.privileges, (privKey) => {
+    roleType = _.find(Privileges.types, {"key": privKey});
+    if (roleType && roles.indexOf(roleType.role) == -1) {
+      roles.push(roleType.role);
     }
-    catch(err) {
-        return res.send(400, err.message);
-    }*/
+  });
+  userDoc.roles = roles;
+
+  // save active Privileges based on active Role
+  // if manager, keep user, if admin, keep manager and user
+  let active_privileges = [];
+  roleType = null;
+  _.each(userDoc.privileges, (privKey) => {
+    roleType = _.find(Privileges.types, {"key": privKey});
+    if (roleType && roleType.role === userDoc.active_role) {
+      active_privileges.push(roleType.key);
+    }
+
+    if (userDoc.active_role === "manager") {
+      if (roleType && roleType.role === "user") {
+        active_privileges.push(roleType.key);
+      } 
+    }
+
+    if (userDoc.active_role === "admin") {
+      if (roleType && (roleType.role === "user" || roleType.role === "manager")) {
+        active_privileges.push(roleType.key);
+      } 
+    }
+  });
+  userDoc.active_privileges = active_privileges;
+  return userDoc;
+}
+
+let methods: any = {
+  list: async function(req, res) {
+    try {
+      const users = await User.query().orderBy("username");
+      _.each(users, function(user, index) {
+        user = auth.censor(user);
+      });
+      res.status(200).json(users);
+    } catch (err) {
+      res.status(500).json({"message": 'Error reading labs from db.'});
+    }
+  },
+
+  create: async function(req, res, next) {
     if (!req.body.password) {
       req.body.password = req.body.username;
     }
-    let user = new User(req.body);
-    let message = null;
+    let userToCreate = req.body;
 
-    user.save(function(err: any, user) {
-      if (err) {
-        switch (err.code) {
-          case 11000:
-          case 11001:
-            message = `Username already taken: ${req.body.username}`;
-            break;
-          default:
-            message = 'Please fill all the required fields';
-          }
-          res.status(400).json({success: false, message: message});
-        } else {
-          res.status(200).json(user.censor())
-        };
-    });
+    // Non domain user
+    userToCreate.default_password_changed = true;
+    userToCreate = _setPassword(userToCreate.password, userToCreate);
+    try {
+      const savedUser = await User.query().insert(userToCreate);
+      res.json(auth.censor(savedUser));
+    } catch (e) {
+      res.status(400).json({success: false, message: e});
+    }
   },
-  update: function(req, res, next) {
+
+  update: async function(req, res, next) {
     /**
     * This route can not be used to change or remove a password
     */
-    let id = req.params.id;
-    User
-      .findOne({id: id})
-      .exec(function(err, user) {
-        if (err) {
-          res.status(400).json({success: false, message: JSON.stringify(err)});
-        } else {
-          if (!user) {
-            return res.status(400).json({success: false, message: 'Failed finding user ' + id});
-          }
-          let updatedUser = req.body;
-          delete updatedUser.__v;
+    let username = req.params.username;
+    const userDoc = await User.query().where("username", username).first();
+    
+    if (!userDoc) {
+      return res.status(400).json({success: false, message: 'Failed finding user ' + username});
+    }
 
-          // Do not save any passwords, keep passowrd encrypted in DB
-          delete user.password;
-          delete updatedUser.password;
+    let toUpdate = req.body;
+    delete toUpdate.password;
+    toUpdate = _preSave(toUpdate);
 
-          // Do actual update
-          _.extend(user, updatedUser);
-
-          user.save(function(err, user) {
-            if (err) {
-              res.status(400).json({success: false, message: JSON.stringify(err)});
-            } else {
-              res.status(200).json(user.censor());
-            }
-          });
-        }
-      }
-    );
+    try {
+      const updatedUser = await User.query()
+        .findById(username)
+        .patch(toUpdate)
+        .returning('*')
+        .first();
+      res.status(200).json(auth.censor(updatedUser));
+    } catch (e) {
+      res.status(400).json({success: false, message: JSON.stringify(e)});
+    }
   },
 
   /*
   * by user
   */
-  addPasswordByUser: function(req, res, next) {
-    /*try { //TODO:  validate
-        User.validate(req.body);
+  addPasswordByUser: async function(req, res, next) {
+    let username = req.params.username;
+    let userDoc: any = await User.query().where("username", username).first();
+    if (!userDoc) {
+      return res.status(400).json({success: false, message: 'Failed finding user ' + username});
     }
-    catch(err) {
-        return res.send(400, err.message);
-    }*/
-    let id = req.params.id;
-    User
-      .findOne({id: id})
-      .exec(function(err, user) {
-        if (err) {
-          res.status(400).json({success: false, message: JSON.stringify(err)});
-        } else {
-          if (!user) {
-            return res.status(400).json({success: false, message: 'Failed finding user ' + id});
-          }
 
-          // this route can not be used to change or remove a password
-          if (user.defaultPasswordChanged) {
-            return res.status(500).json({success: false, message: 'User ' + id + ' already changed her password.'});
-          }
+    // this route can not be used to change or remove a password
+    if (userDoc.default_password_changed) {
+      return res.status(500).json({success: false, message: 'User ' + username + ' already changed their password.'});
+    }
 
-          if (req.body.password && req.body.password !== '') {
-            user.password = req.body.password;
-            user.defaultPasswordChanged = true;
-          } else {
-            return res.status(500).json({success: false, message: 'No password was provided.'});
-          }
-          user.save(function(err, user) {
-            if (err) {
-              res.status(400).json({success: false, message: JSON.stringify(err)});
-            }
-            else {
-              res.status(200).json(user.censor());
-            }
-          });
-        }
-      }
-    );
+    if (req.body.password && req.body.password !== '') {
+      userDoc = _setPassword(req.body.password, userDoc);
+      userDoc.default_password_changed = true;
+    } else {
+      return res.status(500).json({success: false, message: 'No password was provided.'});
+    }
+    try {
+      userDoc = _preSave(userDoc);
+      const updatedUser = await User.query()
+        .findById(username)
+        .patch(userDoc)
+        .returning('*')
+        .first();
+      res.status(200).json(auth.censor(updatedUser));
+    } catch (e) {
+      res.status(400).json({success: false, message: JSON.stringify(e)});
+    }
   },
-  changePasswordByUser: function(req, res, next) {
+
+  changePasswordByUser: async function(req, res, next) {
     if (!req.body.old) {
       return res.status(400).json({success: false, message: 'Password is required'});
     }
-    let id = req.params.id;
-    User
-      .findOne({id: id})
-      .exec(function(err, user) {
-        if (err) {
-          res.status(400).json({success: false, message: JSON.stringify(err)});
-        } else {
-          if (!user) {
-            return res.status(400).json({success: false, message: 'Failed finding user ' + id});
-          }
-          let oldPassword = req.body.old;
-          if (!user.authenticate(oldPassword)) {
-            return res.status(401).json({success: false, message: 'incorrect password'});
-          }
+    let username = req.params.username;
+    let userDoc: any = await User.query().where("username", username).first();
+    if (!userDoc) {
+      return res.status(400).json({success: false, message: 'Failed finding user ' + username});
+    }
 
-          if (req.body.new) {
-            user.defaultPasswordChanged = true;
-            user.password = req.body.new;
-          }
-          user.save(function(err, user) {
-            if (err) {
-              res.status(400).json({success: false, message: JSON.stringify(err)});
-            } else {
-              res.status(200).json(user.censor());
-            }
-          });
-        }
-      }
-    );
+    let oldPassword = req.body.old;
+    if (!auth.authenticate(oldPassword, userDoc)) {
+      return res.status(401).json({success: false, message: 'incorrect password'});
+    }
+
+    if (req.body.new) {
+      userDoc = _setPassword(req.body.new, userDoc);
+      userDoc.default_password_changed = true;
+    }
+    try {
+      userDoc = _preSave(userDoc);
+      const updatedUser = await User.query()
+        .findById(username)
+        .patch(userDoc)
+        .returning('*')
+        .first();
+      res.status(200).json(auth.censor(updatedUser));
+    } catch (e) {
+      res.status(400).json({success: false, message: JSON.stringify(e)});
+    }
   },
-  removePasswordByAdmin: function(req, res, next) {
-    let id = req.params.id;
-    let user = User
-      .findOne({id: id})
-      .exec(function(err, user) {
-        if (err) {
-          res.status(400).json({success: false, message: JSON.stringify(err)});
-        } else {
-          if (!user) {
-            return res.status(400).json({success: false, message: 'Failed finding user ' + id});
-          }
 
-          user.defaultPasswordChanged = false;
-          user.password = user.username;
+  removePasswordByAdmin: async function(req, res, next) {
+    let username = req.params.username;
+    let userDoc: any = await User.query().where("username", username).first();
+    if (!userDoc) {
+      return res.status(400).json({success: false, message: 'Failed finding user ' + username});
+    }
 
-          user.save(function(err, user) {
-            if (err) {
-              res.status(400).json({success: false, message: JSON.stringify(err)});
-            } else {
-              res.status(200).json(user.censor());
-            }
-          });
-        }
-      }
-    );
+    userDoc = _setPassword(userDoc.username, userDoc);
+    userDoc.default_password_changed = false;
+
+    try {
+      userDoc = _preSave(userDoc);
+      const updatedUser = await User.query()
+        .findById(username)
+        .patch(userDoc)
+        .returning('*')
+        .first();
+      res.status(200).json(auth.censor(updatedUser));
+    } catch (e) {
+      res.status(400).json({success: false, message: JSON.stringify(e)});
+    }
   },
-  changeActiveRole: function(req, res, next) {
-    let id = req.params.id;
+
+  changeActiveRole: async function(req, res, next) {
+    let username = req.params.username;
     let role = req.body.role;
-    let user = User
-      .findOne({id:id})
-      .exec(function(err, user) {
-        if (err) {
-          res.status(400).json({success: false, message: JSON.stringify(err)});
-        } else {
-          if (!user) {
-            return res.status(400).json({success: false, message: 'Failed finding user ' + id});
-          }
-          user.activeRole = role;
 
-          user.save(function(err, user) {
-            if (err) {
-              res.status(400).json({success: false, message: JSON.stringify(err)});
-            } else {
-              res.status(200).json(user.censor());
-            }
-          });
-        }
-      }
-    );
+    let userDoc: any = await User.query().where("username", username).first();
+    if (!userDoc) {
+      return res.status(400).json({success: false, message: 'Failed finding user ' + username});
+    }
+
+    userDoc.active_role = role;
+    try {
+      userDoc = _preSave(userDoc);
+      const updatedUser = await User.query()
+        .findById(username)
+        .patch(userDoc)
+        .returning('*')
+        .first();
+      res.status(200).json(auth.censor(updatedUser));
+    } catch (e) {
+      res.status(400).json({success: false, message: JSON.stringify(e)});
+    }
   },
-  removeWithPassword: function(req, res, next) {
+
+  removeWithPassword: async function(req, res, next) {
     if (!req.body.old) {
       return res.status(400).json({success: false, message: 'Password is required'});
     }
-    let id = req.params.id;
-    User
-      .findOne({id:id})
-      .exec(function(err, user) {
-        if (err) {
-          res.status(400).json({success: false, message: JSON.stringify(err)});
-        } else {
-          if (!user) {
-            return res.status(400).json({success: false, message: 'Failed finding user ' + id});
-          }
-          let password = req.body.old || 'default';
-
-
-          if (!user.authenticate(password)) {
-            return res.status(401).json({success: false, message: 'incorrect password'});
-          }
-
-          User.findByIdAndDelete(user.id, null, function(err) {
-            if (err) {
-              res.status(400).json({success: false, message: JSON.stringify(err)});
-            } else {
-              res.status(200).json({success: true, message: 'removed'});
-            }
-          });
-        }
-      }
-    );
-  },
-  remove: function(req, res, next) {
-    User.deleteOne({id: req.params.id}, function(err) {
-      if (err) {
-        res.status(400).json({success: false, message: JSON.stringify(err)});
-      } else {
-        res.status(200).json({success: true, message: 'removed'});
-      }
-    });
-  },
-  checkAdminMinimum: function() {
-    if (config.debug == "true") {
-      // super user is only to facilitate development. this user has all privilges
-      User.findOne({'username': 'su'}, function(err, user) {
-        if (err) {
-          console.log(err);
-        }
-        if (!user) {
-          let secondUser = new User({
-            username: 'su',
-            password: '123',
-            fullname: 'Superuser',
-            activeRole: 'admin',
-            defaultPasswordChanged: true,
-            privileges: Privileges.keys
-          });
-          secondUser.save(function(err) {
-            if (err) {
-              console.log('Error while trying to create initial su user');
-              console.log(err);
-            }
-          });
-          console.log('An initial superuser has been created: su/123');
-        }
-      });
+    let username = req.params.username;
+    const userDoc: any = await User.query().where("username", username).first();
+    if (!userDoc) {
+      return res.status(400).json({success: false, message: 'Failed finding user ' + username});
     }
-    User.findOne({'username': 'admin'}, function(err, user) {
-      if (err) {
-        console.log(err);
+
+    let password = req.body.old || 'default';
+
+    if (!auth.authenticate(password, userDoc)) {
+      return res.status(401).json({success: false, message: 'incorrect password'});
+    }
+
+    try {
+      const _delete = await User.query().where("username", username).delete();
+      res.status(200).json({success: true, message: 'removed'});
+    } catch (delerr) {
+      res.status(400).json({success: false, message: JSON.stringify(delerr)});
+    }
+  },
+
+  remove: async function(req, res, next) {
+    try {
+      const _delete = await User.query().where("username", req.params.username).delete();
+      res.status(200).json({success: true, message: 'removed'});
+    } catch (delerr) {
+      res.status(400).json({success: false, message: JSON.stringify(delerr)});
+    }
+  },
+
+  checkAdminMinimum: async function() {
+    if (config.debug == "true") {
+      const userDoc: any = await User.query().where("username", "su").first();
+      // super user is only to facilitate development. this user has all privileges
+      if (!userDoc) {
+        let suUser = {
+          username: 'su',
+          fullname: 'Superuser',
+          active_role: 'admin',
+          default_password_changed: true,
+          privileges: Privileges.keys
+        };
+        suUser = _setPassword("123", suUser);
+        suUser = _preSave(suUser);
+        const savedUser: any = await User.query().insert(suUser);
+        console.log('An initial superuser has been created: su/123');
       }
-      if (!user) {
-        let firstUser = new User({
-          username: 'admin',
-          password: '123',
-          fullname: 'Administrator',
-          activeRole: 'admin',
-          defaultPasswordChanged: true,
-          privileges: ["otoUser", "otoAdmin"]
-        });
-        firstUser.save(function(err) {
-          if (err) {
-            console.log('Error while trying to create initial admin user');
-            console.log(err);
-          }
-        });
-        console.log('An initial admin user has been created: admin/123');
-      }
-    });
+    }
+
+    const userDoc: any = await User.query().where("username", "admin").first();
+    if (!userDoc) {
+      let adminUser = {
+        username: 'admin',
+        fullname: 'Administrator',
+        active_role: 'admin',
+        default_password_changed: true,
+        privileges: ["otoUser", "otoAdmin"]
+      };
+      adminUser = _setPassword("123", adminUser);
+      adminUser = _preSave(adminUser);
+      const savedUser: any = await User.query().insert(adminUser);
+      console.log('An initial admin has been created: admin/123');
+    }
+  },
+
+  removeTasksApiToken: async function(req, res, next) {
+    let username = req.params.username;
+    let userDoc: any = await User.query().where("username", username).first();
+    if (!userDoc) {
+      return res.status(400).json({success: false, message: 'Failed finding user ' + username});
+    }
+
+    userDoc.tasksapitoken = null;
+    try {
+      userDoc = _preSave(userDoc);
+      const updatedUser = await User.query()
+        .findById(username)
+        .patch(userDoc)
+        .returning('*')
+        .first();
+      res.status(200).json(auth.censor(updatedUser));
+    } catch (e) {
+      res.status(400).json({success: false, message: JSON.stringify(e)});
+    }
   },
 
 };

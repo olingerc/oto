@@ -40,53 +40,60 @@ export const routes = [
         accessPrivileges: ['otoAdmin'] // not necessary since admin
     },
     {
-        path: '/api/auth/users/:id',
+        path: '/api/auth/users/:username',
         httpMethod: 'PUT',
         middleware: [UserCtrl.update],
         accessLevel: 'privileged', // users can set, change and remove passwords
         accessPrivileges: ['otoUser']
     },
     {
-        path: '/api/auth/users/:id',
+        path: '/api/auth/users/:username',
         httpMethod: 'DELETE',
         middleware: [UserCtrl.remove],
         accessLevel: 'privileged',
         accessPrivileges: ['otoAdmin']
     },
     {
-        path: '/api/auth/users/deletebyuser/:id',
+        path: '/api/auth/users/deletebyuser/:username',
         httpMethod: 'POST',
         middleware: [UserCtrl.removeWithPassword],
         accessLevel: 'privileged',
         accessPrivileges: ['otoUser']
     },
     {
-        path: '/api/auth/users/addpassword/:id',
+        path: '/api/auth/users/addpassword/:username',
         httpMethod: 'PUT',
         middleware: [UserCtrl.addPasswordByUser],
         accessLevel: 'privileged',
         accessPrivileges: ['otoUser']
     },
     {
-        path: '/api/auth/users/changepassword/:id',
+        path: '/api/auth/users/changepassword/:username',
         httpMethod: 'PUT',
         middleware: [UserCtrl.changePasswordByUser],
         accessLevel: 'privileged',
         accessPrivileges: ['otoUser']
     },
     {
-        path: '/api/auth/users/removepasswordbyadmin/:id',
+        path: '/api/auth/users/removepasswordbyadmin/:username',
         httpMethod: 'PUT',
         middleware: [UserCtrl.removePasswordByAdmin],
         accessLevel: 'privileged',
         accessPrivileges: ['otoAdmin']
     },
     {
-        path: '/api/auth/users/changeactiverole/:id',
+        path: '/api/auth/users/changeactiverole/:username',
         httpMethod: 'POST',
         middleware: [UserCtrl.changeActiveRole],
         accessLevel: 'privileged',
         accessPrivileges: ['otoUser']
+    },
+    {
+        path: '/api/auth/users/removetasksapitoken/:username',
+        httpMethod: 'PUT',
+        middleware: [UserCtrl.removeTasksApiToken],
+        accessLevel: 'privileged',
+        accessPrivileges: ['otoAdmin']
     },
 
     {

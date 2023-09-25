@@ -15,14 +15,14 @@ services:
     build:
       context: ./backend
     depends_on:
-      - mongodb
+      - postgres
     extra_hosts:
       - "host.docker.internal:host-gateway"
     env_file:
       - ./backend/.env.development
     secrets:
-      - MONGODB_USER
-      - MONGODB_PW
+      - POSTGRES_USER
+      - POSTGRES_PW
       - WEBTOKEN_SECRET
       - CAM_USER
       - CAM_PW
@@ -45,13 +45,13 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
-      - mongodb
+      - postgres
       - redis
     env_file:
       - ./tasks/.env.development
     secrets:
-      - MONGODB_USER
-      - MONGODB_PW
+      - POSTGRES_USER
+      - POSTGRES_PW
       - REDIS_PW
       - WEBTOKEN_SECRET
       - FLASK_SECRET
@@ -80,14 +80,14 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
-      - mongodb
+      - postgres
       - redis
     env_file:
       - ./tasks/worker/.env.development
     # In prod it is tasks that starts worker and injects secrets into env. In dev new workers also follow that way
     secrets:
-      - MONGODB_USER
-      - MONGODB_PW
+      - POSTGRES_USER
+      - POSTGRES_PW
       - REDIS_PW
       - FLASK_SECRET
       - SSH_KEY_DOCKER_HOST
@@ -100,22 +100,20 @@ services:
       # for development
       - tasks_source:/home/oto/app/velona_tasks
 
-  mongodb:
-    image: mongo:5.0
+  postgres:
+    image: postgres:14.3-alpine3.15
     ports:
-      - "27017:27017"
+      - "5432:5432"
     secrets:
-      - MONGO_INITDB_ROOT_PASSWORD
-      - MONGODB_USER
-      - MONGODB_PW
+      - POSTGRES_USER
+      - POSTGRES_PW
     environment:
+      POSTGRES_USER_FILE: /run/secrets/POSTGRES_USER
+      POSTGRES_PASSWORD_FILE: /run/secrets/POSTGRES_PW
+      POSTGRES_DB: oto
       TZ: Europe/Luxembourg
-      # mongo docker understands _FILE and loads the content
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/MONGO_INITDB_ROOT_PASSWORD
-    command: mongod  --quiet --logpath /dev/null --bind_ip 0.0.0.0
     volumes:
-      - mongodb:/data/db
+      - postgres:/var/lib/postgresql/data
 
   redis:
     image: redis:7
@@ -135,7 +133,7 @@ services:
     ]
 
 volumes:
-  mongodb: {}
+  postgres: {}
   tasks_source:
     driver: local
     driver_opts:
@@ -150,12 +148,10 @@ secrets:
     file: ./secrets/certificates/id_rsa_dev
 
   # passwords
-  MONGODB_USER:
-    file: ./secrets/passwords/MONGODB_USER
-  MONGODB_PW:
-    file: ./secrets/passwords/MONGODB_PW
-  MONGO_INITDB_ROOT_PASSWORD:
-    file: ./secrets/passwords/MONGO_INITDB_ROOT_PASSWORD
+  POSTGRES_USER:
+    file: ./secrets/passwords/POSTGRES_USER
+  POSTGRES_PW:
+    file: ./secrets/passwords/POSTGRES_PW
   REDIS_PW:
     file: ./secrets/passwords/REDIS_PW
   WEBTOKEN_SECRET:

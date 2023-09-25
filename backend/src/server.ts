@@ -1,19 +1,21 @@
 /*jslint node: true */
 import express from 'express';
-import mongoose from 'mongoose';
-import fs from 'fs';
+
+import http from 'http';
+import fs from 'fs-extra';
+import _ from 'lodash';
+import cors from  'cors';
+import compression from 'compression';
+import postgresqlDb from './core/postgresqlDb';
+
+import { configFunc } from './config/config';
 
 import socketio from "socket.io";
 import rtsp from 'rtsp-ffmpeg';
 
-import http from 'http';
-import _ from 'lodash';
-import cors from  'cors';
-import compression from 'compression';
-
-import { configFunc } from './config/config';
 
 import * as User_Ctrl from './core/controllers/user';
+
 
 // Routes
 import { routes as coreCroutes } from './core/coreRoutes';
@@ -27,18 +29,13 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 // Initialize system variables (make sure variables in -env files are set. usually via dockker)
 let config = configFunc();
 
-// Configure mongoose connection
-mongoose
-  .connect(config.db, {})
-  .then(() => {
-    return console.info(`Successfully connected to mongodb`);
-  })
-  .catch(error => {
-    console.error('Error connecting to database: ', error);
-    return process.exit(1);
-  });
-mongoose.connection.on('error', console.error.bind(console, 'ERROR: Failed connecting to mongodb:'));
-
+// Configure postgres connection
+postgresqlDb.pool.connect(function(err) {
+  if (err) {
+    console.error("*** Error connecting to postgresql ***");
+    console.error(err);
+  }
+});
 /**
  * Configure express settings
  */
@@ -47,7 +44,7 @@ app.disable('x-powered-by');
 
 app.locals.pretty = true;
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV !== 'development') {
   app.use(compression());
 }
 

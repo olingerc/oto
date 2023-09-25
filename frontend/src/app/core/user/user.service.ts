@@ -46,39 +46,39 @@ export class UserService {
 
   // can not be used to change password
   update(user: User): Observable<any> {
-    return this.http.put(`${this.apiBase}/api/auth/users/` + user.id, user, this.jwt()).pipe(
+    return this.http.put(`${this.apiBase}/api/auth/users/` + user.username, user, this.jwt()).pipe(
       catchError(res => this.httpHandler.handleError(res)));
   }
 
   changeActiveRole(user: User, role: any): Observable<any> {
-    return this.http.post(`${this.apiBase}/api/auth/users/changeactiverole/` + user.id, {role: role}, this.jwt()).pipe(
+    return this.http.post(`${this.apiBase}/api/auth/users/changeactiverole/` + user.username, {role: role}, this.jwt()).pipe(
       catchError(res => this.httpHandler.handleError(res)));
   }
 
-  addPasswordByUser(id: string, password: string): Observable<any> {
-    return this.http.put(`${this.apiBase}/api/auth/users/addpassword/` + id,
+  addPasswordByUser(username: string, password: string): Observable<any> {
+    return this.http.put(`${this.apiBase}/api/auth/users/addpassword/` + username,
       {password: password},
       this.jwt()).pipe(
         catchError(res => this.httpHandler.handleError(res)));
   }
 
-  changePasswordByUser(id: string, oldPassword: string, newPassword): Observable<any> {
-    return this.http.put(`${this.apiBase}/api/auth/users/changepassword/` + id,
+  changePasswordByUser(username: string, oldPassword: string, newPassword): Observable<any> {
+    return this.http.put(`${this.apiBase}/api/auth/users/changepassword/` + username,
       {old: oldPassword, new: newPassword},
       this.jwt()).pipe(
         catchError(res => this.httpHandler.handleError(res)));
   }
 
-  removePasswordByAdmin(id: string): Observable<any> {
-    return this.http.put(`${this.apiBase}/api/auth/users/removepasswordbyadmin/` + id,
+  removePasswordByAdmin(username: string): Observable<any> {
+    return this.http.put(`${this.apiBase}/api/auth/users/removepasswordbyadmin/` + username,
       null,
       this.jwt()).pipe(
         catchError(res => this.httpHandler.handleError(res)));
   }
 
   
-  deleteByUser(id: string, oldPassword: string): Observable<any> {
-    return this.http.post(`${this.apiBase}/api/auth/users/deletebyuser/` + id,
+  deleteByUser(username: string, oldPassword: string): Observable<any> {
+    return this.http.post(`${this.apiBase}/api/auth/users/deletebyuser/` + username,
       {old: oldPassword},
       this.jwt()).pipe(
         catchError(res => this.httpHandler.handleError(res)));

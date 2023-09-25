@@ -1,4 +1,4 @@
-FROM node:16.15-slim
+FROM node:18.16-slim
 
 # Prepare running as non-root user
 RUN useradd -ms /bin/bash oto
@@ -9,7 +9,7 @@ RUN mkdir /home/oto/app
 WORKDIR /home/oto/app
 
 # install root dependencies
-RUN npm install --location=global @angular/cli@^14.2.3
+RUN npm install -g @angular/cli@^15.2.3
 
 # Copy app
 COPY docker-entrypoint.sh \
@@ -19,7 +19,6 @@ COPY docker-entrypoint.sh \
     tsconfig.json \
     tsconfig.app.json \
     tsconfig.spec.json \
-    .browserslistrc \
     ./
 RUN chown -R oto:oto ./ && chmod +x docker-entrypoint.sh
 

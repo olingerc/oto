@@ -15,43 +15,39 @@ export const configFunc: any = function() {
         */
         port: 5000,
 
+        
         /*
          * CORS ALLOWED ORIGINS
          * neeed for backend to accept stuff from frontend
          */
-        backendAllowedOrigins: process.env.BACKEND_ALLOWED_ORIGINS,//.split(","), // webpack dev server runs on 8080
+        backendAllowedOrigins: process.env.CORS_ALLOWED,
 
         /*
          * DATABASE CONFIG
          */
-        mongoDbHost: process.env.MONGODB_HOST, // as given by docker-compose
-        mongoDbName: process.env.MONGODB_NAME,
-        mongoDbAuthString: "",
+        pgHost: process.env.POSTGRES_HOST, // as given by docker-compose
+        pgPort: process.env.POSTGRES_PORT, // as given by docker-compose
+        pgDB: process.env.POSTGRES_DB,
+        pgUser: "",
+        pgPw: "",
         /*
          * ROUTE AUTHENTICATION WEB TOKEN
          */
         superSecret: "",
 
         debug: process.env.DEBUG,
+        nodeEnv: process.env.NODE_ENV,
         prusaApiKey: ""
       };
 
-      const MONGODB_USER = fs.readFileSync("/run/secrets/MONGODB_USER").toString().trim();
-      const MONGODB_PW = fs.readFileSync("/run/secrets/MONGODB_PW").toString().trim();
-
-      // Set mongodb authstring
-      if (MONGODB_USER && MONGODB_PW)  {
-        env_config.mongoDbAuthString = MONGODB_USER + ":" + MONGODB_PW + "@";
-      }
-
+      env_config.pgUser = fs.readFileSync("/run/secrets/POSTGRES_USER").toString().trim();
+      env_config.pgPw = fs.readFileSync("/run/secrets/POSTGRES_PW").toString().trim();
       env_config.superSecret = fs.readFileSync("/run/secrets/WEBTOKEN_SECRET").toString().trim();
       env_config.prusaApiKey = fs.readFileSync("/run/secrets/PRUSAAPIKEY").toString().trim();
 
       // Compile based on env
       let compiled: any = {
 
-        // DB
-        db: `mongodb://${env_config.mongoDbAuthString}${env_config.mongoDbHost}/${env_config.mongoDbName}`,
       };
 
 

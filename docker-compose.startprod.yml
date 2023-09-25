@@ -26,12 +26,12 @@ services:
         max-size: "10m"
         max-file: "10"
     depends_on:
-      - mongodb
+      - postgres
     env_file:
       - ./backend/.env.production
     secrets:
-      - MONGODB_USER
-      - MONGODB_PW
+      - POSTGRES_USER
+      - POSTGRES_PW
       - WEBTOKEN_SECRET
       - CAM_USER
       - CAM_PW
@@ -56,13 +56,13 @@ services:
         max-size: "10m"
         max-file: "10"
     depends_on:
-      - mongodb
+      - postgres
       - redis
     ports:
       - "5600:5500"
     secrets:
-      - MONGODB_USER
-      - MONGODB_PW
+      - POSTGRES_USER
+      - POSTGRES_PW
       - REDIS_PW
       - WEBTOKEN_SECRET
       - FLASK_SECRET
@@ -80,23 +80,20 @@ services:
       retries: 3
     restart: always
 
-  mongodb:
-    image: mongo:4.4
+  postgres:
+    image: postgres:14.3-alpine3.15
     ports:
-      - "27017:27017"
+      - "5432:5432"
     secrets:
-      - MONGO_INITDB_ROOT_PASSWORD
-      # For first_run to be able to load creadentials
-      - MONGODB_USER
-      - MONGODB_PW
+      - POSTGRES_USER
+      - POSTGRES_PW
     environment:
+      POSTGRES_USER_FILE: /run/secrets/POSTGRES_USER
+      POSTGRES_PASSWORD_FILE: /run/secrets/POSTGRES_PW
+      POSTGRES_DB: oto
       TZ: Europe/Luxembourg
-      # mongo docker understands _FILE and loads the content
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/MONGO_INITDB_ROOT_PASSWORD
-    command: mongod  --quiet --logpath /dev/null --bind_ip 0.0.0.0
     volumes:
-      - mongodb:/data/db
+      - postgres:/var/lib/postgresql/data
     logging:
       driver: "json-file"
       options:
@@ -136,14 +133,14 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
-      - mongodb
+      - postgres
       - redis
     env_file:
       - ./tasks/worker/.env.production
     # In prod it is tasks that starts worker and injects secrets into env. In dev new workers also follow that way
     secrets:
-      - MONGODB_USER
-      - MONGODB_PW
+      - POSTGRES_USER
+      - POSTGRES_PW
       - REDIS_PW
       - FLASK_SECRET
       - SSH_KEY_DOCKER_HOST
@@ -159,11 +156,11 @@ services:
         max-file: "10"
 
 volumes:
-  mongodb:
+  postgres:
     driver: local
     driver_opts:
       type: none
-      device: /home/chris/oto/mongo
+      device: /home/chris/oto/postgres
       o: bind
 
 secrets:
@@ -173,12 +170,10 @@ secrets:
     file: ./secrets/certificates/id_rsa_dev
 
   # passwords
-  MONGODB_USER:
-    file: ./secrets/passwords/MONGODB_USER
-  MONGODB_PW:
-    file: ./secrets/passwords/MONGODB_PW
-  MONGO_INITDB_ROOT_PASSWORD:
-    file: ./secrets/passwords/MONGO_INITDB_ROOT_PASSWORD
+  POSTGRES_USER:
+    file: ./secrets/passwords/POSTGRES_USER
+  POSTGRES_PW:
+    file: ./secrets/passwords/POSTGRES_PW
   REDIS_PW:
     file: ./secrets/passwords/REDIS_PW
   WEBTOKEN_SECRET:

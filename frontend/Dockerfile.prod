@@ -1,4 +1,4 @@
-FROM node:16.15-slim as builder
+FROM node:18.16-slim as builder
 # One could use the actual development docker as  builder
 
 RUN mkdir /app
@@ -15,11 +15,10 @@ COPY angular.json \
     proxy.conf.json \
     tsconfig.json \
     tsconfig.app.json \
-    .browserslistrc \
     ./
 
 # install root dependencies
-RUN npm install --location=global @angular/cli@^14.2.3
+RUN npm install -g @angular/cli@^15.2.3
 RUN npm install
 COPY src src
 

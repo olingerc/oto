@@ -1,4 +1,4 @@
-FROM node:16.15-slim
+FROM node:18.15-slim
 
 # add `/usr/src/app/node_modules/.bin` to $PATH
 ENV PATH /home/oto/app/node_modules/.bin:$PATH
@@ -11,7 +11,8 @@ RUN apt-get update \
     ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
-RUN npm install -g typescript@4.1.3 ts-node-dev 
+# GLOBAL
+RUN npm install -g typescript@4.1.3 ts-node-dev knex@2.3.0
 
 # Prepare running as non-root user
 RUN useradd -ms /bin/bash oto && mkdir /home/oto/app
