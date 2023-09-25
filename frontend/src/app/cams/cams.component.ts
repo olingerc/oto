@@ -87,7 +87,7 @@ export class CamsComponent implements OnInit {
     });
 
     this.socket2.on('data', (data) => {
-      this.socketStatus = "Receiving";
+      this.socketStatus2 = "Receiving";
       var bytes = new Uint8Array(data);
       var blob = new Blob([bytes], {type: 'application/octet-binary'});
       var url = URL.createObjectURL(blob);
