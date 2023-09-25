@@ -72,9 +72,9 @@
           <button mat-menu-item
             *ngIf="currentUser && !currentUser.defaultPasswordChanged"
             (click)="sidenav.close();openSetPasswordDialog()">
-            <mat-chip-list class="chip-list-inline">
+            <mat-chip-listbox class="chip-list-inline">
               <mat-chip class="mat-warn" color="warn">1</mat-chip>
-            </mat-chip-list>
+            </mat-chip-listbox>
             <span>Set password</span>
           </button>
           <button
@@ -194,9 +194,9 @@
   <button mat-menu-item
     *ngIf="currentUser && !currentUser.defaultPasswordChanged"
     (click)="openSetPasswordDialog()">
-    <mat-chip-list class="chip-list-inline">
+    <mat-chip-listbox class="chip-list-inline">
       <mat-chip class="mat-warn" color="warn">1</mat-chip>
-    </mat-chip-list>
+    </mat-chip-listbox>
     <span>Set password</span>
   </button>
   <button

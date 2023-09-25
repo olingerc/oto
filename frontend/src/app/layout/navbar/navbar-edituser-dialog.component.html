@@ -30,9 +30,9 @@
   </form>
 
   <h3 class="mat-subheading-2">Privileges</h3>
-  <mat-chip-list class="oto-badges">
+  <mat-chip-listbox class="oto-badges">
     <mat-chip style="margin-bottom:4px" *ngFor="let priv of data.user.privileges">{{priv}}</mat-chip>
-  </mat-chip-list>
+  </mat-chip-listbox>
 
   <form #removeUserForm="ngForm" *ngIf="removingUser">
     <mat-form-field>

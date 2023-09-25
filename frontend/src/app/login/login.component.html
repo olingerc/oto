@@ -17,10 +17,10 @@
             autocorrect="off" autocapitalize="none"
             [formControl]="usernameFormControl"
             >
-            <mat-placeholder>
+            <mat-label>
               <mat-icon>person</mat-icon>
               Username
-            </mat-placeholder>
+            </mat-label>
         </mat-form-field>
 
         <mat-form-field class="oto-login-full-width">
@@ -37,10 +37,10 @@
               <mat-icon color="warn">error</mat-icon>
               Username or password incorrect
             </mat-error>
-            <mat-placeholder>
+            <mat-label>
               <mat-icon>lock</mat-icon>
               Password
-            </mat-placeholder>
+            </mat-label>
         </mat-form-field>
 
         <div *ngIf="loading" class="oto-loader oto-loader-big message"></div>
