@@ -11,8 +11,14 @@ It will not work !!!!!!
 
 from redis import Redis, ConnectionError
 
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
+
 from .. import config
 
+# Postgres
+engine = create_engine(config.POSTGRES_URI, echo=False, future=True, pool_pre_ping=True)
+Pg_session = scoped_session(sessionmaker(bind=engine))
 
 def connect_redis():
     conn1 = Redis(

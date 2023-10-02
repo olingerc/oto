@@ -10,7 +10,9 @@ flask = "==2.1.2"
 flask-socketio = "==5.2.0"
 paramiko = "==2.11.0"
 python-dotenv = "*"
+psycopg2-binary = "==2.9.3"
 rq = "==1.10.1"
+sqlalchemy = "==1.4.37"
 
 [dev-packages]
 

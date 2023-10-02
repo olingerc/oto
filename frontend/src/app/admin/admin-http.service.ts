@@ -67,8 +67,8 @@ export class AdminHttpService {
       catchError(res => this.httpHandler.handleError(res)));
   }
 
-  importGlims(which_part: string, replace: boolean): Observable<any> {
-    return this.http.post(`${this.apiBase}/tasksapi/glimsimport/import`, {which_part, replace}, this.jwt()).pipe(
+  nmapHaScan(which_part: string, replace: boolean): Observable<any> {
+    return this.http.post(`${this.apiBase}/tasksapi/nmapha/scan`, {which_part, replace}, this.jwt()).pipe(
       catchError(res => this.httpHandler.handleError(res)));
   }
 

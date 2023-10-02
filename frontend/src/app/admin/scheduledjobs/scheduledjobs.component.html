@@ -10,13 +10,13 @@
     <small class="muted-color">only recent jobs, last refresh {{lastLoad.format("YYYY MM DD HH:mm:ss")}}</small>
   </div>
 
-  <div class="admin-glimsimport-content" fxLayout="row" fxLayoutGap="24px">
+  <div class="admin-nmapha-content" fxLayout="row" fxLayoutGap="24px">
     <div fxLayout="column" fxFlex>
       <mat-card class="jobs-card oto-mat-card-compact" [myVisibleForPrivileges]="['otoAdmin']">
         <mat-card-header>
           <mat-toolbar class="oto-toolbar" fxLayout="row" fxLayoutAlign="start center">
             <mat-toolbar-row>
-              <button mat-raised-button color="accent" (click)="importGlims()">
+              <button mat-raised-button color="accent" (click)="nmapHaScan()">
                 DO
               </button>
             </mat-toolbar-row>

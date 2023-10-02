@@ -13,6 +13,7 @@ RUN apt-get update \
     curl unzip \
     nano \
     wget \
+    nmap \
     && rm -rf /var/lib/apt/lists/* && apt-get clean
     # libpq-dev is for psycopg2
 

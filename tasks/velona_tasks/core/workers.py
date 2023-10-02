@@ -58,6 +58,8 @@ def _run_worker_docker(queues, worker_name, host):
     # until I have k8s, I push from tasks to worker environment
     # certificates are injected into /run/secrets after container creation below
     env_dict["REDIS_PW"] = config.REDIS_PW
+    env_dict["POSTGRES_HOST"] = config.POSTGRES_HOST
+    env_dict["POSTGRES_PORT"] = config.POSTGRES_PORT
     env_dict["FLASK_SECRET"] = config.FLASK_SECRET
     # -------- HANDLE SECRETS PASSWORDS END ---------
 

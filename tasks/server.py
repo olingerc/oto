@@ -33,7 +33,7 @@ import velona_tasks.core.views_websocket  # noqa: F401
 from velona_tasks.modules.ToSchedule import ToSchedule
 
 # Register views of plugins
-import velona_tasks.modules.glimsimport.routes_http  # noqa: E402
+import velona_tasks.modules.nmapha.routes_http  # noqa: E402
 
 # Core
 def init_scheduler():
