@@ -1,6 +1,8 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 
 import { io, Socket } from "socket.io-client";
+import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from "@angular/common/http";
+
 
 @Component({
   selector: 'cams-component-sidenav',
@@ -16,6 +18,15 @@ export class CamsComponent implements OnInit {
   private socket2: Socket = null;
   public socketStatus = "Init";
   public socketStatus2 = "Init";
+
+  public scanData: any;
+
+  constructor(
+    private http: HttpClient
+  ) {
+
+  }
+
 
   ngOnInit() {
     const namespace = "cam0";
@@ -123,6 +134,40 @@ export class CamsComponent implements OnInit {
       this.socketStatus2 = "Error."
     });
 
+    // List scans
+    this.getScans()
+    
+
+  }
+
+  getScans() {
+    const options = this.jwt();
+    this.http.get(`/tasksapi/nmapha/list`, options)
+      .subscribe(
+        data =>{
+          this.scanData = data;
+        },
+        error => {
+
+        }
+      );
+  }
+
+
+  private jwt() {
+    // create authorization header with jwt token
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    let headers;
+    if (currentUser && currentUser.token) {
+      headers = new HttpHeaders().set('Authorization', currentUser.token);
+    } else {
+      headers = new HttpHeaders().set('Authorization', '');
+    }
+    let requestOptions = {
+      headers: headers,
+      params: new HttpParams()
+    };
+    return requestOptions;
   }
 
 }

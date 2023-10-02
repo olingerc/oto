@@ -16,6 +16,8 @@ from ...core.app import app
 from ...core.utils import crossdomain
 from ...core.job import send_job_to_rq, job_to_dict
 
+from .tasks import list_results
+
 TWO_WEEKS = 2 * 7 * 24 * 60 * 60
 
 
@@ -42,4 +44,15 @@ def nmap_ha_route():
         if os.environ.get("FLASK_ENV", "development") == 'development':
             type, value, tb = exc_info()
             print(traceback.format_exc())
+        return jsonify(message="%s" % e), 500
+
+
+@app.route('/tasksapi/nmapha/list', methods=['GET', 'OPTIONS'])
+@crossdomain(origin=app.config['CORS_ALLOWED'], headers=['Content-Type', 'Access-Control-Allow-Origin', 'X-XSRF-TOKEN'])
+@jwt_required()
+def list_route():
+    to_return = list_results()
+    try:
+        return jsonify(to_return), 200
+    except Exception as e:
         return jsonify(message="%s" % e), 500

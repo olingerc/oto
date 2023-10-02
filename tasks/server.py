@@ -35,6 +35,10 @@ from velona_tasks.modules.ToSchedule import ToSchedule
 # Register views of plugins
 import velona_tasks.modules.nmapha.routes_http  # noqa: E402
 
+# Reset methods
+from velona_tasks.modules.nmapha.tasks import reset_scans  # noqa: E402
+
+
 # Core
 def init_scheduler():
     scheduler = Scheduler()
@@ -50,6 +54,8 @@ def init_workers():
 
 # Start app
 if __name__ == '__main__':
+    
+    reset_scans()
 
     port = app.config['PORT']
     exclude_patterns = []
