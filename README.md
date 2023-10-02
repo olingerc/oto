@@ -8,6 +8,11 @@ https://angular.io/tutorial/toh-pt0
 # Ideas
 https://pyimagesearch.com/2020/09/21/opencv-automatic-license-number-plate-recognition-anpr-with-python/
 
+# Workers
+
+First time, start app, docker exec into tasks and ssh into the owrker host (e.g. host.docker.internal) once to add to known_hosts
+This weorks even if ssh connection does not work that moment because of credentials
+
 # On pi
 - Installed docker, git
 
