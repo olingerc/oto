@@ -30,11 +30,9 @@ def nmap_ha_route():
     client_username = user.get('username', None)
 
     request_json = request.get_json()
-    replace = request_json.get("replace")
-    which_part = request_json.get("which_part")
     func_string = "execute_nmap_ha"
     job_def = {"queue": "scheduled", "result_ttl": TWO_WEEKS, "ttl": 60*60*2, "meta": {"username": client_username}}
-    kwargs = {"replace": replace, "which_part": which_part}
+    kwargs = {}
 
     try:
         job_instance = send_job_to_rq(func_string, job_def, **kwargs)

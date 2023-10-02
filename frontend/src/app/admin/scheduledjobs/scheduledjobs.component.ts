@@ -78,8 +78,8 @@ export class ScheduledjobsComponent implements OnInit, OnDestroy {
         });
   }
 
-  importGlims() {
-    this.httpService.importGlims("covid", true)
+  nmapHaScan() {
+    this.httpService.nmapHaScan("covid", true)
       .subscribe(
         job => {
           this.loadJobs();

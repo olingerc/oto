@@ -39,7 +39,7 @@ class ToSchedule(object):
                     "execute_glims_import",
                     {"queue": "scheduled", "result_ttl": TWO_WEEKS, "ttl": ONE_HOUR * 2, "meta": {"username": "system"}}
                 ],
-                "kwargs": {"replace": False, "which_part": "covid"},
+                "kwargs": {},
                 "schedule_on_start": False, #config.SCHEDULE_ON_START,
                 "run_on_start": False
             }
