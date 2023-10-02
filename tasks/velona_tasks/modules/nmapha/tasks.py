@@ -11,8 +11,8 @@ from ...common.utils import iso_time_string, iso_string_to_time
 
 from ... import config
 
-RANGE = "192.168.178.21"
-#RANGE = "192.168.178.20-130"
+# RANGE = "192.168.178.21"
+RANGE = "192.168.178.20-130"
 
 
 @contextmanager
@@ -130,9 +130,7 @@ def execute_nmap_ha():
                     session.add(new_ip)
                 else:
                     new_intervals = _update_existing(doc, ip, details)
-                    print("INTERVALS", new_intervals)
-                    print("OUTSIDE", doc.intervals)
-                    session.query(NmapScanResults).filter(NmapScanResults.ipaddress==ip).update({NmapScanResults.iintervals: new_intervals})
+                    session.query(NmapScanResults).filter(NmapScanResults.ipaddress==ip).update({NmapScanResults.intervals: new_intervals})
                     session.commit()
             else:
                 if details["state"]["state"] == "up":
