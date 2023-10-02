@@ -10,8 +10,9 @@ https://pyimagesearch.com/2020/09/21/opencv-automatic-license-number-plate-recog
 
 # Workers
 
-First time, start app, docker exec into tasks and ssh into the owrker host (e.g. host.docker.internal) once to add to known_hosts
-This weorks even if ssh connection does not work that moment because of credentials
+First time, start app, docker exec into tasks and ssh into the owrker host (e.g. host.docker.internal (DEV) or 192.168.178.45 (PROD) ) once to add to known_hosts
+This works even if ssh connection does not work that moment because of credentials.
+DO THIS EVRYTIME YOU DO A RELEASE
 
 # On pi
 - Installed docker, git
