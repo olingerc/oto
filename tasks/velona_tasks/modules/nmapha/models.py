@@ -16,7 +16,7 @@ class NmapScanResults(Base):
         previous_state varchar(50) NULL,
         hostname varchar(255) NULL,
         mac varchar(48) NULL,
-        intervals jsonb NULL,
+        intervals _jsonb NULL,
         CONSTRAINT nmap_scan_results_pk PRIMARY KEY (ipaddress)
     );
     """
@@ -26,7 +26,7 @@ class NmapScanResults(Base):
     previous_state = Column(String(50))
     hostname = Column(String(255))
     mac = Column(String(48))
-    intervals =  Column(MutableDict.as_mutable(JSONB))
+    intervals =  Column(ARRAY((JSONB)))
     
     def as_dict(self):
         ids = ["id"]

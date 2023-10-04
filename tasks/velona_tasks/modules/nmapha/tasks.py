@@ -11,8 +11,8 @@ from ...common.utils import iso_time_string, iso_string_to_time
 
 from ... import config
 
-# RANGE = "192.168.178.21"
-RANGE = "192.168.178.20-130"
+RANGE = "192.168.178.65"
+# RANGE = "192.168.178.20-130"
 
 
 @contextmanager
@@ -76,9 +76,9 @@ def _get_hostname(details):
         return None
 
 
-def _empty_interval():
+def _new_interval(state):
     _now = iso_time_string()
-    return [ [_now, _now] ]
+    return [ state, _now, _now ]
 
 
 def _update_existing(existing_doc, ip, details):
@@ -86,21 +86,22 @@ def _update_existing(existing_doc, ip, details):
     existing_intervals = existing_doc.intervals
     incoming_state = details["state"]["state"]
     
+    # Consistency check
+    if existing_intervals[-1][0] != existing_doc.state:
+        raise Exception("Inconsitency in intervals. State of most recent interval is not the same as current state of host")
+
+    # Elongate current interval
+    existing_intervals[-1][2] = iso_time_string()
+    
     # State change?
     if existing_doc.state != incoming_state:
-        # Close the old state interval
-        existing_intervals[existing_doc.state][-1][1] = iso_time_string()
+        
         # Create the new state interval
-        if incoming_state not in existing_intervals:
-            existing_intervals[incoming_state] = []
-        existing_intervals[incoming_state].append(_empty_interval())
-        # Save old state and update doc
+        existing_intervals.append(_new_interval(incoming_state))
+        
+        # Save old state and update doc (TODO: this is not really needed, since the state history is in the intervals)
         existing_doc.previous_state = existing_doc.state
         existing_doc.state = incoming_state
-    else:
-        # elongate exisiting interval
-        # take last interval and update end point to new value
-        existing_intervals[incoming_state][-1][1] = iso_time_string()
         
     # Update jsonb by creating copy (since it is checked by reference)
     existing_doc.intervals = json.loads(json.dumps(existing_intervals))
@@ -122,8 +123,7 @@ def execute_nmap_ha():
                 if doc is None:
                     state = details["state"]["state"]
                     # create first interval with only start
-                    intervals = dict()
-                    intervals[state] = _empty_interval()
+                    intervals = [_new_interval(state)]
                     new_ip = NmapScanResults(ipaddress=ip,
                                       state=state,
                                       previous_state=None,

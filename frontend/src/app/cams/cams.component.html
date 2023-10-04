@@ -22,11 +22,8 @@
         </td>
         <td>
           <div *ngIf="scanData.scans[host.ip]">
-            <div *ngFor="let interval of scanData.scans[host.ip].intervals.up">
-              UP {{interval[0]}} - {{interval[1]}}
-            </div>
-            <div *ngFor="let interval of scanData.scans[host.ip].intervals.down">
-              DOWN {{interval[0]}} - {{interval[1]}}
+            <div *ngFor="let interval of scanData.scans[host.ip].intervals">
+              {{interval[0]}}: {{interval[1]}} - {{interval[2]}}
             </div>
           </div>
         </td>
