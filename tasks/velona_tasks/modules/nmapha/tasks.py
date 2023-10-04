@@ -96,7 +96,7 @@ def _update_existing(existing_doc, ip, details):
         existing_intervals[incoming_state].append(_empty_interval())
         # Save old state and update doc
         existing_doc.previous_state = existing_doc.state
-        existing_doc.state = existing_doc.incoming_state
+        existing_doc.state = incoming_state
     else:
         # elongate exisiting interval
         # take last interval and update end point to new value
