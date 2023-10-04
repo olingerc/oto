@@ -91,6 +91,8 @@ def _update_existing(existing_doc, ip, details):
         # Close the old state interval
         existing_intervals[existing_doc.state][-1][1] = iso_time_string()
         # Create the new state interval
+        if incoming_state not in existing_intervals:
+            existing_intervals[incoming_state] = []
         existing_intervals[incoming_state].append(_empty_interval())
         # Save old state and update doc
         existing_doc.previous_state = existing_doc.state
