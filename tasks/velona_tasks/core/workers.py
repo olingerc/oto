@@ -60,6 +60,8 @@ def _run_worker_docker(queues, worker_name, host):
     env_dict["REDIS_PW"] = config.REDIS_PW
     env_dict["POSTGRES_HOST"] = config.POSTGRES_HOST
     env_dict["POSTGRES_PORT"] = config.POSTGRES_PORT
+    env_dict["POSTGRES_USER"] = config.POSTGRES_USER
+    env_dict["POSTGRES_PW"] = config.POSTGRES_PW
     env_dict["FLASK_SECRET"] = config.FLASK_SECRET
     # -------- HANDLE SECRETS PASSWORDS END ---------
 
