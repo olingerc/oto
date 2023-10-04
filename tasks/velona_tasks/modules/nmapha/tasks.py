@@ -140,8 +140,9 @@ def execute_nmap_ha():
 
 
 def reset_scans():
-    with session_scope() as session:
-        session.query(NmapScanResults).delete()
+    if config.DEBUG is True:
+        with session_scope() as session:
+            session.query(NmapScanResults).delete()
 
 
 def list_results():
