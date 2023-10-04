@@ -11,8 +11,8 @@ from ...common.utils import iso_time_string, iso_string_to_time
 
 from ... import config
 
-RANGE = "192.168.178.65"
-# RANGE = "192.168.178.20-130"
+# RANGE = "192.168.178.65"
+RANGE = "192.168.178.20-130"
 
 
 @contextmanager
