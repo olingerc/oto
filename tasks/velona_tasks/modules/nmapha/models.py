@@ -13,7 +13,6 @@ class NmapScanResults(Base):
     CREATE TABLE public.nmap_scan_results (
         ipaddress varchar(15) NOT NULL,
         state varchar(50) NULL,
-        previous_state varchar(50) NULL,
         hostname varchar(255) NULL,
         mac varchar(48) NULL,
         intervals _jsonb NULL,
@@ -23,7 +22,6 @@ class NmapScanResults(Base):
     __tablename__ = 'nmap_scan_results'
     ipaddress = Column(String(15), primary_key=True)
     state = Column(String(50))
-    previous_state = Column(String(50))
     hostname = Column(String(255))
     mac = Column(String(48))
     intervals =  Column(ARRAY((JSONB)))

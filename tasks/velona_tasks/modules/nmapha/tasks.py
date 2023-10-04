@@ -95,13 +95,10 @@ def _update_existing(existing_doc, ip, details):
     
     # State change?
     if existing_doc.state != incoming_state:
-        
+        # Save state        
+        existing_doc.state = incoming_state
         # Create the new state interval
         existing_intervals.append(_new_interval(incoming_state))
-        
-        # Save old state and update doc (TODO: this is not really needed, since the state history is in the intervals)
-        existing_doc.previous_state = existing_doc.state
-        existing_doc.state = incoming_state
         
     # Update jsonb by creating copy (since it is checked by reference)
     existing_doc.intervals = json.loads(json.dumps(existing_intervals))
@@ -126,7 +123,6 @@ def execute_nmap_ha():
                     intervals = [_new_interval(state)]
                     new_ip = NmapScanResults(ipaddress=ip,
                                       state=state,
-                                      previous_state=None,
                                       hostname=_get_hostname(details),
                                       intervals=intervals)
                     session.add(new_ip)
@@ -166,7 +162,6 @@ def list_results():
         for d in docs:
             scans_by_ip[d.ipaddress] = {
                 "state": d.state,
-                "previous_state": d.previous_state,
                 "intervals": d.intervals
             }
         
