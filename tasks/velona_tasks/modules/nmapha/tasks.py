@@ -149,7 +149,7 @@ def list_results():
 
     known_by_ip = {}
     with session_scope() as session:
-        docs = session.query(KnownHosts).all()
+        docs = session.query(KnownHosts).order_by(KnownHosts.ipaddress)
         for d in docs:
             known_by_ip[d.ipaddress] = {
                 "ip": d.ipaddress,
@@ -161,10 +161,16 @@ def list_results():
         scans_by_ip = {}
         docs = session.query(NmapScanResults).all()
         for d in docs:
-            scans_by_ip[d.ipaddress] = {
-                "state": d.state,
-                "intervals": d.intervals
-            }
+            if len(d.intervals) > 10:
+                scans_by_ip[d.ipaddress] = {
+                    "state": d.state,
+                    "intervals": len(d.intervals[-10:])
+                }
+            else:
+                scans_by_ip[d.ipaddress] = {
+                    "state": d.state,
+                    "intervals": len(d.intervals)
+                }
         
         res = []
         for x in session.query(NmapScanLogs).order_by(NmapScanLogs.scan_time.desc()).limit(5).all():
