@@ -164,12 +164,12 @@ def list_results():
             if len(d.intervals) > 10:
                 scans_by_ip[d.ipaddress] = {
                     "state": d.state,
-                    "intervals": len(d.intervals[-10:])
+                    "intervals": d.intervals[:-10]
                 }
             else:
                 scans_by_ip[d.ipaddress] = {
                     "state": d.state,
-                    "intervals": len(d.intervals)
+                    "intervals": d.intervals
                 }
         
         res = []
