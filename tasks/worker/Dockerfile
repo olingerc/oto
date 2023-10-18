@@ -14,6 +14,7 @@ RUN apt-get update \
     nano \
     wget \
     nmap \
+    ffmpeg libsm6 libxext6 \
     && rm -rf /var/lib/apt/lists/* && apt-get clean
     # libpq-dev is for psycopg2
 

@@ -144,6 +144,8 @@ services:
       - REDIS_PW
       - FLASK_SECRET
       - SSH_KEY_DOCKER_HOST
+      - CAM_USER
+      - CAM_PW
     environment:
       - QUEUES=single,scheduled
       - WORKER_NAME_SUFFIX=dev_docker_host  # docker host that worker will look for to be able to start new containers

@@ -63,6 +63,8 @@ def _run_worker_docker(queues, worker_name, host):
     env_dict["POSTGRES_USER"] = config.POSTGRES_USER
     env_dict["POSTGRES_PW"] = config.POSTGRES_PW
     env_dict["FLASK_SECRET"] = config.FLASK_SECRET
+    env_dict["CAM_USER"] = config.CAM_USER
+    env_dict["CAM_PW"] = config.CAM_PW
     # -------- HANDLE SECRETS PASSWORDS END ---------
 
     # NOTE: prefix oto_ since created by docker-compose

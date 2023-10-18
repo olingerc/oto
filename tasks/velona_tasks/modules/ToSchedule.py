@@ -42,6 +42,18 @@ class ToSchedule(object):
                 "kwargs": {},
                 "schedule_on_start": config.SCHEDULE_ON_START,
                 "run_on_start": False
+            },
+                        {
+                "type": "interval",
+                "seconds": 60,
+                "func": "send_job_to_rq",
+                "args": [
+                    "garage_state",
+                    {"queue": "scheduled", "result_ttl": TWO_WEEKS, "ttl": ONE_HOUR * 2, "meta": {"username": "system"}}
+                ],
+                "kwargs": {},
+                "schedule_on_start":  config.SCHEDULE_ON_START,
+                "run_on_start": False
             }
 
         ]

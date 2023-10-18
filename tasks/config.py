@@ -116,4 +116,16 @@ class Config(object):
         COPY_ALL_INTERVAL = int(os.getenv("COPY_ALL_INTERVAL"))
     except:
         COPY_ALL_INTERVAL = 300
+
+    try:
+        with open('/run/secrets/CAM_USER', 'r') as f:
+            CAM_USER = f.read().strip()
+    except:
+        CAM_USER = os.getenv("CAM_USER")
+
+    try:
+        with open('/run/secrets/CAM_PW', 'r') as f:
+            CAM_PW = f.read().strip()
+    except:
+        CAM_PW = os.getenv("CAM_PW")
     
