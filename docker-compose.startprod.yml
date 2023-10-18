@@ -67,6 +67,8 @@ services:
       - WEBTOKEN_SECRET
       - FLASK_SECRET
       - SSH_KEY_DOCKER_HOST
+      - CAM_USER
+      - CAM_PW
     environment:
       - "TZ=Europe/Luxembourg"
       - "FLASK_ENV=production"
