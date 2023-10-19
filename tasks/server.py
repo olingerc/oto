@@ -34,6 +34,7 @@ from velona_tasks.modules.ToSchedule import ToSchedule
 
 # Register views of plugins
 import velona_tasks.modules.nmapha.routes_http  # noqa: E402
+import velona_tasks.modules.garage.routes_http  # noqa: E402
 
 # Reset methods
 from velona_tasks.modules.nmapha.tasks import reset_scans  # noqa: E402
