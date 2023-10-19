@@ -90,6 +90,18 @@ export class ScheduledjobsComponent implements OnInit, OnDestroy {
         });
   }
 
+  detectGarage() {
+    this.httpService.detectGarage()
+      .subscribe(
+        job => {
+          this.loadJobs();
+        },
+        error => {
+          this.alertService.error(error);
+          console.error(error);
+        });
+  }
+
   showJobDetails(job) {
     let dialogRef = this.dialog.open(JobdetailsDialog, {
       width: '800px',

@@ -29,7 +29,7 @@ def session_scope():
 
 def _save_image(path):
     cam_url = "rtsp://{0}:{1}@192.168.178.90:554/h264Preview_01_main".format(config.CAM_USER, config.CAM_PW)
-    command = """ffmpeg -rtsp_transport tcp -y -i {0} -vframes 1 {1}""".format(cam_url, path)
+    command = """ffmpeg -rtsp_transport tcp -y -i {0} -r 1/1 -vframes 1 {1}""".format(cam_url, path)
     subprocess.call(command, shell=True)
 
 def _detect_garage(src):
@@ -43,7 +43,7 @@ def _detect_garage(src):
     h, w, _ = img.shape
     h0 = 360.0 / 170.0
     h1 = 360.0 / 210.0
-    w0 = 640.0 / 570.0
+    w0 = 640.0 / 595.0
     w1 = 640.0 / 640.0
     img = img[int(float(h) / h0):int(float(h) / h1), int(float(w) / w0):int(float(w) / w1)] # rows cols # zoom on area with triangle
 
@@ -111,7 +111,7 @@ def _detect_garage(src):
 
 def garage_state():
     # Actual code
-    path = "/var/tmp/img.jpg"
+    path = "/var/tmp/img.png"
 
     _save_image(path)
     state = _detect_garage(path)

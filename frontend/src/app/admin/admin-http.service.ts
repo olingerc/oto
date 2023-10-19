@@ -72,6 +72,12 @@ export class AdminHttpService {
       catchError(res => this.httpHandler.handleError(res)));
   }
 
+  detectGarage(): Observable<any> {
+    return this.http.post(`${this.apiBase}/tasksapi/garage/detect`, {}, this.jwt()).pipe(
+      catchError(res => this.httpHandler.handleError(res)));
+  }
+
+
   private jwt() {
     // create authorization header with jwt token
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));

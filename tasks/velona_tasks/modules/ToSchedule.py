@@ -45,7 +45,7 @@ class ToSchedule(object):
             },
                         {
                 "type": "interval",
-                "seconds": 60,
+                "seconds": 5,
                 "func": "send_job_to_rq",
                 "args": [
                     "garage_state",
