@@ -15,6 +15,7 @@ RUN useradd  -ms /bin/bash oto
 # Prepare ssh
 RUN mkdir /home/oto/.ssh
 COPY ./ssh_config /home/oto/.ssh/config
+COPY ./ssh/known_hosts  /home/oto/.ssh/known_hosts
 RUN chown -R oto /home/oto/.ssh && \
     chgrp -R oto /home/oto/.ssh && \
     chmod 700 /home/oto/.ssh && \
