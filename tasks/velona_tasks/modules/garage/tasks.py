@@ -8,6 +8,7 @@ import subprocess
 
 from ... import config
 
+from ...common.utils import iso_time_string
 from .models import GarageState
 
 # RANGE = "192.168.178.65"
@@ -37,6 +38,11 @@ def _detect_garage(src):
 
     # reading image 
     img = cv2.imread(src) 
+    
+    filename = "/surveillance/{}.png".format(iso_time_string(only_dashes=True))
+    
+    # Save image
+    cv2.imwrite(filename, img) 
 
     
     # Specify area to crop to based on 320 * 640 image and convert to place in image of current size
@@ -103,11 +109,18 @@ def _detect_garage(src):
                         cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1) 
     
     if count_triangles == 1:
-        return "closed"
+        state = "closed"
     elif count_triangles == 0:
-        return "open"
+        state = "open"
     else:
-        return "unk"
+        state = "unk"
+    
+    filename = "/surveillance/{}_{}.png".format(state, iso_time_string(only_dashes=True))
+    
+    # Save image
+    cv2.imwrite(filename, threshold_img) 
+    
+    return state
 
 def garage_state():
     # Actual code
