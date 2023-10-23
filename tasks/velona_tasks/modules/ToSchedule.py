@@ -52,7 +52,7 @@ class ToSchedule(object):
                     {"queue": "scheduled", "result_ttl": TWO_WEEKS, "ttl": ONE_HOUR * 2, "meta": {"username": "system"}}
                 ],
                 "kwargs": {},
-                "schedule_on_start":  config.SCHEDULE_ON_START,
+                "schedule_on_start":  False,
                 "run_on_start": False
             },
             {
@@ -64,7 +64,7 @@ class ToSchedule(object):
                     {"queue": "scheduled", "result_ttl": TWO_WEEKS, "ttl": ONE_HOUR * 2, "meta": {"username": "system"}}
                 ],
                 "kwargs": {},
-                "schedule_on_start":  False,
+                "schedule_on_start":  config.SCHEDULE_ON_START,
                 "run_on_start": False
             }
 
