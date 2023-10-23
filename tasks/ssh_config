@@ -1,6 +1,3 @@
-Host *
-	StrictHostKeyChecking no
-
 Host dev_docker_host
 	Hostname host.docker.internal
 	User bsq_coli
@@ -9,6 +6,7 @@ Host dev_docker_host
 	StrictHostKeyChecking no
 
 Host kitchenpi
+    StrictHostKeyChecking no
 	Hostname 192.168.178.45
 	User chris
 	IdentityFile /run/secrets/SSH_KEY_DOCKER_HOST

@@ -133,5 +133,5 @@ class Config(object):
         with open('/run/secrets/OVH', 'r') as f:
             OVH_SECRETS = f.read().strip()
     except:
-        OVH_SECRETS = os.getenv("OVH")
+        OVH_SECRETS = os.getenv("OVH_SECRETS")
     

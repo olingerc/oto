@@ -39,7 +39,7 @@ def _detect_garage(src):
     # reading image 
     img = cv2.imread(src) 
     
-    filename = "/surveillance/{}.png".format(iso_time_string(only_dashes=True))
+    filename = "/surveillance/detect/{}.png".format(iso_time_string(only_dashes=True))
     
     # Save image
     cv2.imwrite(filename, img) 
@@ -115,7 +115,7 @@ def _detect_garage(src):
     else:
         state = "unk"
     
-    filename = "/surveillance/{}_{}.png".format(state, iso_time_string(only_dashes=True))
+    filename = "/surveillance/detect/{}_{}.png".format(state, iso_time_string(only_dashes=True))
     
     # Save image
     cv2.imwrite(filename, threshold_img) 
