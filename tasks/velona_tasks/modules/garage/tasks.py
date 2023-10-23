@@ -39,6 +39,9 @@ def _detect_garage(src):
     # reading image 
     img = cv2.imread(src) 
     
+    filename = "/surveillance/detect/{}.png".format(iso_time_string(only_dashes=True))
+    cv2.imwrite(filename, img) 
+    
     # Specify area to crop to based on 320 * 640 image and convert to place in image of current size
     h, w, _ = img.shape
     h0 = 360.0 / 170.0
@@ -111,8 +114,6 @@ def _detect_garage(src):
     
     """if state != "closed":
         # Save images
-        filename = "/surveillance/detect/{}.png".format(iso_time_string(only_dashes=True))
-        cv2.imwrite(filename, img) 
         filename = "/surveillance/detect/{}_{}.png".format(state, iso_time_string(only_dashes=True))
         cv2.imwrite(filename, threshold_img)"""
     
