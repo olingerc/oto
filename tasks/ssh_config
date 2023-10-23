@@ -4,6 +4,11 @@ Host dev_docker_host
 	IdentityFile /run/secrets/SSH_KEY_DOCKER_HOST
 	Port 22
 	StrictHostKeyChecking no
+
+Host 192.168.178.45
+	StrictHostKeyChecking no
+	Hostname kitchenpi
+
 Host kitchenpi
 	StrictHostKeyChecking no
 	Hostname 192.168.178.45
