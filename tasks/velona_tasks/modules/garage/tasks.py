@@ -109,12 +109,12 @@ def _detect_garage(src):
     else:
         state = "unk"
     
-    if state != "closed":
+    """if state != "closed":
         # Save images
         filename = "/surveillance/detect/{}.png".format(iso_time_string(only_dashes=True))
         cv2.imwrite(filename, img) 
         filename = "/surveillance/detect/{}_{}.png".format(state, iso_time_string(only_dashes=True))
-        cv2.imwrite(filename, threshold_img) 
+        cv2.imwrite(filename, threshold_img)"""
     
     return state
 
