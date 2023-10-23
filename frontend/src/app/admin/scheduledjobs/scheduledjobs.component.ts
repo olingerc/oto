@@ -102,6 +102,19 @@ export class ScheduledjobsComponent implements OnInit, OnDestroy {
         });
   }
 
+  checkOvh() {
+    this.httpService.checkOvh()
+      .subscribe(
+        job => {
+          this.loadJobs();
+        },
+        error => {
+          this.alertService.error(error);
+          console.error(error);
+        });
+  }
+
+
   showJobDetails(job) {
     let dialogRef = this.dialog.open(JobdetailsDialog, {
       width: '800px',

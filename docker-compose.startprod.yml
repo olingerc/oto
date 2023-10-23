@@ -71,6 +71,7 @@ services:
       - SSH_KEY_DOCKER_HOST
       - CAM_USER
       - CAM_PW
+      - OVH
     environment:
       - "TZ=Europe/Luxembourg"
       - "FLASK_ENV=production"
@@ -152,6 +153,7 @@ services:
       - SSH_KEY_DOCKER_HOST
       - CAM_USER
       - CAM_PW
+      - OVH
     environment:
       - QUEUES=single,scheduled
       - WORKER_NAME_SUFFIX=dev_docker_host  # docker host that worker will look for to be able to start new containers
@@ -200,3 +202,5 @@ secrets:
     file: ./secrets/passwords/CAM_PW
   PRUSAAPIKEY:
     file: ./secrets/passwords/PRUSAAPIKEY
+  OVH:
+    file: ./secrets/passwords/OVH

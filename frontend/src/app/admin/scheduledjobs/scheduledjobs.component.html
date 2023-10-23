@@ -15,12 +15,15 @@
       <mat-card class="jobs-card oto-mat-card-compact" [myVisibleForPrivileges]="['otoAdmin']">
         <mat-card-header>
           <mat-toolbar class="oto-toolbar" fxLayout="row" fxLayoutAlign="start center">
-            <mat-toolbar-row>
+            <mat-toolbar-row fxLayout="row" fxLayoutGap="8px">
               <button mat-raised-button color="accent" (click)="nmapHaScan()">
                 Nmap Scan
               </button>
               <button mat-raised-button color="accent" (click)="detectGarage()">
                 Detect Garage
+              </button>
+              <button mat-raised-button color="accent" (click)="checkOvh()">
+                Check OVH
               </button>
             </mat-toolbar-row>
           </mat-toolbar>

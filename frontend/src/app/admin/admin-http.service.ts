@@ -77,6 +77,11 @@ export class AdminHttpService {
       catchError(res => this.httpHandler.handleError(res)));
   }
 
+  checkOvh(): Observable<any> {
+    return this.http.post(`${this.apiBase}/tasksapi/ovh/check`, {}, this.jwt()).pipe(
+      catchError(res => this.httpHandler.handleError(res)));
+  }
+
 
   private jwt() {
     // create authorization header with jwt token

@@ -128,4 +128,10 @@ class Config(object):
             CAM_PW = f.read().strip()
     except:
         CAM_PW = os.getenv("CAM_PW")
+
+    try:
+        with open('/run/secrets/OVH', 'r') as f:
+            OVH_SECRETS = f.read().strip()
+    except:
+        OVH_SECRETS = os.getenv("OVH")
     
