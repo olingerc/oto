@@ -1,11 +1,6 @@
 FROM node:18.16-slim as builder
 # One could use the actual development docker as  builder
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-    nano \
-    && rm -rf /var/lib/apt/lists/*
-
 RUN mkdir /app
 WORKDIR /app
 
@@ -30,6 +25,11 @@ COPY src src
 RUN ng build
 
 FROM httpd:2.4
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    nano \
+    && rm -rf /var/lib/apt/lists/*
 
 # Get source code
 COPY --from=builder /app/oto/dist/frontend /usr/local/apache2/htdocs/
