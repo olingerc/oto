@@ -24,8 +24,16 @@ https://pyimagesearch.com/2020/09/21/opencv-automatic-license-number-plate-recog
 ## How does the oto frontend handle connections
 
 
-- The Pi has a webserver at port 80, I use OVH ssl service to accept ssl connections, but that one then forwards to my port 80
-- My fritz should forward all port 80 connections to the pi
+- The Pi has a webserver at port 8080 (docker exposes inside 80 to outside 8080), I use OVH ssl service to accept ssl connections, but that one then forwards to my port 80
+- My fritz should forward all incoming port 80 to internal port 8080 connections to the pi
+
+So:
+- a2hosting www.olinger.eu to ovh ssl gateway (via ip adress)
+- ovh ssl gateway to 80 on post IP (updated by oto job and OVH API)
+- Post IP to my fritz
+- fritz listens externally to 80 and sends to kitchenpi port 8080
+- kitchenpi 8080 as docker frontend which internall gives it to 80
+- Internally bi docker frontend forces 80 to got to 443
 
 # On pi
 
