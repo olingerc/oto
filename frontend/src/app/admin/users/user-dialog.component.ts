@@ -8,7 +8,6 @@ import { UserService } from '../../core/user/user.service';
 import { AlertService } from '../../core/alert/alert.service';
 import { Privileges } from '../../core/privileges.model';
 import { EnvService } from "../../core/env/env.service";
-import { UtilitiesService } from "../../core/utilities.service";
 import { MyArrayFilterPipe } from '../../shared/pipes/array-filter.pipe';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -64,7 +63,6 @@ export class UserDialogComponent {
     public dialogRef: MatDialogRef<UserDialogComponent>,
     private userService: UserService,
     private alertService: AlertService,
-    private utilities: UtilitiesService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
 
