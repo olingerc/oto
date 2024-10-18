@@ -32,5 +32,5 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Get source code
-COPY --from=builder /app/oto/dist/frontend /usr/local/apache2/htdocs/
+COPY --from=builder /app/oto/dist/browser /usr/local/apache2/htdocs/
 COPY ./deploy/production.conf /usr/local/apache2/conf/httpd.conf
