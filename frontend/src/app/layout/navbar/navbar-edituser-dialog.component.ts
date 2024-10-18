@@ -58,7 +58,16 @@ export class NavbarEditUserDialog {
     this.removeUserPasswordInput = new FormControl('', [
       Validators.required
     ]);
-    this.editUserForm.patchValue(data.user.forForm());
+    this.editUserForm.patchValue(this.forForm(data.user));
+  }
+
+  forForm(user) {
+    return {
+      username: user.username || null,
+      fullname: user.fullname || null,
+      password: user.password || null,
+      email: user.email || null
+    };
   }
 
   startRemovingUser() {
