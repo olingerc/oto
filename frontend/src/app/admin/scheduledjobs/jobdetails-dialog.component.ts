@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 
 import _ from 'lodash';
-import * as moment from 'moment';
+import moment from 'moment';
 
 import { UtilitiesService } from '../../core/utilities.service';
 import { MatButtonModule } from '@angular/material/button';

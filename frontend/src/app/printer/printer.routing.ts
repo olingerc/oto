@@ -1,12 +1,10 @@
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { PrinterComponent } from './printer.component';
 
-const routes: Routes = [
+export const routing: Routes = [
   {
     path: '',
     component: PrinterComponent,
   }
 ];
-
-export const routing = RouterModule.forChild(routes);

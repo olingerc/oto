@@ -1,12 +1,10 @@
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { CamsComponent } from './cams.component';
 
-const routes: Routes = [
+export const routing: Routes = [
   {
     path: '',
     component: CamsComponent,
   }
 ];
-
-export const routing = RouterModule.forChild(routes);

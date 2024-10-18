@@ -4,7 +4,7 @@
  * Identical to same model class on client
  * Client has more details
  */
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 let privilegeTypes = [
   {"role": "user", "module": "oto", "key": "otoUser"},

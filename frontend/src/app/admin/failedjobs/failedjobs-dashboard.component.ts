@@ -2,7 +2,7 @@ import { Component, ViewChild } from "@angular/core";
 import { MatDialog } from '@angular/material/dialog';
 
 import _ from "lodash";
-import * as moment from "moment";
+import moment from "moment";
 
 import { AlertService } from "../../core/alert/alert.service";
 import { UtilitiesService } from "../../core/utilities.service";

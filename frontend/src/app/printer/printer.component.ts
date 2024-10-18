@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/co
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from "@angular/common/http";
 import { Subscription, interval } from "rxjs";
 
-import * as moment from 'moment';
+import moment from 'moment';
 
 import { UtilitiesService } from "../core/utilities.service";
 import { MatCardModule } from '@angular/material/card';

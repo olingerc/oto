@@ -14,39 +14,27 @@ import { CommonModule } from '@angular/common';
 // import { BaseRequestOptions, HttpModule } from '@angular/http';
 
 // for real backend
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 // Single use components
 import { Page404Component } from '../page404.component';
 import { Page401Component } from '../page401.component';
 
-
-
 // Singletons
 import { EnvServiceProvider } from './env/env.service.provider';
 import { MessageService } from 'primeng/api';
-import { AuthLoadGuard } from './authentication/authLoad.guard';
-import { AuthActivateGuard } from './authentication/authActivate.guard';
-import { AuthenticationService } from './authentication/authentication.service';
-import { UserService } from './user/user.service';
-import { AlertService } from './alert/alert.service';
-import { UtilitiesService } from './utilities.service';
-import { VelonaSocketService } from './websocket/velona-socket.service';
-import { UploadService } from './upload.service';
 import { BioinfHttpService } from './bioinf-http.service';
-import { HttpHandler } from './http-handler';
-import { ConfirmationService } from './confirmation/confirmation.service';
 
 @NgModule({
     imports: [
         CommonModule,
-        HttpClientModule,
         Page404Component, Page401Component
     ],
     exports: [],
     providers: [
         EnvServiceProvider,
         MessageService,
+        provideHttpClient(withInterceptorsFromDi()),
         BioinfHttpService
     ]
 })

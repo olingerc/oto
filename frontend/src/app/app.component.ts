@@ -1,13 +1,7 @@
 import { Component } from '@angular/core';
-import { 
-    Router,
-    // import as RouterEvent to avoid confusion with the DOM Event
-    Event as RouterEvent,
-    NavigationStart,
-    NavigationEnd,
-    NavigationCancel,
-    NavigationError
-} from '@angular/router'
+import { Router, 
+// import as RouterEvent to avoid confusion with the DOM Event
+Event as RouterEvent, NavigationStart, NavigationEnd, NavigationCancel, NavigationError, RouterOutlet, RouterLinkActive, RouterLink } from '@angular/router'
 
 import { MatDialog } from '@angular/material/dialog';
 
@@ -24,10 +18,42 @@ import { NavbarEditUserDialog } from './layout/navbar/navbar-edituser-dialog.com
 import { NavbarSetPasswordDialog } from './layout/navbar/navbar-setpassword-dialog.component';
 import { NavbarChangePasswordDialog } from './layout/navbar/navbar-changepassword-dialog.component';
 
+import { MatIconModule } from '@angular/material/icon';
+import { ConfirmationComponent } from './core/confirmation/confirmation.component';
+import { ToastModule } from 'primeng/toast';
+import { NgClass, NgIf, NgFor } from '@angular/common';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
+import { VisibleForPrivilegesDirective } from './shared/directives/visible-for-privileges.directive';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+
+
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        ToastModule,
+        NgClass,
+        MatIconModule,
+        MatSidenavModule,
+        MatListModule,
+        RouterLinkActive,
+        RouterLink,
+        VisibleForPrivilegesDirective,
+        MatDividerModule,
+        MatMenuModule,
+        MatChipsModule,
+        NgFor,
+        MatToolbarModule,
+        RouterOutlet,
+        ConfirmationComponent
+    ],
 })
 export class AppComponent {
   title = 'oto';

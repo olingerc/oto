@@ -1,12 +1,31 @@
-import { enableProdMode } from '@angular/core';
+import { enableProdMode, LOCALE_ID, importProvidersFrom } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import { AppModule } from './app/app.module';
+
 import { environment } from './environments/environment';
+import { AppComponent } from './app/app.component';
+import { MatListModule } from '@angular/material/list';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatChipsModule } from '@angular/material/chips';
+import { CoreModule } from './app/core/core.module';
+import { ToastModule } from 'primeng/toast';
+import { AppRoutingModule } from './app/app-routing.module';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
+bootstrapApplication(AppComponent, {
+    providers: [
+        importProvidersFrom(BrowserModule, AppRoutingModule, ToastModule, CoreModule, MatChipsModule, MatMenuModule, MatIconModule, MatSidenavModule, MatToolbarModule, MatDividerModule, MatListModule),
+        { provide: LOCALE_ID, useValue: 'fr-FR' },
+        provideAnimations()
+    ]
+})
   .catch(err => console.error(err));

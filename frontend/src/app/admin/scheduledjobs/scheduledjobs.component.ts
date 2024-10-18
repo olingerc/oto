@@ -2,7 +2,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
-import * as moment from 'moment';
+import moment from 'moment';
 import _ from 'lodash';
 
 import { AdminHttpService } from '../admin-http.service';

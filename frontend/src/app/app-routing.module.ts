@@ -9,35 +9,35 @@ const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     {
       path: 'home',
-      loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
+      loadChildren: () => import('./home/home.routing').then(m => m.routing),
       canLoad: [ AuthLoadGuard ],
       canActivate: [ AuthActivateGuard ],
       data: { accessLevel: 'privileged', accessPrivileges: ["otoUser"] }
     },
     {
       path: 'login',
-      loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
+      loadChildren: () => import('./login/login.routing').then(m => m.routing),
       canLoad: [ AuthLoadGuard ],
       canActivate: [ AuthActivateGuard ],
       data: { accessLevel: 'anon', accessPrivileges: ["otoUser"] }
     },
     {
       path: 'printer',
-      loadChildren: () => import('./printer/printer.module').then(m => m.PrinterModule),
+      loadChildren: () => import('./printer/printer.routing').then(m => m.routing),
       canLoad: [ AuthLoadGuard ],
       canActivate: [ AuthActivateGuard ],
       data: { accessLevel: 'anon', accessPrivileges: ["printerUser"] }
     },
     {
       path: 'admin',
-      loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+      loadChildren: () => import('./admin/admin.routing').then(m => m.routing),
       canLoad: [ AuthLoadGuard ],
       canActivate: [ AuthActivateGuard ],
       data: { accessLevel: 'privileged', accessPrivileges: ["otoAdmin"] }
     },
     {
       path: 'cams',
-      loadChildren: () => import('./cams/cams.module').then(m => m.CamsModule),
+      loadChildren: () => import('./cams/cams.routing').then(m => m.routing),
       canLoad: [ AuthLoadGuard ],
       canActivate: [ AuthActivateGuard ],
       data: { accessLevel: 'privileged', accessPrivileges: ["camsUser"] }

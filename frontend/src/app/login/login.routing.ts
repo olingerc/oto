@@ -1,12 +1,10 @@
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { LoginComponent } from './login.component';
 
-const routes: Routes = [
+export const routing: Routes = [
   {
     path: '',
     component: LoginComponent
   }
 ];
-
-export const routing = RouterModule.forChild(routes);

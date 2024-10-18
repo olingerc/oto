@@ -1,4 +1,4 @@
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { AdminComponent } from './admin.component';
 import { UsersComponent } from './users/users.component';
@@ -7,7 +7,7 @@ import { WorkersDashboardComponent } from "./workers/workers-dashboard.component
 import { FailedjobsDashboardComponent } from "./failedjobs/failedjobs-dashboard.component";
 
 
-const routes: Routes = [
+export const routing: Routes = [
   {
     path: '',
     component: AdminComponent,
@@ -36,5 +36,3 @@ const routes: Routes = [
     ]
   }
 ];
-
-export const routing = RouterModule.forChild(routes);

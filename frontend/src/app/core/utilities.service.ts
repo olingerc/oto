@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import * as moment from 'moment';
+import moment from 'moment';
 import _ from 'lodash';
 
 import { EnvService } from "../core/env/env.service";
