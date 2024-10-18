@@ -29,6 +29,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { VisibleForPrivilegesDirective } from './shared/directives/visible-for-privileges.directive';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { FlexLayoutModule } from '@ngbracket/ngx-layout';
 
 @Component({
     selector: 'app-root',
@@ -49,7 +50,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatChipsModule,
     MatToolbarModule,
     RouterOutlet,
-    ConfirmationComponent
+    ConfirmationComponent,
+    FlexLayoutModule
 ],
 })
 export class AppComponent {
