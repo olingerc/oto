@@ -35,7 +35,7 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatBadgeModule } from "@angular/material/badge";
 
-import { FlexLayoutModule } from "@angular/flex-layout";
+import { FlexLayoutModule } from "@ngbracket/ngx-layout";
 
 import { VisibleForPrivilegeDirective } from "./directives/visible-for-privilege.directive";
 import { VisibleForPrivilegesDirective } from "./directives/visible-for-privileges.directive";

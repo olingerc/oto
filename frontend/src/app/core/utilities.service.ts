@@ -113,7 +113,7 @@ export class UtilitiesService {
       return "";
     }
 
-    let diffInSeconds: Number = moment(end).diff(moment(start), 's');
+    let diffInSeconds: number = moment(end).diff(moment(start), 's');
 
     if (diffInSeconds > 60) {
       return moment(end).diff(moment(start), 'm') + ' m';
