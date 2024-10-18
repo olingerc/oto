@@ -31,9 +31,13 @@ So:
 - a2hosting www.olinger.eu to ovh ssl gateway (via ip adress)
 - ovh ssl gateway to 80 on post IP (updated by oto job and OVH API)
 - Post IP to my fritz
-- fritz listens externally to 80 and sends to kitchenpi port 8080
-- kitchenpi 8080 as docker frontend which internall gives it to 80
-- Internally bi docker frontend forces 80 to got to 443
+- fritz listens externally to 80 and sends to kitchenpi port **8080**
+- kitchenpi **8080** as docker frontend which internally gives it to 80
+- Internally my docker frontend
+  - listens at 80. If via olinger.eu then rewrites to https on 443
+  - listens at 80 if not olinger.eu, continues
+
+- So to acces at home I need to use IP and port **8080**
 
 # On pi
 
