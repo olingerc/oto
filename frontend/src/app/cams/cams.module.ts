@@ -8,12 +8,10 @@ import { CamsComponent } from './cams.component';
 import { routing } from './cams.routing';
 
 @NgModule({
-  imports: [
-    routing,
-    SharedModule
-  ],
-  declarations: [
-    CamsComponent
-  ]
+    imports: [
+        routing,
+        SharedModule,
+        CamsComponent
+    ]
 })
 export class CamsModule { }

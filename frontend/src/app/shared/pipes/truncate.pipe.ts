@@ -15,7 +15,8 @@ import { Pipe, PipeTransform, Injectable } from "@angular/core";
 
 @Pipe({
     name: "myTruncate",
-    pure: false
+    pure: false,
+    standalone: true
 })
 @Injectable()
 export class MyTruncatePipe implements PipeTransform {

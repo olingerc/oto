@@ -9,7 +9,8 @@ import _ from "lodash";
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 
 @Directive({
-  selector: '[myNotVisibleForPrivileges]'
+    selector: '[myNotVisibleForPrivileges]',
+    standalone: true
 })
 export class NotVisibleForPrivilegesDirective implements OnInit {
 

@@ -6,15 +6,13 @@ import { ConfirmationComponent } from './confirmation.component';
 import { ConfirmationDialog } from './confirmation-dialog.component';
 
 @NgModule({
-  imports: [
-    SharedModule
-  ],
-  declarations: [
-    ConfirmationDialog,
-    ConfirmationComponent
-  ],
-  exports: [
-    ConfirmationComponent
-  ]
+    imports: [
+        SharedModule,
+        ConfirmationDialog,
+        ConfirmationComponent
+    ],
+    exports: [
+        ConfirmationComponent
+    ]
 })
 export class ConfirmationModule { }

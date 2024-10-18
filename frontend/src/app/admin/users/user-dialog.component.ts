@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import * as _ from 'lodash';
+import { FormBuilder, FormGroup, Validators, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import _ from 'lodash';
 
 import { User } from '../../core/user.model';
 import { UserService } from '../../core/user/user.service';
@@ -9,11 +9,34 @@ import { AlertService } from '../../core/alert/alert.service';
 import { Privileges } from '../../core/privileges.model';
 import { EnvService } from "../../core/env/env.service";
 import { UtilitiesService } from "../../core/utilities.service";
+import { MyArrayFilterPipe } from '../../shared/pipes/array-filter.pipe';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { FlexModule } from '@ngbracket/ngx-layout/flex';
+import { NgIf, NgFor, TitleCasePipe, DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'user-dialog',
-  templateUrl: 'user-dialog.component.html',
-  styleUrls: ['./user-dialog.component.scss'],
+    selector: 'user-dialog',
+    templateUrl: 'user-dialog.component.html',
+    styleUrls: ['./user-dialog.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        MatDialogModule,
+        FlexModule,
+        MatButtonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        NgFor,
+        MatIconModule,
+        TitleCasePipe,
+        DatePipe,
+        MyArrayFilterPipe,
+    ],
 })
 export class UserDialogComponent {
 

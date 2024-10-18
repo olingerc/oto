@@ -1,14 +1,18 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as moment from 'moment';
 
 import { UtilitiesService } from '../../core/utilities.service';
+import { MatButtonModule } from '@angular/material/button';
+import { NgIf, JsonPipe, DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'jobdetails-dialog',
-  templateUrl: 'jobdetails-dialog.component.html'
+    selector: 'jobdetails-dialog',
+    templateUrl: 'jobdetails-dialog.component.html',
+    standalone: true,
+    imports: [MatDialogModule, NgIf, MatButtonModule, JsonPipe, DatePipe]
 })
 export class JobdetailsDialog {
 

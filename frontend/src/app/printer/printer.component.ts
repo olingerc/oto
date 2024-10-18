@@ -5,11 +5,17 @@ import { Subscription, interval } from "rxjs";
 import * as moment from 'moment';
 
 import { UtilitiesService } from "../core/utilities.service";
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgIf, JsonPipe, DecimalPipe } from '@angular/common';
+import { FlexModule } from '@ngbracket/ngx-layout/flex';
 
 @Component({
-  selector: 'printer-component-sidenav',
-  templateUrl: './printer.component.html',
-  styleUrls:['./printer.component.scss']
+    selector: 'printer-component-sidenav',
+    templateUrl: './printer.component.html',
+    styleUrls: ['./printer.component.scss'],
+    standalone: true,
+    imports: [FlexModule, NgIf, MatProgressSpinnerModule, MatCardModule, JsonPipe, DecimalPipe]
 })
 export class PrinterComponent implements OnInit, OnDestroy {
 

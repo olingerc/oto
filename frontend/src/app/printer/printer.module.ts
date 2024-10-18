@@ -8,12 +8,10 @@ import { PrinterComponent } from './printer.component';
 import { routing } from './printer.routing';
 
 @NgModule({
-  imports: [
-    routing,
-    SharedModule
-  ],
-  declarations: [
-    PrinterComponent
-  ]
+    imports: [
+        routing,
+        SharedModule,
+        PrinterComponent
+    ]
 })
 export class PrinterModule { }

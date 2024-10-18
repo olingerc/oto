@@ -8,15 +8,13 @@ import { NavbarSetPasswordDialog } from './navbar/navbar-setpassword-dialog.comp
 import { NavbarChangePasswordDialog } from './navbar/navbar-changepassword-dialog.component';
 
 @NgModule({
-  imports: [
-    ReactiveFormsModule,
-    SharedModule
-  ],
-  declarations: [
-    NavbarEditUserDialog,
-    NavbarSetPasswordDialog,
-    NavbarChangePasswordDialog
-  ],
-  exports: [ ]
+    imports: [
+        ReactiveFormsModule,
+        SharedModule,
+        NavbarEditUserDialog,
+        NavbarSetPasswordDialog,
+        NavbarChangePasswordDialog
+    ],
+    exports: []
 })
 export class LayoutModule { }

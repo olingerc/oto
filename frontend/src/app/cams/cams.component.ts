@@ -1,13 +1,18 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 
 import { io, Socket } from "socket.io-client";
-import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { MatCardModule } from '@angular/material/card';
+import { NgIf, NgFor, NgClass, JsonPipe } from '@angular/common';
+import { ExtendedModule } from '@ngbracket/ngx-layout/extended';
 
 
 @Component({
-  selector: 'cams-component-sidenav',
-  templateUrl: './cams.component.html',
-  styleUrls:['./cams.component.scss']
+    selector: 'cams-component-sidenav',
+    templateUrl: './cams.component.html',
+    styleUrls: ['./cams.component.scss'],
+    standalone: true,
+    imports: [ExtendedModule, NgIf, MatCardModule, NgFor, NgClass, JsonPipe]
 })
 export class CamsComponent implements OnInit {
 

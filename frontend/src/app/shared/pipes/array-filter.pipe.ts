@@ -2,7 +2,8 @@ import { Pipe, PipeTransform, Injectable } from '@angular/core';
 
 @Pipe({
     name: 'myArrayFilter',
-    pure: false
+    pure: false,
+    standalone: true
 })
 @Injectable()
 export class MyArrayFilterPipe implements PipeTransform {

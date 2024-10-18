@@ -50,97 +50,89 @@ import { ReversePipe } from "./pipes/reverse.pipe";
 import { MyExplorerItemsFilterPipe } from "./pipes/explorer-items-filter.pipe";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-
-    MatButtonModule,
-    MatMenuModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatCardModule,
-    MatChipsModule,
-    MatCheckboxModule,
-    MatSidenavModule,
-    MatInputModule,
-    MatDialogModule,
-    MatTableModule,
-    MatTooltipModule,
-    MatProgressSpinnerModule,
-    MatSelectModule,
-    MatSlideToggleModule,
-    MatListModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatButtonToggleModule,
-    MatTabsModule,
-    MatRadioModule,
-    MatProgressBarModule,
-    MatBadgeModule,
-
-    FlexLayoutModule
-  ],
-  providers: [],
-  declarations: [
-    VisibleForPrivilegeDirective,
-    VisibleForPrivilegesDirective,
-    NotVisibleForPrivilegesDirective,
-    AutofocusDirective,
-    MyCollectionFilterPipe,
-    MyArrayFilterPipe,
-    MyArrayFilterByKeyPipe,
-    MyTruncatePipe,
-    MyExplorerItemsFilterPipe,
-    ReversePipe
-  ],
-
-  // All exports here will be available to other modules if they import SharedModule
-  // Even if SharedModule does not use them. No need to put them into imports here.
-  // Module: https://angular.io/docs/ts/latest/guide/ngmodule.html#!#feature-modules
-  exports: [
-    // Shared re-exports
-    CommonModule,
-    FormsModule,
-    RouterModule,
-
-    // Material
-    MatButtonModule,
-    MatMenuModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatCardModule,
-    MatChipsModule,
-    MatCheckboxModule,
-    MatSidenavModule,
-    MatInputModule,
-    MatDialogModule,
-    MatTableModule,
-    MatTooltipModule,
-    MatProgressSpinnerModule,
-    MatSelectModule,
-    MatSlideToggleModule,
-    MatListModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatButtonToggleModule,
-    MatTabsModule,
-    MatRadioModule,
-    MatProgressBarModule,
-    MatBadgeModule,
-
-    FlexLayoutModule,
-
-    // Shared directives, components, ...
-    VisibleForPrivilegeDirective,
-    VisibleForPrivilegesDirective,
-    NotVisibleForPrivilegesDirective,
-    AutofocusDirective,
-    MyCollectionFilterPipe,
-    MyArrayFilterPipe,
-    MyArrayFilterByKeyPipe,
-    MyTruncatePipe,
-    MyExplorerItemsFilterPipe,
-    ReversePipe
-  ]
+    imports: [
+        CommonModule,
+        RouterModule,
+        MatButtonModule,
+        MatMenuModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatCardModule,
+        MatChipsModule,
+        MatCheckboxModule,
+        MatSidenavModule,
+        MatInputModule,
+        MatDialogModule,
+        MatTableModule,
+        MatTooltipModule,
+        MatProgressSpinnerModule,
+        MatSelectModule,
+        MatSlideToggleModule,
+        MatListModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatButtonToggleModule,
+        MatTabsModule,
+        MatRadioModule,
+        MatProgressBarModule,
+        MatBadgeModule,
+        FlexLayoutModule,
+        VisibleForPrivilegeDirective,
+        VisibleForPrivilegesDirective,
+        NotVisibleForPrivilegesDirective,
+        AutofocusDirective,
+        MyCollectionFilterPipe,
+        MyArrayFilterPipe,
+        MyArrayFilterByKeyPipe,
+        MyTruncatePipe,
+        MyExplorerItemsFilterPipe,
+        ReversePipe
+    ],
+    providers: [],
+    // All exports here will be available to other modules if they import SharedModule
+    // Even if SharedModule does not use them. No need to put them into imports here.
+    // Module: https://angular.io/docs/ts/latest/guide/ngmodule.html#!#feature-modules
+    exports: [
+        // Shared re-exports
+        CommonModule,
+        FormsModule,
+        RouterModule,
+        // Material
+        MatButtonModule,
+        MatMenuModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatCardModule,
+        MatChipsModule,
+        MatCheckboxModule,
+        MatSidenavModule,
+        MatInputModule,
+        MatDialogModule,
+        MatTableModule,
+        MatTooltipModule,
+        MatProgressSpinnerModule,
+        MatSelectModule,
+        MatSlideToggleModule,
+        MatListModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatButtonToggleModule,
+        MatTabsModule,
+        MatRadioModule,
+        MatProgressBarModule,
+        MatBadgeModule,
+        FlexLayoutModule,
+        // Shared directives, components, ...
+        VisibleForPrivilegeDirective,
+        VisibleForPrivilegesDirective,
+        NotVisibleForPrivilegesDirective,
+        AutofocusDirective,
+        MyCollectionFilterPipe,
+        MyArrayFilterPipe,
+        MyArrayFilterByKeyPipe,
+        MyTruncatePipe,
+        MyExplorerItemsFilterPipe,
+        ReversePipe
+    ]
 })
 export class SharedModule { }

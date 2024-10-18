@@ -1,18 +1,29 @@
 import { Component, ViewChild } from "@angular/core";
 import { MatDialog } from '@angular/material/dialog';
 
-import * as _ from "lodash";
+import _ from "lodash";
 import * as moment from "moment";
 
 import { AlertService } from "../../core/alert/alert.service";
 import { UtilitiesService } from "../../core/utilities.service";
 import { AdminHttpService } from "../admin-http.service";
 import { JobdetailsDialog } from '../scheduledjobs/jobdetails-dialog.component';
+import { PrimeTemplate } from "primeng/api";
+import { TableModule } from "primeng/table";
+import { MatIconModule } from "@angular/material/icon";
+import { NgIf, DatePipe } from "@angular/common";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatButtonModule } from "@angular/material/button";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatCardModule } from "@angular/material/card";
+import { FlexModule } from "@ngbracket/ngx-layout/flex";
 
 @Component({
-  selector: "app-failedjobs-dashboard",
-  templateUrl: "./failedjobs-dashboard.component.html",
-  styleUrls: ["./failedjobs-dashboard.component.scss"]
+    selector: "app-failedjobs-dashboard",
+    templateUrl: "./failedjobs-dashboard.component.html",
+    styleUrls: ["./failedjobs-dashboard.component.scss"],
+    standalone: true,
+    imports: [FlexModule, MatCardModule, MatToolbarModule, MatButtonModule, MatTooltipModule, NgIf, MatIconModule, TableModule, PrimeTemplate, DatePipe]
 })
 export class FailedjobsDashboardComponent {
 

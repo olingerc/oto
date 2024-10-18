@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { share} from 'rxjs/operators';
 
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 /**
  * If params contains 'clientid' the reuest is saved

@@ -1,12 +1,20 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 
 import { UserService } from '../../core/user/user.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { NgIf } from '@angular/common';
+import { AutofocusDirective } from '../../shared/directives/focus.directive';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  selector: 'navbar-setpassword-dialog',
-  templateUrl: 'navbar-setpassword-dialog.component.html'
+    selector: 'navbar-setpassword-dialog',
+    templateUrl: 'navbar-setpassword-dialog.component.html',
+    standalone: true,
+    imports: [MatDialogModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, AutofocusDirective, NgIf, MatIconModule, MatButtonModule]
 })
 export class NavbarSetPasswordDialog {
 

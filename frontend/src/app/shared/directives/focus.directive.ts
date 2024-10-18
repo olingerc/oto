@@ -6,7 +6,8 @@
 import { Directive, AfterViewInit, ElementRef, DoCheck } from '@angular/core';
 
 @Directive({
-  selector: '[myAutofocus]'
+    selector: '[myAutofocus]',
+    standalone: true
 })
 export class AutofocusDirective implements AfterViewInit, DoCheck {
   private lastVisible = false;

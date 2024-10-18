@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable, BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { io, Socket } from "socket.io-client";
-import * as _ from "lodash";
+import _ from "lodash";
 
 import { User } from '../user.model';
 import { EnvService } from '../../core/env/env.service';

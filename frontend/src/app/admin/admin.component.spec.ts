@@ -4,7 +4,7 @@ import { AdminComponent } from './admin.component';
 
 describe('Admin Component', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({declarations: [AdminComponent]});
+    TestBed.configureTestingModule({ imports: [AdminComponent] });
   });
 
   it('should ...', () => {

@@ -18,23 +18,21 @@ import { JobdetailsDialog } from './scheduledjobs/jobdetails-dialog.component';
 import { routing } from './admin.routing';
 
 @NgModule({
-  imports: [
-    ReactiveFormsModule,
-    routing,
-    SharedModule,
-    TableModule
-  ],
-  declarations: [
-    AdminComponent,
-    UsersComponent,
-    UserDialogComponent,
-    ScheduledjobsComponent,
-    WorkersDashboardComponent,
-    FailedjobsDashboardComponent,
-    JobdetailsDialog
-  ],
-  providers: [
-    AdminHttpService
-  ]
+    imports: [
+        ReactiveFormsModule,
+        routing,
+        SharedModule,
+        TableModule,
+        AdminComponent,
+        UsersComponent,
+        UserDialogComponent,
+        ScheduledjobsComponent,
+        WorkersDashboardComponent,
+        FailedjobsDashboardComponent,
+        JobdetailsDialog
+    ],
+    providers: [
+        AdminHttpService
+    ]
 })
 export class AdminModule { }

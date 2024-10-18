@@ -3,17 +3,29 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 import { AdminHttpService } from '../admin-http.service';
 import { AlertService } from '../../core/alert/alert.service';
 import { JobdetailsDialog } from './jobdetails-dialog.component';
 import { UtilitiesService } from '../../core/utilities.service';
+import { PrimeTemplate } from 'primeng/api';
+import { TableModule } from 'primeng/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { VisibleForPrivilegesDirective } from '../../shared/directives/visible-for-privileges.directive';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { NgIf, DatePipe } from '@angular/common';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
+import { FlexModule } from '@ngbracket/ngx-layout/flex';
 
 @Component({
-  selector: 'app-admin-scheduledjobs',
-  templateUrl: './scheduledjobs.component.html',
-  styleUrls: ['./scheduledjobs.component.scss']
+    selector: 'app-admin-scheduledjobs',
+    templateUrl: './scheduledjobs.component.html',
+    styleUrls: ['./scheduledjobs.component.scss'],
+    standalone: true,
+    imports: [FlexModule, MatButtonModule, MatTooltipModule, NgIf, MatIconModule, MatCardModule, VisibleForPrivilegesDirective, MatToolbarModule, TableModule, PrimeTemplate, DatePipe]
 })
 export class ScheduledjobsComponent implements OnInit, OnDestroy {
 

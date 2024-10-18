@@ -7,7 +7,8 @@ import { Directive, Input, OnInit, HostBinding } from '@angular/core';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 
 @Directive({
-  selector: '[myVisibleForPrivilege]'
+    selector: '[myVisibleForPrivilege]',
+    standalone: true
 })
 export class VisibleForPrivilegeDirective implements OnInit {
 

@@ -8,8 +8,9 @@ import { ConfirmationService } from './confirmation.service';
 import { ConfirmationConfig } from './confirmation-config.model';
 
 @Component({
-  selector: 'oto-confirmation-dialog',
-  template: "<div></div>"
+    selector: 'oto-confirmation-dialog',
+    template: "<div></div>",
+    standalone: true
 })
 export class ConfirmationComponent implements OnDestroy {
 

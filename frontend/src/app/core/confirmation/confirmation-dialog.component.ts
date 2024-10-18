@@ -1,11 +1,16 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 
-import { UserService } from '../../core/user/user.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { FlexModule } from '@ngbracket/ngx-layout/flex';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'confirmation-dialog-dialog',
-  templateUrl: 'confirmation-dialog.component.html'
+    selector: 'confirmation-dialog-dialog',
+    templateUrl: 'confirmation-dialog.component.html',
+    standalone: true,
+    imports: [NgIf, MatDialogModule, FlexModule, MatIconModule, MatButtonModule]
 })
 export class ConfirmationDialog {
 

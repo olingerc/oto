@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog } from '@angular/material/dialog';
 
 import { Subscription } from "rxjs";
-import * as _ from "lodash";
+import _ from "lodash";
 import { ConfirmationService } from "../../core/confirmation/confirmation.service";
 
 import { JobdetailsDialog } from '../scheduledjobs/jobdetails-dialog.component';
@@ -10,11 +10,22 @@ import { VelonaSocketService } from "../../core/websocket/velona-socket.service"
 import { AlertService } from "../../core/alert/alert.service";
 import { BioinfHttpService } from "../../core/bioinf-http.service";
 import { AdminHttpService } from "../admin-http.service";
+import { MyTruncatePipe } from "../../shared/pipes/truncate.pipe";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { ExtendedModule } from "@ngbracket/ngx-layout/extended";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
+import { NgIf, NgFor, NgClass } from "@angular/common";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatCardModule } from "@angular/material/card";
+import { FlexModule } from "@ngbracket/ngx-layout/flex";
 
 @Component({
-  selector: "app-workers-dashboard",
-  templateUrl: "./workers-dashboard.component.html",
-  styleUrls: ["./workers-dashboard.component.scss"]
+    selector: "app-workers-dashboard",
+    templateUrl: "./workers-dashboard.component.html",
+    styleUrls: ["./workers-dashboard.component.scss"],
+    standalone: true,
+    imports: [FlexModule, MatCardModule, MatToolbarModule, NgIf, MatButtonModule, NgFor, MatIconModule, NgClass, ExtendedModule, MatTooltipModule, MyTruncatePipe]
 })
 export class WorkersDashboardComponent implements OnInit, OnDestroy {
 

@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 import { User } from '../user.model';
 import { Privileges } from '../privileges.model';

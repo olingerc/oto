@@ -38,17 +38,17 @@ import { HttpHandler } from './http-handler';
 import { ConfirmationService } from './confirmation/confirmation.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    HttpClientModule
-  ],
-  declarations: [ Page404Component, Page401Component ],
-  exports: [],
-  providers: [
-    EnvServiceProvider,
-    MessageService,
-    BioinfHttpService
-  ]
+    imports: [
+        CommonModule,
+        HttpClientModule,
+        Page404Component, Page401Component
+    ],
+    exports: [],
+    providers: [
+        EnvServiceProvider,
+        MessageService,
+        BioinfHttpService
+    ]
 })
 export class CoreModule {
 

@@ -1,15 +1,23 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 
 import { UserService } from '../../core/user/user.service';
 import { AlertService } from '../../core/alert/alert.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
+import { MatButtonModule } from '@angular/material/button';
+import { NgFor, NgIf } from '@angular/common';
+import { MatChipsModule } from '@angular/material/chips';
+import { AutofocusDirective } from '../../shared/directives/focus.directive';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
-  selector: 'navbar-edituser-dialog',
-  templateUrl: 'navbar-edituser-dialog.component.html'
+    selector: 'navbar-edituser-dialog',
+    templateUrl: 'navbar-edituser-dialog.component.html',
+    standalone: true,
+    imports: [MatDialogModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, AutofocusDirective, MatChipsModule, NgFor, NgIf, MatButtonModule]
 })
 export class NavbarEditUserDialog {
 

@@ -2,9 +2,9 @@
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
-import {of as observableOf,  Observable } from 'rxjs';
+import {of as observableOf } from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 import { AuthenticationService } from './authentication.service';
 import { AlertService } from '../alert/alert.service';
