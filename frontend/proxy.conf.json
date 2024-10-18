@@ -1,11 +1,11 @@
 {
-  "/api/*": {
+  "/api": {
     "target": "http://backend:5000",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
   },
-  "/tasksapi/*": {
+  "/tasksapi": {
     "target": "http://tasks:5500",
     "secure": false,
     "logLevel": "debug",
