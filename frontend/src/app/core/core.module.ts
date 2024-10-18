@@ -25,6 +25,10 @@ import { EnvServiceProvider } from './env/env.service.provider';
 import { MessageService } from 'primeng/api';
 import { BioinfHttpService } from './bioinf-http.service';
 
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr, 'fr'); // used by some number pipes (reads anad positions) not for dates or LCOALE_ID
+
 @NgModule({
     imports: [
         CommonModule,

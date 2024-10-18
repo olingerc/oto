@@ -30,7 +30,6 @@ import { VisibleForPrivilegesDirective } from './shared/directives/visible-for-p
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
-
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
