@@ -1,4 +1,4 @@
-FROM node:18.15-slim
+FROM node:20.17-slim
 
 # add `/usr/src/app/node_modules/.bin` to $PATH
 ENV PATH /home/oto/app/node_modules/.bin:$PATH

@@ -1,4 +1,4 @@
-FROM node:18.16-slim
+FROM node:20.17-slim
 
 # Prepare running as non-root user
 RUN useradd -ms /bin/bash oto

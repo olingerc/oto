@@ -1,4 +1,4 @@
-FROM node:18.16-slim as builder
+FROM node:20.17-slim as builder
 # One could use the actual development docker as  builder
 
 RUN mkdir /app
