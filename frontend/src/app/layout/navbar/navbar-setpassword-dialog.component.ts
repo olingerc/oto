@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/materia
 import { UserService } from '../../core/user/user.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { NgIf } from '@angular/common';
+
 import { AutofocusDirective } from '../../shared/directives/focus.directive';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,7 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     selector: 'navbar-setpassword-dialog',
     templateUrl: 'navbar-setpassword-dialog.component.html',
     standalone: true,
-    imports: [MatDialogModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, AutofocusDirective, NgIf, MatIconModule, MatButtonModule]
+    imports: [MatDialogModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, AutofocusDirective, MatIconModule, MatButtonModule]
 })
 export class NavbarSetPasswordDialog {
 

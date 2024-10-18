@@ -4,36 +4,48 @@
   <p>Garage cam: {{socketStatus2}}</p>
   <canvas [ngStyle.xl]="{'width': '1280px', 'height.px': 1024/ 1.777777}" #streaming2></canvas>
 
-  <mat-card *ngIf="scanData">
-    <table class="velona-table">
-      <th>IP</th>
-      <th>Name</th>
-      <th>State</th>
-      <tr *ngFor="let host of scanData.known_hosts">
-        <td>{{host.ip}}</td>
-        <td>{{host.friendly_name}}</td>
-        <td>
-          <div *ngIf="scanData.scans[host.ip]" [ngClass]="{'success-color': scanData.scans[host.ip].state=='up', 'accent-color': scanData.scans[host.ip].state!='up'}">
-            {{scanData.scans[host.ip].state}}
-          </div>
-          <div *ngIf="!scanData.scans[host.ip]">
-            na
-          </div>
-        </td>
-        <td>
-          <div *ngIf="scanData.scans[host.ip]">
-            <div *ngFor="let interval of scanData.scans[host.ip].intervals">
-              {{interval[0]}}: {{interval[1]}} - {{interval[2]}}
-            </div>
-          </div>
-        </td>
-
-      </tr>
-
-    </table>
-    <div *ngFor="let log of scanData?.logs">
-      {{log.scan_time}}
-      {{log.unknown_hosts | json}}
-    </div>
-  </mat-card>
+  @if (scanData) {
+    <mat-card>
+      <table class="velona-table">
+        <th>IP</th>
+        <th>Name</th>
+        <th>State</th>
+        @for (host of scanData.known_hosts; track host) {
+          <tr>
+            <td>{{host.ip}}</td>
+            <td>{{host.friendly_name}}</td>
+            <td>
+              @if (scanData.scans[host.ip]) {
+                <div [ngClass]="{'success-color': scanData.scans[host.ip].state=='up', 'accent-color': scanData.scans[host.ip].state!='up'}">
+                  {{scanData.scans[host.ip].state}}
+                </div>
+              }
+              @if (!scanData.scans[host.ip]) {
+                <div>
+                  na
+                </div>
+              }
+            </td>
+            <td>
+              @if (scanData.scans[host.ip]) {
+                <div>
+                  @for (interval of scanData.scans[host.ip].intervals; track interval) {
+                    <div>
+                      {{interval[0]}}: {{interval[1]}} - {{interval[2]}}
+                    </div>
+                  }
+                </div>
+              }
+            </td>
+          </tr>
+        }
+      </table>
+      @for (log of scanData?.logs; track log) {
+        <div>
+          {{log.scan_time}}
+          {{log.unknown_hosts | json}}
+        </div>
+      }
+    </mat-card>
+  }
 </div>

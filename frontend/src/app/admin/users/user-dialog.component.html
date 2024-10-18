@@ -1,12 +1,20 @@
-<h1 mat-dialog-title *ngIf="data.action === 'add'">Add User</h1>
-<h1 mat-dialog-title *ngIf="data.action === 'update'">
-  <div fxLayout="row" fxLayoutGap="8px">
-    <span>Edit</span>
-    <div fxFlex></div>
-    <button color="primary" *ngIf="data.action === 'update'" mat-raised-button (click)="removePassword(user)">RESET PW</button>
-    <button *ngIf="data.action === 'update'" mat-raised-button color="warn" (click)="deleteUser(user.username)">DELETE</button>
-  </div>
-</h1>
+@if (data.action === 'add') {
+  <h1 mat-dialog-title>Add User</h1>
+}
+@if (data.action === 'update') {
+  <h1 mat-dialog-title>
+    <div fxLayout="row" fxLayoutGap="8px">
+      <span>Edit</span>
+      <div fxFlex></div>
+      @if (data.action === 'update') {
+        <button color="primary" mat-raised-button (click)="removePassword(user)">RESET PW</button>
+      }
+      @if (data.action === 'update') {
+        <button mat-raised-button color="warn" (click)="deleteUser(user.username)">DELETE</button>
+      }
+    </div>
+  </h1>
+}
 
 <mat-dialog-content>
   <div fxLayout="column" fxLayoutGap="8px" fxLayoutAlign="start start">
@@ -47,44 +55,52 @@
       </mat-form-field>
 
     </form>
-    <div style="width: 100%" *ngIf="data.action === 'update'">
-      <h3 style="margin:0">Privileges</h3>
-      <table class="oto-table" *ngIf="user.username !== 'admin'">
-        <ng-container *ngFor="let role of ['user', 'manager', 'admin']">
-          <tr><td colspan="2"><h3>{{role | titlecase}}</h3></td></tr>
-          <ng-container *ngFor="let priv of privTypes">
-            <tr *ngIf="priv.role == role">
-              <td>{{ priv.module }}</td>
-              <td>
-                <button
-                  mat-icon-button
-                  (click)="addPrivilege(user, priv.key)"
-                  [disabled]="(user.privileges | myArrayFilter:priv.key).length > 0"
-                  ><mat-icon>add</mat-icon>
-                </button>
-                <button
-                  mat-icon-button
-                  (click)="removePrivilege(user, priv.key)"
-                  [disabled]="(user.privileges | myArrayFilter:priv.key).length == 0"
-                  ><mat-icon>clear</mat-icon>
-                </button>
-              </td>
-            </tr>
-          </ng-container>
-        </ng-container>
-      </table>
-    </div>
+    @if (data.action === 'update') {
+      <div style="width: 100%">
+        <h3 style="margin:0">Privileges</h3>
+        @if (user.username !== 'admin') {
+          <table class="oto-table">
+            @for (role of ['user', 'manager', 'admin']; track role) {
+              <tr><td colspan="2"><h3>{{role | titlecase}}</h3></td></tr>
+              @for (priv of privTypes; track priv) {
+                @if (priv.role == role) {
+                  <tr>
+                    <td>{{ priv.module }}</td>
+                    <td>
+                      <button
+                        mat-icon-button
+                        (click)="addPrivilege(user, priv.key)"
+                        [disabled]="(user.privileges | myArrayFilter:priv.key).length > 0"
+                        ><mat-icon>add</mat-icon>
+                      </button>
+                      <button
+                        mat-icon-button
+                        (click)="removePrivilege(user, priv.key)"
+                        [disabled]="(user.privileges | myArrayFilter:priv.key).length == 0"
+                        ><mat-icon>clear</mat-icon>
+                      </button>
+                    </td>
+                  </tr>
+                }
+              }
+            }
+          </table>
+        }
+      </div>
+    }
 
 
-    <div *ngIf="user">
-      <div>Default passord changed: {{user.default_password_changed}}</div>
+    @if (user) {
       <div>
-        Created: {{user.created | date:'yyyy-MM-dd'}}
+        <div>Default passord changed: {{user.default_password_changed}}</div>
+        <div>
+          Created: {{user.created | date:'yyyy-MM-dd'}}
+        </div>
+        <div>
+          Last login: {{user.last_login | date:'yyyy-MM-dd HH:mm'}}
+        </div>
       </div>
-      <div>
-        Last login: {{user.last_login | date:'yyyy-MM-dd HH:mm'}}
-      </div>
-    </div>
+    }
 
   </div>
 </mat-dialog-content>
@@ -92,22 +108,22 @@
 <mat-dialog-actions>
   <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="start center" style="width:100%">
 
-      <button
-        color="primary"
-        mat-raised-button
-        type="button"
-        (click)="confirmDialog()"
-        [disabled]="!userForm.valid">
-        {{data.action.toUpperCase()}}
-      </button>
+    <button
+      color="primary"
+      mat-raised-button
+      type="button"
+      (click)="confirmDialog()"
+      [disabled]="!userForm.valid">
+      {{data.action.toUpperCase()}}
+    </button>
 
-      <button
-        color="primary"
-        matDialogClose
-        mat-raised-button
-        type="button"
-        >CLOSE
-      </button>
+    <button
+      color="primary"
+      matDialogClose
+      mat-raised-button
+      type="button"
+      >CLOSE
+    </button>
 
 
     <div fxFlex></div>

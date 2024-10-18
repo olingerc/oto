@@ -1,63 +1,65 @@
-  <div class="oto-login-content">
+<div class="oto-login-content">
 
-    <mat-card class="form-card">
-      <h3>Sign In</h3>
-      <form
-        #loginForm="ngForm"
-        (ngSubmit)="login()"
-        >
+  <mat-card class="form-card">
+    <h3>Sign In</h3>
+    <form
+      #loginForm="ngForm"
+      (ngSubmit)="login()"
+      >
 
-        <mat-form-field class="oto-login-full-width">
-          <input
-            #usernameElement
-            matInput
-            id="username"
-            name="username"
-            type="text"
-            autocorrect="off" autocapitalize="none"
-            [formControl]="usernameFormControl"
-            >
-            <mat-label>
-              <mat-icon>person</mat-icon>
-              Username
-            </mat-label>
-        </mat-form-field>
+      <mat-form-field class="oto-login-full-width">
+        <input
+          #usernameElement
+          matInput
+          id="username"
+          name="username"
+          type="text"
+          autocorrect="off" autocapitalize="none"
+          [formControl]="usernameFormControl"
+          >
+        <mat-label>
+          <mat-icon>person</mat-icon>
+          Username
+        </mat-label>
+      </mat-form-field>
 
-        <mat-form-field class="oto-login-full-width">
-          <input
-            #passwordElement
-            matInput
-            id="password"
-            name="password"
-            type="password"
-            autocorrect="off" autocapitalize="none"
-            [formControl]="passwordFormControl"
-            >
-            <mat-error>
-              <mat-icon color="warn">error</mat-icon>
-              Username or password incorrect
-            </mat-error>
-            <mat-label>
-              <mat-icon>lock</mat-icon>
-              Password
-            </mat-label>
-        </mat-form-field>
+      <mat-form-field class="oto-login-full-width">
+        <input
+          #passwordElement
+          matInput
+          id="password"
+          name="password"
+          type="password"
+          autocorrect="off" autocapitalize="none"
+          [formControl]="passwordFormControl"
+          >
+        <mat-error>
+          <mat-icon color="warn">error</mat-icon>
+          Username or password incorrect
+        </mat-error>
+        <mat-label>
+          <mat-icon>lock</mat-icon>
+          Password
+        </mat-label>
+      </mat-form-field>
 
-        <div *ngIf="loading" class="oto-loader oto-loader-big message"></div>
+      @if (loading) {
+        <div class="oto-loader oto-loader-big message"></div>
+      }
 
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit">
-          LOGIN
-        </button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit">
+        LOGIN
+      </button>
 
-      </form>
-    </mat-card>
+    </form>
+  </mat-card>
 
-    <div class="oto-login-image">
-      <img src="/assets/apple-touch-icon-120x120.png"/>
-      <p>Organize the Olingers</p>
-    </div>
-
+  <div class="oto-login-image">
+    <img src="/assets/apple-touch-icon-120x120.png"/>
+    <p>Organize the Olingers</p>
   </div>
+
+</div>

@@ -11,7 +11,7 @@ import { JobdetailsDialog } from '../scheduledjobs/jobdetails-dialog.component';
 import { PrimeTemplate } from "primeng/api";
 import { TableModule } from "primeng/table";
 import { MatIconModule } from "@angular/material/icon";
-import { NgIf, DatePipe } from "@angular/common";
+import { DatePipe } from "@angular/common";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatButtonModule } from "@angular/material/button";
 import { MatToolbarModule } from "@angular/material/toolbar";
@@ -23,7 +23,7 @@ import { FlexModule } from "@ngbracket/ngx-layout/flex";
     templateUrl: "./failedjobs-dashboard.component.html",
     styleUrls: ["./failedjobs-dashboard.component.scss"],
     standalone: true,
-    imports: [FlexModule, MatCardModule, MatToolbarModule, MatButtonModule, MatTooltipModule, NgIf, MatIconModule, TableModule, PrimeTemplate, DatePipe]
+    imports: [FlexModule, MatCardModule, MatToolbarModule, MatButtonModule, MatTooltipModule, MatIconModule, TableModule, PrimeTemplate, DatePipe]
 })
 export class FailedjobsDashboardComponent {
 

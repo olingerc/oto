@@ -11,6 +11,15 @@ $primary:  mat.define-palette(mat.$grey-palette, 100);
 $accent: mat.define-palette(mat.$amber-palette, 600);
 $warn: mat.define-palette(mat.$red-palette, 600);
 
-$theme: mat.define-dark-theme($primary, $accent);
+$theme: mat.define-dark-theme((
+    color: (
+        primary: $primary,
+        accent: $accent,
+        warn: $warn,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0
+));
+
 @include mat.all-component-themes($theme);
 @include app-theme.oto-app-theme($theme);

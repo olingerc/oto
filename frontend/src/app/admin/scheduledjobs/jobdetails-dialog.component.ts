@@ -6,13 +6,13 @@ import moment from 'moment';
 
 import { UtilitiesService } from '../../core/utilities.service';
 import { MatButtonModule } from '@angular/material/button';
-import { NgIf, JsonPipe, DatePipe } from '@angular/common';
+import { JsonPipe, DatePipe } from '@angular/common';
 
 @Component({
     selector: 'jobdetails-dialog',
     templateUrl: 'jobdetails-dialog.component.html',
     standalone: true,
-    imports: [MatDialogModule, NgIf, MatButtonModule, JsonPipe, DatePipe]
+    imports: [MatDialogModule, MatButtonModule, JsonPipe, DatePipe]
 })
 export class JobdetailsDialog {
 

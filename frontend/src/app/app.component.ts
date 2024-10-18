@@ -21,7 +21,7 @@ import { NavbarChangePasswordDialog } from './layout/navbar/navbar-changepasswor
 import { MatIconModule } from '@angular/material/icon';
 import { ConfirmationComponent } from './core/confirmation/confirmation.component';
 import { ToastModule } from 'primeng/toast';
-import { NgClass, NgIf, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
@@ -36,23 +36,21 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     styleUrls: ['./app.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        ToastModule,
-        NgClass,
-        MatIconModule,
-        MatSidenavModule,
-        MatListModule,
-        RouterLinkActive,
-        RouterLink,
-        VisibleForPrivilegesDirective,
-        MatDividerModule,
-        MatMenuModule,
-        MatChipsModule,
-        NgFor,
-        MatToolbarModule,
-        RouterOutlet,
-        ConfirmationComponent
-    ],
+    ToastModule,
+    NgClass,
+    MatIconModule,
+    MatSidenavModule,
+    MatListModule,
+    RouterLinkActive,
+    RouterLink,
+    VisibleForPrivilegesDirective,
+    MatDividerModule,
+    MatMenuModule,
+    MatChipsModule,
+    MatToolbarModule,
+    RouterOutlet,
+    ConfirmationComponent
+],
 })
 export class AppComponent {
   title = 'oto';

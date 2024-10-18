@@ -5,56 +5,68 @@
   fxLayoutGap="24px"
   >
 
-  <div fxFlex *ngIf="!printerStatus && !printerError">
-    <mat-spinner></mat-spinner>
-  </div>
+  @if (!printerStatus && !printerError) {
+    <div fxFlex>
+      <mat-spinner></mat-spinner>
+    </div>
+  }
 
-  <div fxFlex *ngIf="printerError">
-    <mat-card>
-      <h5 class="mat-h5" color="warn">ERROR</h5>
-      <p>{{printerError.error | json}}</p>
-    </mat-card>
-  </div>
+  @if (printerError) {
+    <div fxFlex>
+      <mat-card>
+        <h5 class="mat-h5" color="warn">ERROR</h5>
+        <p>{{printerError.error | json}}</p>
+      </mat-card>
+    </div>
+  }
 
-  <div fxFlex *ngIf="printerStatus">
-    <mat-card class="oto-mat-card-compact">
-      <mat-card-header class="oto-card-header">
-        <h3>Job</h3>
-      </mat-card-header>
-      <table class="oto-table" *ngIf="printerStatus.job.job">
-        <tr><td class="mat-caption">File</td><td style="word-break: break-all">{{printerStatus.job.job.file.name}}</td></tr>
-        <tr>
-          <td class="mat-caption">Total</td>
-          <td>{{(utils.prettyMs(printerStatus.job.job.estimatedPrintTime * 1000)).substr(0, utils.prettyMs(printerStatus.job.job.estimatedPrintTime * 1000).length - 4)}}</td>
-        </tr>
-        <tr>
-          <td class="mat-caption">Time left</td>
-          <td>{{utils.prettyMs(printerStatus.job.progress.printTimeLeft * 1000) || '-'}}</td>
-        </tr>
-        <tr>
-          <td class="mat-caption">End Time</td>
-          <td>{{jobEndTime}}</td>
-        </tr>
-        <tr><td class="mat-caption">Progress</td><td>{{printerStatus.job.progress.completion * 100  | number:'1.0-0' || '-'}} %</td></tr>
-      </table>
-      <table class="oto-table" *ngIf="!printerStatus.job.job">
-        <tr><td>none</td></tr>
-      </table>
-    </mat-card>
-  </div>
+  @if (printerStatus) {
+    <div fxFlex>
+      <mat-card class="oto-mat-card-compact">
+        <mat-card-header class="oto-card-header">
+          <h3>Job</h3>
+        </mat-card-header>
+        @if (printerStatus.job.job) {
+          <table class="oto-table">
+            <tr><td class="mat-caption">File</td><td style="word-break: break-all">{{printerStatus.job.job.file.name}}</td></tr>
+            <tr>
+              <td class="mat-caption">Total</td>
+              <td>{{(utils.prettyMs(printerStatus.job.job.estimatedPrintTime * 1000)).substr(0, utils.prettyMs(printerStatus.job.job.estimatedPrintTime * 1000).length - 4)}}</td>
+            </tr>
+            <tr>
+              <td class="mat-caption">Time left</td>
+              <td>{{utils.prettyMs(printerStatus.job.progress.printTimeLeft * 1000) || '-'}}</td>
+            </tr>
+            <tr>
+              <td class="mat-caption">End Time</td>
+              <td>{{jobEndTime}}</td>
+            </tr>
+            <tr><td class="mat-caption">Progress</td><td>{{printerStatus.job.progress.completion * 100  | number:'1.0-0' || '-'}} %</td></tr>
+          </table>
+        }
+        @if (!printerStatus.job.job) {
+          <table class="oto-table">
+            <tr><td>none</td></tr>
+          </table>
+        }
+      </mat-card>
+    </div>
+  }
 
-  <div fxFlex *ngIf="printerStatus">
-    <mat-card class="oto-mat-card-compact">
-      <mat-card-header class="oto-card-header">
-        <h3>Printer</h3>
-      </mat-card-header>
-      <table class="oto-table">
-        <tr><td class="mat-caption">Head</td><td>{{printerStatus.status.temperature.tool0.actual }} / {{ printerStatus.status.temperature.tool0.target}} °C</td></tr>
-        <tr><td class="mat-caption">Bed</td><td>{{printerStatus.status.temperature.bed.actual }} / {{printerStatus.status.temperature.bed.target}} °C</td></tr>
-        <tr><td class="mat-caption">Speed</td><td>{{printerStatus.status.telemetry["print-speed"]}} %</td></tr>
-        <tr><td class="mat-caption">Z-Height</td><td>{{printerStatus.status.telemetry["z-height"]}} mm</td></tr>
-        <tr><td class="mat-caption">Material</td><td>{{printerStatus.status.telemetry["material"]}}</td></tr>
-      </table>
-    </mat-card>
-  </div>
+  @if (printerStatus) {
+    <div fxFlex>
+      <mat-card class="oto-mat-card-compact">
+        <mat-card-header class="oto-card-header">
+          <h3>Printer</h3>
+        </mat-card-header>
+        <table class="oto-table">
+          <tr><td class="mat-caption">Head</td><td>{{printerStatus.status.temperature.tool0.actual }} / {{ printerStatus.status.temperature.tool0.target}} °C</td></tr>
+          <tr><td class="mat-caption">Bed</td><td>{{printerStatus.status.temperature.bed.actual }} / {{printerStatus.status.temperature.bed.target}} °C</td></tr>
+          <tr><td class="mat-caption">Speed</td><td>{{printerStatus.status.telemetry["print-speed"]}} %</td></tr>
+          <tr><td class="mat-caption">Z-Height</td><td>{{printerStatus.status.telemetry["z-height"]}} mm</td></tr>
+          <tr><td class="mat-caption">Material</td><td>{{printerStatus.status.telemetry["material"]}}</td></tr>
+        </table>
+      </mat-card>
+    </div>
+  }
 </div>

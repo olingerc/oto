@@ -7,7 +7,7 @@ import { UserService } from '../../core/user/user.service';
 import { AlertService } from '../../core/alert/alert.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { MatButtonModule } from '@angular/material/button';
-import { NgFor, NgIf } from '@angular/common';
+
 import { MatChipsModule } from '@angular/material/chips';
 import { AutofocusDirective } from '../../shared/directives/focus.directive';
 import { MatInputModule } from '@angular/material/input';
@@ -17,7 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     selector: 'navbar-edituser-dialog',
     templateUrl: 'navbar-edituser-dialog.component.html',
     standalone: true,
-    imports: [MatDialogModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, AutofocusDirective, MatChipsModule, NgFor, NgIf, MatButtonModule]
+    imports: [MatDialogModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, AutofocusDirective, MatChipsModule, MatButtonModule]
 })
 export class NavbarEditUserDialog {
 

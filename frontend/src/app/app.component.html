@@ -1,17 +1,21 @@
 <!--<app-navbar></app-navbar>-->
 
-<div
-  class="oto-loader oto-loader-huge overlay"
-  *ngIf="loadingRoute">
-</div>
+@if (loadingRoute) {
+  <div
+    class="oto-loader oto-loader-huge overlay"
+    >
+  </div>
+}
 
 <p-toast position="top-right"></p-toast>
 <oto-confirmation-dialog></oto-confirmation-dialog>
 
 <div class="oto-toaster mat-elevation-z3 show" [ngClass]="{'show': tasksProgressMessages.length > 0 || delayedHide}">
-  <div class="oto-toaster-item" *ngIf="tasksProgressMessages.length == 0" fxLayout="row" fxLayoutAlign="start center">
-    No more messages <mat-icon class="success-color">check</mat-icon>
-  </div>
+  @if (tasksProgressMessages.length == 0) {
+    <div class="oto-toaster-item" fxLayout="row" fxLayoutAlign="start center">
+      No more messages <mat-icon class="success-color">check</mat-icon>
+    </div>
+  }
 </div>
 
 <!-- phone sidebar -->
@@ -58,52 +62,62 @@
       <div fxFlex></div>
 
       <mat-nav-list>
-        <ng-container *ngIf="authenticationService.currentUser">
+        @if (authenticationService.currentUser) {
           <mat-divider></mat-divider>
           <h3 matSubheader>
             <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
               <mat-icon>person</mat-icon>
-              <mat-icon color="warn" *ngIf="!authenticationService.currentUser?.default_password_changed">info</mat-icon>
+              @if (!authenticationService.currentUser?.default_password_changed) {
+                <mat-icon color="warn">info</mat-icon>
+              }
               <span>{{authenticationService.currentUser.fullname || authenticationService.currentUser.username}}</span>
             </div>
           </h3>
-
           <button mat-menu-item (click)="sidenav.close();openEditUserDialog()">Edit details</button>
-          <button mat-menu-item
-            *ngIf="currentUser && !currentUser.default_password_changed"
-            (click)="sidenav.close();openSetPasswordDialog()">
-            <mat-chip-listbox class="chip-list-inline">
-              <mat-chip class="mat-warn" color="warn">1</mat-chip>
-            </mat-chip-listbox>
-            <span>Set password</span>
-          </button>
-          <button
-            mat-menu-item
-            *ngIf="currentUser && currentUser.default_password_changed"
-            (click)="sidenav.close();openChangePasswordDialog()">
-            Change password
-          </button>
-          <ng-container *ngIf="currentUser">
+          @if (currentUser && !currentUser.default_password_changed) {
+            <button mat-menu-item
+              (click)="sidenav.close();openSetPasswordDialog()">
+              <mat-chip-listbox class="chip-list-inline">
+                <mat-chip class="mat-warn" color="warn">1</mat-chip>
+              </mat-chip-listbox>
+              <span>Set password</span>
+            </button>
+          }
+          @if (currentUser && currentUser.default_password_changed) {
+            <button
+              mat-menu-item
+              (click)="sidenav.close();openChangePasswordDialog()">
+              Change password
+            </button>
+          }
+          @if (currentUser) {
             <mat-divider></mat-divider>
             <h3 matSubheader>Role</h3>
-            <ng-container *ngFor="let role of currentUser.roles">
+            @for (role of currentUser.roles; track role) {
               <button
                 [ngClass]="{'background-primary-color': currentUser.active_role == role}"
                 mat-menu-item
                 (click)="changeActiveRole(role)">
-                <span *ngIf="role == 'user'">User</span>
-                <span *ngIf="role == 'manager'">Manager</span>
-                <span *ngIf="role == 'admin'">Administrator</span>
+                @if (role == 'user') {
+                  <span>User</span>
+                }
+                @if (role == 'manager') {
+                  <span>Manager</span>
+                }
+                @if (role == 'admin') {
+                  <span>Administrator</span>
+                }
               </button>
-            </ng-container>
-          </ng-container>
+            }
+          }
           <mat-divider></mat-divider>
           <!-- Logout-->
-          <button *ngIf="currentUser" mat-menu-item title="Logout"(click)="sidenav.close();logout()">
-            Logout
-          </button>
-
-        </ng-container>
+          @if (currentUser) {
+            <button mat-menu-item title="Logout"(click)="sidenav.close();logout()">
+              Logout
+            </button>
+          }
+        }
       </mat-nav-list>
     </div>
   </mat-sidenav>
@@ -111,75 +125,75 @@
   <mat-sidenav-content>
 
     <!-- Large toolbar -->
-    <mat-toolbar *ngIf="authenticationService.currentUser">
-
-      <div fxHide.gt-xs>
-        <button mat-icon-button (click)="sidenav.toggle()">
-          <mat-icon>menu</mat-icon>
-        </button>
-      </div>
-
-      <div fxHide.gt-xs fxFlex></div>
-
-      <div *ngIf="!onHome">
-        <a routerLink="/">
-          <img class="toolbar-icon" src="/assets/apple-touch-icon-76x76.png"/>
-        </a>
-      </div>
-
-      <div fxFlex fxLayout="row" fxLayoutAlign="flex-end" fxHide.xs>
-        <ul fxLayout fxLayoutGap="20px" class="navigation-items">
-          <li>
-            <a
-              routerLinkActive="active"
-              [myVisibleForPrivileges]="['printerUser']"
-              routerLink="/printer">
-              <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
-                <mat-icon>3d_rotation</mat-icon>
-                <span>Printer</span>
-              </div>
+    @if (authenticationService.currentUser) {
+      <mat-toolbar>
+        <div fxHide.gt-xs>
+          <button mat-icon-button (click)="sidenav.toggle()">
+            <mat-icon>menu</mat-icon>
+          </button>
+        </div>
+        <div fxHide.gt-xs fxFlex></div>
+        @if (!onHome) {
+          <div>
+            <a routerLink="/">
+              <img class="toolbar-icon" src="/assets/apple-touch-icon-76x76.png"/>
             </a>
-          </li>
-          <li>
-            <a
-              routerLinkActive="active"
-              [myVisibleForPrivileges]="['camsUser']"
-              routerLink="/cams">
-              <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
-                <mat-icon>video_camera_front</mat-icon>
-                <span>Surveillance</span>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a
-              routerLinkActive="active"
-              [myVisibleForPrivileges]="['otoAdmin']"
-              routerLink="/admin">
-              <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
-                <mat-icon>speed</mat-icon>
-                <span>Dashboard</span>
-              </div>
-            </a>
-          </li>
-
-          <!-- User -->
-          <li>
-            <small>
-              <a title="User" [mat-menu-trigger-for]="userMenu">
+          </div>
+        }
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end" fxHide.xs>
+          <ul fxLayout fxLayoutGap="20px" class="navigation-items">
+            <li>
+              <a
+                routerLinkActive="active"
+                [myVisibleForPrivileges]="['printerUser']"
+                routerLink="/printer">
                 <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
-                  <mat-icon>person</mat-icon>
-                  <mat-icon color="warn" *ngIf="!currentUser.default_password_changed">info</mat-icon>
-                  <span>{{currentUser.fullname || currentUser.username}}</span>
-                  <!--<small>({{authenticationService.currentUser.active_role}})</small>-->
+                  <mat-icon>3d_rotation</mat-icon>
+                  <span>Printer</span>
                 </div>
               </a>
-            </small>
-          </li>
-
-        </ul>
-      </div>
-    </mat-toolbar>
+            </li>
+            <li>
+              <a
+                routerLinkActive="active"
+                [myVisibleForPrivileges]="['camsUser']"
+                routerLink="/cams">
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+                  <mat-icon>video_camera_front</mat-icon>
+                  <span>Surveillance</span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a
+                routerLinkActive="active"
+                [myVisibleForPrivileges]="['otoAdmin']"
+                routerLink="/admin">
+                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+                  <mat-icon>speed</mat-icon>
+                  <span>Dashboard</span>
+                </div>
+              </a>
+            </li>
+            <!-- User -->
+            <li>
+              <small>
+                <a title="User" [mat-menu-trigger-for]="userMenu">
+                  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+                    <mat-icon>person</mat-icon>
+                    @if (!currentUser.default_password_changed) {
+                      <mat-icon color="warn">info</mat-icon>
+                    }
+                    <span>{{currentUser.fullname || currentUser.username}}</span>
+                    <!--<small>({{authenticationService.currentUser.active_role}})</small>-->
+                  </div>
+                </a>
+              </small>
+            </li>
+          </ul>
+        </div>
+      </mat-toolbar>
+    }
 
     <main>
       <router-outlet></router-outlet>
@@ -191,37 +205,47 @@
 <mat-menu [overlapTrigger]="false" #userMenu="matMenu" class="mat-elevation-z9 mat-typography">
   <label class="mat-caption muted-color">User</label>
   <button mat-menu-item (click)="openEditUserDialog()">Edit details</button>
-  <button mat-menu-item
-    *ngIf="currentUser && !currentUser.default_password_changed"
-    (click)="openSetPasswordDialog()">
-    <mat-chip-listbox class="chip-list-inline">
-      <mat-chip class="mat-warn" color="warn">1</mat-chip>
-    </mat-chip-listbox>
-    <span>Set password</span>
-  </button>
-  <button
-    mat-menu-item
-    *ngIf="currentUser && currentUser.default_password_changed"
-    (click)="openChangePasswordDialog()">
-    Change password
-  </button>
-  <ng-container *ngIf="currentUser">
+  @if (currentUser && !currentUser.default_password_changed) {
+    <button mat-menu-item
+      (click)="openSetPasswordDialog()">
+      <mat-chip-listbox class="chip-list-inline">
+        <mat-chip class="mat-warn" color="warn">1</mat-chip>
+      </mat-chip-listbox>
+      <span>Set password</span>
+    </button>
+  }
+  @if (currentUser && currentUser.default_password_changed) {
+    <button
+      mat-menu-item
+      (click)="openChangePasswordDialog()">
+      Change password
+    </button>
+  }
+  @if (currentUser) {
     <hr>
-    <label class="mat-caption muted-color">Role</label>
-    <ng-container *ngFor="let role of currentUser.roles">
-      <button
-        [ngClass]="{'background-primary-color accent-color': currentUser.active_role == role}"
-        mat-menu-item
-        (click)="changeActiveRole(role)">
-        <span *ngIf="role == 'user'">User</span>
-        <span *ngIf="role == 'manager'">Manager</span>
-        <span *ngIf="role == 'admin'">Administrator</span>
-      </button>
-    </ng-container>
-  </ng-container>
-  <hr>
-  <!-- Logout-->
-  <button *ngIf="currentUser" mat-menu-item title="Logout"(click)="logout()">
-    Logout
-  </button>
-</mat-menu>
+      <label class="mat-caption muted-color">Role</label>
+      @for (role of currentUser.roles; track role) {
+        <button
+          [ngClass]="{'background-primary-color accent-color': currentUser.active_role == role}"
+          mat-menu-item
+          (click)="changeActiveRole(role)">
+          @if (role == 'user') {
+            <span>User</span>
+          }
+          @if (role == 'manager') {
+            <span>Manager</span>
+          }
+          @if (role == 'admin') {
+            <span>Administrator</span>
+          }
+        </button>
+      }
+    }
+    <hr>
+      <!-- Logout-->
+      @if (currentUser) {
+        <button mat-menu-item title="Logout"(click)="logout()">
+          Logout
+        </button>
+      }
+    </mat-menu>

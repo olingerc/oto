@@ -1,9 +1,13 @@
-<h1 *ngIf="header" mat-dialog-title>
-  <div fxLayout="row" fxLayoutAlign="start center">
-    <mat-icon *ngIf="icon">{{icon}}</mat-icon>
-    <span>&nbsp;{{header}}</span>
-  </div>
-</h1>
+@if (header) {
+  <h1 mat-dialog-title>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      @if (icon) {
+        <mat-icon>{{icon}}</mat-icon>
+      }
+      <span>&nbsp;{{header}}</span>
+    </div>
+  </h1>
+}
 
 <mat-dialog-content class="navbar-dialog">
   {{message}}

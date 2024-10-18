@@ -22,8 +22,20 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
     providers: [
-        importProvidersFrom(BrowserModule, AppRoutingModule, ToastModule, CoreModule, MatChipsModule, MatMenuModule, MatIconModule, MatSidenavModule, MatToolbarModule, MatDividerModule, MatListModule, MatDialogModule),
-        { provide: LOCALE_ID, useValue: 'fr-FR' },
+        importProvidersFrom(
+          BrowserModule,
+          AppRoutingModule,
+          ToastModule,
+          CoreModule,
+          MatChipsModule,
+          MatMenuModule,
+          MatIconModule,
+          MatSidenavModule,
+          MatToolbarModule,
+          MatDividerModule,
+          MatListModule,
+          MatDialogModule
+        ),
         provideAnimations()
     ]
 })

@@ -1,6 +1,5 @@
 @use '@angular/material' as mat;
 @use "sass:map";
-@use '../../node_modules/@angular/material/theming';
 
 @use './../app/home/home-theme';
 @use './../app/login/login-theme';
@@ -23,7 +22,6 @@
   .oto-app-background {
     background: mat.get-color-from-palette($background, background);
   }
-
 
   mat-chip.mat-warn {
     background-color: mat.get-color-from-palette($warn) !important;

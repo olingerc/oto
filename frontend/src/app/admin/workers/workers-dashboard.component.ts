@@ -15,7 +15,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { ExtendedModule } from "@ngbracket/ngx-layout/extended";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
-import { NgIf, NgFor, NgClass } from "@angular/common";
+import { NgClass } from "@angular/common";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatCardModule } from "@angular/material/card";
 import { FlexModule } from "@ngbracket/ngx-layout/flex";
@@ -25,7 +25,7 @@ import { FlexModule } from "@ngbracket/ngx-layout/flex";
     templateUrl: "./workers-dashboard.component.html",
     styleUrls: ["./workers-dashboard.component.scss"],
     standalone: true,
-    imports: [FlexModule, MatCardModule, MatToolbarModule, NgIf, MatButtonModule, NgFor, MatIconModule, NgClass, ExtendedModule, MatTooltipModule, MyTruncatePipe]
+    imports: [FlexModule, MatCardModule, MatToolbarModule, MatButtonModule, MatIconModule, NgClass, ExtendedModule, MatTooltipModule, MyTruncatePipe]
 })
 export class WorkersDashboardComponent implements OnInit, OnDestroy {
 

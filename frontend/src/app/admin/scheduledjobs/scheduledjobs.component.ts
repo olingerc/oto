@@ -15,7 +15,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { VisibleForPrivilegesDirective } from '../../shared/directives/visible-for-privileges.directive';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { NgIf, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexModule } from '@ngbracket/ngx-layout/flex';
@@ -25,7 +25,7 @@ import { FlexModule } from '@ngbracket/ngx-layout/flex';
     templateUrl: './scheduledjobs.component.html',
     styleUrls: ['./scheduledjobs.component.scss'],
     standalone: true,
-    imports: [FlexModule, MatButtonModule, MatTooltipModule, NgIf, MatIconModule, MatCardModule, VisibleForPrivilegesDirective, MatToolbarModule, TableModule, PrimeTemplate, DatePipe]
+    imports: [FlexModule, MatButtonModule, MatTooltipModule, MatIconModule, MatCardModule, VisibleForPrivilegesDirective, MatToolbarModule, TableModule, PrimeTemplate, DatePipe]
 })
 export class ScheduledjobsComponent implements OnInit, OnDestroy {
 

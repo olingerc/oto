@@ -31,35 +31,41 @@
 
   <h3 class="mat-subheading-2">Privileges</h3>
   <mat-chip-listbox class="oto-badges">
-    <mat-chip style="margin-bottom:4px" *ngFor="let priv of data.user.privileges">{{priv}}</mat-chip>
+    @for (priv of data.user.privileges; track priv) {
+      <mat-chip style="margin-bottom:4px">{{priv}}</mat-chip>
+    }
   </mat-chip-listbox>
 
-  <form #removeUserForm="ngForm" *ngIf="removingUser">
-    <mat-form-field>
-      <input
-        matInput
-        required
-        myAutofocus
-        *ngIf="removingUser"
-        placeholder="type password"
-        type="password"
-        [(ngModel)]="removeUserPassword"
-        (keydown.enter)="confirmRemovingUser()"
-        [formControl]="removeUserPasswordInput"
-      >
-      <mat-error>Wrong password</mat-error>
-    </mat-form-field>
-
-    <span *ngIf="removeUserError" class="color-warn">
-      {{ removeUserError }}
-    </span>
-  </form>
+  @if (removingUser) {
+    <form #removeUserForm="ngForm">
+      <mat-form-field>
+        @if (removingUser) {
+          <input
+            matInput
+            required
+            myAutofocus
+            placeholder="type password"
+            type="password"
+            [(ngModel)]="removeUserPassword"
+            (keydown.enter)="confirmRemovingUser()"
+            [formControl]="removeUserPasswordInput"
+            >
+        }
+        <mat-error>Wrong password</mat-error>
+      </mat-form-field>
+      @if (removeUserError) {
+        <span class="color-warn">
+          {{ removeUserError }}
+        </span>
+      }
+    </form>
+  }
 
 </mat-dialog-content>
 
 <mat-dialog-actions>
   <button
-  mat-raised-button
+    mat-raised-button
     color="primary"
     type="button"
     (click)="confirmDialog()"
@@ -75,21 +81,23 @@
     >CLOSE
   </button>
 
-  <button
-    *ngIf="!removingUser"
-    color="warn"
-    mat-raised-button
-    type="button"
-    (click)="startRemovingUser()">
-    REMOVE USER
-  </button>
+  @if (!removingUser) {
+    <button
+      color="warn"
+      mat-raised-button
+      type="button"
+      (click)="startRemovingUser()">
+      REMOVE USER
+    </button>
+  }
 
-  <button
-    *ngIf="removingUser"
-    color="warn"
-    mat-raised-button
-    type="button"
-    (click)="confirmRemovingUser()">
-    REMOVE USER
-  </button>
+  @if (removingUser) {
+    <button
+      color="warn"
+      mat-raised-button
+      type="button"
+      (click)="confirmRemovingUser()">
+      REMOVE USER
+    </button>
+  }
 </mat-dialog-actions>

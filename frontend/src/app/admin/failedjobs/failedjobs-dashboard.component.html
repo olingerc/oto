@@ -4,74 +4,78 @@
 
   <div class="jobs-content">
 
-      <div>
-        <mat-card class="jobs-card">
-          
-          <mat-card-header class="analysis-card-header">
-            <mat-toolbar class="oto-toolbar lims-analysis-toolbar-header" fxLayout="row" fxLayoutAlign="start center">
-              <mat-toolbar-row>
-                <button
-                  mat-icon-button
-                  matTooltip="Refresh"
-                  (click)="reloadTable()">
-                  <mat-icon *ngIf="!loading">refresh</mat-icon>
-                  <div *ngIf="loading" class="oto-loader oto-loader-button"></div>
-                </button>
-                <div fxFlex></div>
-                <button
-                  mat-raised-button
-                  color="warn"
-                  (click)="clearFailed()">
-                  CLEAR FAILED
-                </button>
-              </mat-toolbar-row>
-            </mat-toolbar>
-          </mat-card-header>
-          
-          <mat-card-content>
-            <div fxLayout="row" fxLayoutAlign="start start">
+    <div>
+      <mat-card class="jobs-card">
 
-              <div fxFlex>
-                <p-table
-                  #jobsTable
-                  styleClass="oto-primeng-table oto-primeng-table-smaller"
-                  [value]="allJobs"
-                  
-                  [lazy]="true" (onLazyLoad)="loadJobs($event)" [paginator]="true"
-                  [rows]="10" [totalRecords]="totalJobs"
+        <mat-card-header class="analysis-card-header">
+          <mat-toolbar class="oto-toolbar lims-analysis-toolbar-header" fxLayout="row" fxLayoutAlign="start center">
+            <mat-toolbar-row>
+              <button
+                mat-icon-button
+                matTooltip="Refresh"
+                (click)="reloadTable()">
+                @if (!loading) {
+                  <mat-icon>refresh</mat-icon>
+                }
+                @if (loading) {
+                  <div class="oto-loader oto-loader-button"></div>
+                }
+              </button>
+              <div fxFlex></div>
+              <button
+                mat-raised-button
+                color="warn"
+                (click)="clearFailed()">
+                CLEAR FAILED
+              </button>
+            </mat-toolbar-row>
+          </mat-toolbar>
+        </mat-card-header>
 
-                  [scrollable]="true" scrollHeight="flex"
-                  sortField="created_at" [sortOrder]="-1"
-                  dataKey="id"
-                  [rowTrackBy]="trackById"
-                  >
-                  <ng-template pTemplate="header">
-                    <tr>
-                      <th>Description</th>
-                      <th>Queue</th>
-                      <th>Created</th>
-                    </tr>
-                  </ng-template>
-                  <ng-template pTemplate="body" let-job>
-                    <tr [pSelectableRow]="job" class="pointer" (click)="showJobDetails(job)">
-                      <td>{{ job.description }}</td>
-                      <td>{{job.origin}}</td>
-                      <td>{{ job.created_at | date:"yyyy-MM-dd H:mm:ss" }}</td>
-                    </tr>
-                  </ng-template>
-                  <ng-template pTemplate="emptymessage" let-columns="columns">
-                    <tr>
-                      <td colsapn="columns.length">
-                        {{ emptyMessage }}
-                      </td>
-                    </tr>
-                  </ng-template>
-                </p-table>
-              </div>
+        <mat-card-content>
+          <div fxLayout="row" fxLayoutAlign="start start">
+
+            <div fxFlex>
+              <p-table
+                #jobsTable
+                styleClass="oto-primeng-table oto-primeng-table-smaller"
+                [value]="allJobs"
+
+                [lazy]="true" (onLazyLoad)="loadJobs($event)" [paginator]="true"
+                [rows]="10" [totalRecords]="totalJobs"
+
+                [scrollable]="true" scrollHeight="flex"
+                sortField="created_at" [sortOrder]="-1"
+                dataKey="id"
+                [rowTrackBy]="trackById"
+                >
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Description</th>
+                    <th>Queue</th>
+                    <th>Created</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-job>
+                  <tr [pSelectableRow]="job" class="pointer" (click)="showJobDetails(job)">
+                    <td>{{ job.description }}</td>
+                    <td>{{job.origin}}</td>
+                    <td>{{ job.created_at | date:"yyyy-MM-dd H:mm:ss" }}</td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage" let-columns="columns">
+                  <tr>
+                    <td colsapn="columns.length">
+                      {{ emptyMessage }}
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
             </div>
-          </mat-card-content>
-        </mat-card>
-      </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
 
   </div>
 </div>

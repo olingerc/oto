@@ -1,6 +1,7 @@
 @use "sass:map";
 @use 'sass:math';
 @use '@angular/material' as mat;
+
 @mixin toolbar-theme($theme) {
   $primary: map.get($theme, primary);
   $accent: map.get($theme, accent);

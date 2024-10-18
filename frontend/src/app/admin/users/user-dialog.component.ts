@@ -15,7 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexModule } from '@ngbracket/ngx-layout/flex';
-import { NgIf, NgFor, TitleCasePipe, DatePipe } from '@angular/common';
+import { TitleCasePipe, DatePipe } from '@angular/common';
 
 @Component({
     selector: 'user-dialog',
@@ -23,20 +23,18 @@ import { NgIf, NgFor, TitleCasePipe, DatePipe } from '@angular/common';
     styleUrls: ['./user-dialog.component.scss'],
     standalone: true,
     imports: [
-        NgIf,
-        MatDialogModule,
-        FlexModule,
-        MatButtonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        NgFor,
-        MatIconModule,
-        TitleCasePipe,
-        DatePipe,
-        MyArrayFilterPipe,
-    ],
+    MatDialogModule,
+    FlexModule,
+    MatButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    TitleCasePipe,
+    DatePipe,
+    MyArrayFilterPipe
+],
 })
 export class UserDialogComponent {
 

@@ -4,8 +4,12 @@
       mat-icon-button
       matTooltip="Refresh"
       (click)="loadJobs()">
-      <mat-icon *ngIf="!loading">refresh</mat-icon>
-      <div *ngIf="loading" class="oto-loader oto-loader-button"></div>
+      @if (!loading) {
+        <mat-icon>refresh</mat-icon>
+      }
+      @if (loading) {
+        <div class="oto-loader oto-loader-button"></div>
+      }
     </button>
     <small class="muted-color">only recent jobs, last refresh {{lastLoad.format("YYYY MM DD HH:mm:ss")}}</small>
   </div>
@@ -32,7 +36,7 @@
           <p-table
             styleClass="oto-primeng-table oto-primeng-table-smaller"
             [value]="remainingJobs"
-            
+
             [scrollable]="true" scrollHeight="flex"
             sortField="created_at" [sortOrder]="-1"
             [rowTrackBy]="trackById"
@@ -49,8 +53,12 @@
                 <td>
                   <div fxLayout="column">
                     <div>{{ job.created_at | date:"yyyy-MM-dd H:mm:ss" }}</div>
-                    <div *ngIf="!job.ended_at">({{timeToFinish(job.started_at, lastLoad)}} ago)</div>
-                    <div *ngIf="job.ended_at">(took {{timeToFinish(job.started_at, job.ended_at)}})</div>
+                    @if (!job.ended_at) {
+                      <div>({{timeToFinish(job.started_at, lastLoad)}} ago)</div>
+                    }
+                    @if (job.ended_at) {
+                      <div>(took {{timeToFinish(job.started_at, job.ended_at)}})</div>
+                    }
                   </div>
                 </td>
               </tr>
