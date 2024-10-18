@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router, CanLoad, Route, RouterStateSnapshot } from '@angular/router';
+import { Router, Route, RouterStateSnapshot } from '@angular/router';
 
 import { AuthenticationService } from './authentication.service';
 import { AlertService } from '../alert/alert.service';
@@ -7,7 +7,7 @@ import { AlertService } from '../alert/alert.service';
 @Injectable({
   "providedIn": "root"
 })
-export class AuthLoadGuard implements CanLoad {
+export class AuthLoadGuard  {
 
   constructor(
     private router: Router,
