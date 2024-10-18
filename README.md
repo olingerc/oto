@@ -11,6 +11,22 @@ https://pyimagesearch.com/2020/09/21/opencv-automatic-license-number-plate-recog
 
 # Workers
 
+# Prepare connection
+
+## Prepare outside part
+- My fritz should forward all port 80 connections to the pi. For this configure HTTP-Server. This will use port 80 automatically. No need to forwartd https
+- To test, start a webserver on port 8- on pi `docker run -it --rm -p 80:80 nginx`
+- Got to `http://192.168.178.45/`
+- Configure OVH to go to your ip adress on port 80 (servers tab), in domains tab configure www.olinger.eu and olinger.eu
+- Go To `https://www.olinger.eu/`: it should work
+- Go To `http://www.olinger.eu/`: it should work as well
+
+## How does the oto frontend handle connections
+
+
+- The Pi has a webserver at port 80, I use OVH ssl service to accept ssl connections, but that one then forwards to my port 80
+- My fritz should forward all port 80 connections to the pi
+
 # On pi
 
 Prepare network mount in /etc/fstab
