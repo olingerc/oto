@@ -9,7 +9,7 @@
   $background: map.get($theme, background);
   $foreground: map.get($theme, foreground);
 
-  $border-color: mat.get-color-from-palette($primary, 700);
+  $border-color: mat.m2-get-color-from-palette($primary, 700);
 
   //
   // https://material.io/guidelines/components/data-tables.html#data-tables-tables-within-cards
@@ -27,7 +27,7 @@
     margin: 0 0 32px 0;
 
     th {
-      color:  mat.get-color-from-palette($primary);
+      color:  mat.m2-get-color-from-palette($primary);
       border-bottom : 1px solid $border-color;
       font-size: 12px; /* material design */
       font-weight: 400;
@@ -50,7 +50,7 @@
         font-size: 12px;  /* material design */
         height: 48px - 4px - 4px; //remove padding
         padding: 4px 16px;
-        color:  mat.get-color-from-palette($primary);
+        color:  mat.m2-get-color-from-palette($primary);
         vertical-align: middle;
       }
     }
@@ -105,10 +105,10 @@
   }
 
   .oto-table tr.selected {
-    background: mat.get-color-from-palette($primary);
+    background: mat.m2-get-color-from-palette($primary);
   }
   .oto-table tr.selected td {
-    color: mat.get-color-from-palette($primary, default-contrast);
+    color: mat.m2-get-color-from-palette($primary, default-contrast);
   }
 
   /*
@@ -124,7 +124,7 @@
   p-table .oto-primeng-table,
   p-table .p-datatable-striped.oto-primeng-table {
     font-size: 12px;
-    color:  mat.get-color-from-palette($primary, default-contrast);
+    color:  mat.m2-get-color-from-palette($primary, default-contrast);
     border-left: 0;
     border-right: 0;
 
@@ -139,16 +139,16 @@
     }
 
     .ui-column-filter:focus {
-      border-bottom: 2px solid mat.get-color-from-palette($primary);
+      border-bottom: 2px solid mat.m2-get-color-from-palette($primary);
       margin-bottom: -1px;
     }
 
     .ui-state-active .ui-column-filter {
-      color: mat.get-color-from-palette($primary, default-contrast);
+      color: mat.m2-get-color-from-palette($primary, default-contrast);
     }
 
     .ui-state-active .ui-column-filter:focus {
-      border-bottom: 2px solid mat.get-color-from-palette($accent);
+      border-bottom: 2px solid mat.m2-get-color-from-palette($accent);
     }
 
     /* Caption TODO not primeng 10 yet */
@@ -172,8 +172,8 @@
         border-left: 0;
         border-right: 0;
         border-bottom : 1px solid $border-color;
-        color:mat.get-color-from-palette($primary);
-        background: mat.get-color-from-palette($primary, 800);
+        color:mat.m2-get-color-from-palette($primary);
+        background: mat.m2-get-color-from-palette($primary, 800);
 
         font-size: 12px; /* material design */
         font-weight: 400;
@@ -184,12 +184,12 @@
 
       tr > th.p-highlight {
         /* a thead active for sorting */
-        background: mat.get-color-from-palette($primary, 300);
+        background: mat.m2-get-color-from-palette($primary, 300);
         border-color: $border-color;
-        color:  mat.get-color-from-palette($primary, default-contrast);
+        color:  mat.m2-get-color-from-palette($primary, default-contrast);
 
         .p-sortable-column-icon {
-          color: mat.get-color-from-palette($primary, default-contrast);
+          color: mat.m2-get-color-from-palette($primary, default-contrast);
           line-height: inherit; /* hack when i switched to md-light */
         }
 
@@ -216,16 +216,16 @@
       tr.p-highlight:nth-child(odd),
       tr.p-highlight:nth-child(even),
       tr.p-highlight:hover {
-        color:mat.get-color-from-palette($primary);
-        background: mat.get-color-from-palette($accent);
+        color:mat.m2-get-color-from-palette($primary);
+        background: mat.m2-get-color-from-palette($accent);
 
         .mat-primary {
-          color: mat.get-color-from-palette($primary, default-contrast);
+          color: mat.m2-get-color-from-palette($primary, default-contrast);
         }
         /* normal text */
         .muted-color {
           /* otherwise text is too grey on blue background */
-          color: mat.get-color-from-palette(mat.$grey-palette, 600);
+          color: mat.m2-get-color-from-palette(mat.$m2-grey-palette, 600);
         }
         /* chips */
         .background-grey-color {
@@ -251,7 +251,7 @@
     }
 
     .ui-row-toggler {
-      color: mat.get-color-from-palette($accent);
+      color: mat.m2-get-color-from-palette($accent);
     }
   }
 

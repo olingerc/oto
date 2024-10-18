@@ -12,20 +12,20 @@
   .jobs-container {
 
     button.mat-button.active {
-      color: mat.get-color-from-palette($foreground, text);
-      background-color: mat.get-color-from-palette($background, focused-button);
+      color: mat.m2-get-color-from-palette($foreground, text);
+      background-color: mat.m2-get-color-from-palette($background, focused-button);
     }
 
     a {
-      color: mat.get-color-from-palette($foreground, text);
+      color: mat.m2-get-color-from-palette($foreground, text);
     }
 
     .corediv.low {background:$green !important}
-    .corediv.med {background:mat.get-color-from-palette($accent) !important}
-    .corediv.hi {background:mat.get-color-from-palette($warn)}
+    .corediv.med {background:mat.m2-get-color-from-palette($accent) !important}
+    .corediv.hi {background:mat.m2-get-color-from-palette($warn)}
 
     .memoryDiv {
-      background: mat.get-color-from-palette($primary);
+      background: mat.m2-get-color-from-palette($primary);
     }
   }
 }

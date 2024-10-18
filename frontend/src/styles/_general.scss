@@ -58,7 +58,7 @@
   }
 
   a.active {
-    color: mat.get-color-from-palette($accent) !important;
+    color: mat.m2-get-color-from-palette($accent) !important;
   }
 
   /* matTooltips are cut off by default!! */
@@ -80,50 +80,50 @@
   mat-chip.mat-chip.background-primary-color, /*mat-chips are tougher to select via css */
   body .ui-table .ui-table-tbody > tr > td.background-primary-color,
   .background-primary-color {
-    color: mat.get-color-from-palette($primary, default-contrast);
-    background-color: mat.get-color-from-palette($primary) !important;
+    color: mat.m2-get-color-from-palette($primary, default-contrast);
+    background-color: mat.m2-get-color-from-palette($primary) !important;
   }
 
   mat-chip.mat-chip.background-accent-color,
   body .ui-table .ui-table-tbody > tr > td.background-accent-color,
   .background-accent-color {
-    color: mat.get-color-from-palette($accent, default-contrast);
-    background-color: mat.get-color-from-palette($accent) !important;
+    color: mat.m2-get-color-from-palette($accent, default-contrast);
+    background-color: mat.m2-get-color-from-palette($accent) !important;
   }
 
   mat-chip.mat-chip.background-warn-color,
   body .ui-table .ui-table-tbody > tr > td.background-warn-color,
   .background-warn-color {
-    color: mat.get-color-from-palette($warn, default-contrast);
-    background-color: mat.get-color-from-palette($warn);
+    color: mat.m2-get-color-from-palette($warn, default-contrast);
+    background-color: mat.m2-get-color-from-palette($warn);
   }
 
   mat-chip.mat-chip.background-success-color,
   body .ui-table .ui-table-tbody > tr > td.background-success-color,
   .background-success-color {
-    color: mat.get-color-from-palette($primary, default-contrast);
+    color: mat.m2-get-color-from-palette($primary, default-contrast);
     background-color: $green;
   }
 
   mat-chip.mat-chip.background-attention-color,
   body .ui-table .ui-table-tbody > tr > td.background-attention-color,
   .background-attention-color {
-    color: mat.get-color-from-palette($accent, default-contrast);
-    background-color: mat.get-color-from-palette($accent, 400);
+    color: mat.m2-get-color-from-palette($accent, default-contrast);
+    background-color: mat.m2-get-color-from-palette($accent, 400);
   }
 
   mat-chip.mat-chip.background-highlight-color,
   body .ui-table .ui-table-tbody > tr > td.background-highlight-color,
   .background-highlight-color {
-    color: mat.get-color-from-palette($primary, default-contrast);
-    background-color: mat.get-color-from-palette($primary, 50);
+    color: mat.m2-get-color-from-palette($primary, default-contrast);
+    background-color: mat.m2-get-color-from-palette($primary, 50);
   }
 
   mat-chip.mat-chip.background-grey-color,
   body .ui-table .ui-table-tbody > tr > td.background-grey-color,
   .background-grey-color {
     color: #6b6b6b;
-    background-color: mat.get-color-from-palette(mat.$grey-palette, 300);
+    background-color: mat.m2-get-color-from-palette(mat.$m2-grey-palette, 300);
   }
 
   mat-chip.mat-chip.background-white-color,
@@ -143,7 +143,7 @@
     color: $green !important;
   }
   .attention-color {
-    color: mat.get-color-from-palette($accent, 400) !important;
+    color: mat.m2-get-color-from-palette($accent, 400) !important;
   }
   .white-color {
     color: white !important;
@@ -152,13 +152,13 @@
     color: rgb(140, 10, 147) !important;
   }
   .primary-color {
-    color: mat.get-color-from-palette($primary) !important;
+    color: mat.m2-get-color-from-palette($primary) !important;
   }
   .accent-color {
-    color: mat.get-color-from-palette($accent) !important;
+    color: mat.m2-get-color-from-palette($accent) !important;
   }
   .warn-color {
-    color: mat.get-color-from-palette($warn) !important;
+    color: mat.m2-get-color-from-palette($warn) !important;
   }
 
 
@@ -168,13 +168,13 @@
 
   a.mat-menu-item.active,
   a.mat-menu-item.active:hover {
-    color: mat.get-color-from-palette($primary, default-contrast);
-    background: mat.get-color-from-palette($primary);
+    color: mat.m2-get-color-from-palette($primary, default-contrast);
+    background: mat.m2-get-color-from-palette($primary);
   }
   button.mat-menu-item.active,
   button.mat-menu-item.active:hover {
-    color: mat.get-color-from-palette($primary, default-contrast);
-    background: mat.get-color-from-palette($primary);
+    color: mat.m2-get-color-from-palette($primary, default-contrast);
+    background: mat.m2-get-color-from-palette($primary);
   }
 
   /*
@@ -182,8 +182,8 @@
   */
   /* Loader */
   .oto-loader {
-    border:6px solid mat.get-color-from-palette($primary, 800, 0.3);
-    border-top:6px solid mat.get-color-from-palette($accent);
+    border:6px solid mat.m2-get-color-from-palette($primary, 800, 0.3);
+    border-top:6px solid mat.m2-get-color-from-palette($accent);
   }
 
 /*  mat-button-toggle.mat-button-toggle {
@@ -203,8 +203,8 @@
   I try to have a height of 24px
   */
   mat-card-header.mat-card-header.oto-card-header {
-    color: mat.get-color-from-palette($primary);
-    background-color: mat.get-color-from-palette($primary, 900);
+    color: mat.m2-get-color-from-palette($primary);
+    background-color: mat.m2-get-color-from-palette($primary, 900);
 
     margin: -16px -16px 8px -16px;
     border-radius: 4px 4px 0 0;
@@ -567,36 +567,36 @@
   }
 
   .p-overlaypanel .p-overlaypanel-close {
-    background: mat.get-color-from-palette($primary) !important;
+    background: mat.m2-get-color-from-palette($primary) !important;
   }
 
   /* primeng autocomplete */
   p-autoComplete.oto-autocomplete {
 
     .p-inputtext:focus {
-      border-color: mat.get-color-from-palette($primary);
-      box-shadow: inset 0 0 0 1px mat.get-color-from-palette($primary),
-                  inset 0 0 0 1px mat.get-color-from-palette($primary),
-                  inset 0 0 0 1px mat.get-color-from-palette($primary),
-                  inset 0 0 0 1px mat.get-color-from-palette($primary);
+      border-color: mat.m2-get-color-from-palette($primary);
+      box-shadow: inset 0 0 0 1px mat.m2-get-color-from-palette($primary),
+                  inset 0 0 0 1px mat.m2-get-color-from-palette($primary),
+                  inset 0 0 0 1px mat.m2-get-color-from-palette($primary),
+                  inset 0 0 0 1px mat.m2-get-color-from-palette($primary);
     }
     .p-button {
-      background: mat.get-color-from-palette($primary)
+      background: mat.m2-get-color-from-palette($primary)
     }
     .p-button:hover {
-      background: mat.get-color-from-palette($primary, 900)
+      background: mat.m2-get-color-from-palette($primary, 900)
     }
 
     .p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item.p-highlight {
-      color: mat.get-color-from-palette($primary, default-contrast);
-      background: mat.get-color-from-palette($primary)
+      color: mat.m2-get-color-from-palette($primary, default-contrast);
+      background: mat.m2-get-color-from-palette($primary)
     }
   }
 
   /* If append to body */
   .p-autocomplete-panel.oto-autocomplete-panel .p-autocomplete-items .p-autocomplete-item.p-highlight {
-    color: mat.get-color-from-palette($primary, default-contrast);
-    background: mat.get-color-from-palette($primary)
+    color: mat.m2-get-color-from-palette($primary, default-contrast);
+    background: mat.m2-get-color-from-palette($primary)
   }
 
   p-autoComplete.oto-toolbar {
@@ -615,7 +615,7 @@
   p-slider .p-slider {
     .p-slider-handle,
     .p-slider-range {
-      background: mat.get-color-from-palette($accent)
+      background: mat.m2-get-color-from-palette($accent)
     }
   }
 
@@ -624,16 +624,16 @@
   }
 
   p-dropdown .p-dropdown:not(.p-disabled).p-focus {
-    border-color: mat.get-color-from-palette($primary);
-    box-shadow: inset 0 0 0 1px mat.get-color-from-palette($primary),
-                inset 0 0 0 1px mat.get-color-from-palette($primary),
-                inset 0 0 0 1px mat.get-color-from-palette($primary),
-                inset 0 0 0 1px mat.get-color-from-palette($primary);
+    border-color: mat.m2-get-color-from-palette($primary);
+    box-shadow: inset 0 0 0 1px mat.m2-get-color-from-palette($primary),
+                inset 0 0 0 1px mat.m2-get-color-from-palette($primary),
+                inset 0 0 0 1px mat.m2-get-color-from-palette($primary),
+                inset 0 0 0 1px mat.m2-get-color-from-palette($primary);
   }
 
   p-dropdown .p-dropdown {
     .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
-      color: mat.get-color-from-palette($primary);
+      color: mat.m2-get-color-from-palette($primary);
       background: whitesmoke;
     }
   }

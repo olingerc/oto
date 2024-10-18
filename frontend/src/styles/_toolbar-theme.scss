@@ -60,7 +60,7 @@
 
     a.mat-icon-button:hover,
     a.mat-button:hover {
-      color: mat.get-color-from-palette($primary, default-contrast);
+      color: mat.m2-get-color-from-palette($primary, default-contrast);
     }
 
     .mat-icon-button:not([matprefix]):not([matsuffix]) {
@@ -108,11 +108,11 @@
 
 
       mat-button-toggle.mat-button-toggle {
-        background-color: mat.get-color-from-palette($primary);
+        background-color: mat.m2-get-color-from-palette($primary);
       }
 
       mat-button-toggle.mat-button-toggle-checked {
-        background-color: mat.get-color-from-palette($accent);
+        background-color: mat.m2-get-color-from-palette($accent);
       }
 
       mat-button-toggle.mat-button-toggle {
@@ -182,11 +182,11 @@
 
   .mat-toolbar.oto-toolbar[color='primary'] {
     .mat-checkbox-frame {
-      border-color: mat.get-color-from-palette($primary, default-contrast);
+      border-color: mat.m2-get-color-from-palette($primary, default-contrast);
     }
 
     mat-form-field.mat-form-field {
-      color: mat.get-color-from-palette($primary, default-contrast);
+      color: mat.m2-get-color-from-palette($primary, default-contrast);
       .mat-form-field-placeholder {
         color: #bbb;
       }
@@ -194,10 +194,10 @@
         background-color: #bbb;
       }
       .mat-select-arrow {
-        color: mat.get-color-from-palette($primary, default-contrast);
+        color: mat.m2-get-color-from-palette($primary, default-contrast);
       }
       .mat-select-value {
-        color: mat.get-color-from-palette($primary, default-contrast);
+        color: mat.m2-get-color-from-palette($primary, default-contrast);
       }
     }
   }
