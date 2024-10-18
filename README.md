@@ -56,6 +56,11 @@ check 1password for password
 cd /home/chris/oto/app/oto && git pull && docker compose -f docker-compose.startprod.yml up --build -d
 ```
 
+- create database tables as indicated in install/database.sql
+- cd /home/chris/oto/app/oto && git pull && docker compose -f docker-compose.startprod.yml down
+- cd /home/chris/oto/app/oto && git pull && docker compose -f docker-compose.startprod.yml up --build -d
+- at this point oto will create an admin/123 user automatically
+
 Ubuntu 22.04 python
 
 I was getting the same error on ubuntu 22.04, This is how I solved it.
