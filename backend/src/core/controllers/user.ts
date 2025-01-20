@@ -117,12 +117,17 @@ let methods: any = {
 
     let toUpdate = req.body;
     delete toUpdate.password;
-    toUpdate = _preSave(toUpdate);
+
+    // Patch
+    Object.keys(toUpdate).forEach((key) => {
+      userDoc[key] = toUpdate[key];
+    });
+    _preSave(userDoc);
 
     try {
       const updatedUser = await User.query()
         .findById(username)
-        .patch(toUpdate)
+        .patch(userDoc)
         .returning('*')
         .first();
       res.status(200).json(auth.censor(updatedUser));
