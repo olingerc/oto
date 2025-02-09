@@ -66,6 +66,8 @@ def _run_worker_docker(queues, worker_name, host):
     env_dict["CAM_USER"] = config.CAM_USER
     env_dict["CAM_PW"] = config.CAM_PW
     env_dict["OVH_SECRETS"] = config.OVH_SECRETS
+    env_dict["TELEGRAM_TOKEN"] = config.TELEGRAM_TOKEN
+    env_dict["TELEGRAM_CHAT_ID"] = config.TELEGRAM_CHAT_ID
     # -------- HANDLE SECRETS PASSWORDS END ---------
 
     # NOTE: prefix oto_ since created by docker-compose

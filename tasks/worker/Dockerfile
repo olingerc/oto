@@ -1,8 +1,9 @@
-FROM python:3.8.10-slim
+FROM ubuntu:20.04
 
 # this resolves a bug in opendjk installation on stretch slim: https://github.com/debuerreotype/docker-debian-artifacts/issues/24
 RUN mkdir -p /usr/share/man/man1 
 # Install from ubuntu repos
+ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     build-essential \ 
@@ -14,7 +15,7 @@ RUN apt-get update \
     nano \
     wget \
     nmap \
-    ffmpeg libsm6 libxext6 \
+    ffmpeg libsm6 libxext6 firefox python3.8-venv \
     && rm -rf /var/lib/apt/lists/* && apt-get clean
     # libpq-dev is for psycopg2
 
@@ -40,6 +41,8 @@ COPY worker/Pipfile* ./
 RUN python3 -m venv .venv && \
     /home/oto/app/.venv/bin/python3 -m pip install --upgrade pip && \
     pipenv install --ignore-pipfile --deploy
+
+RUN /home/oto/app/.venv/bin/python3 -m pip install selenium webdriver-manager
 
 # Prepare source folder
 COPY velona_tasks velona_tasks

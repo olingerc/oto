@@ -102,6 +102,19 @@ export class ScheduledjobsComponent implements OnInit, OnDestroy {
         });
   }
 
+  checkMinecraftServerStatus() {
+    this.httpService.checkMinecraftServerStatus()
+      .subscribe(
+        job => {
+          this.loadJobs();
+        },
+        error => {
+          this.alertService.error(error);
+          console.error(error);
+        });
+  }
+
+
   detectGarage() {
     this.httpService.detectGarage()
       .subscribe(

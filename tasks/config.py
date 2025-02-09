@@ -134,4 +134,16 @@ class Config(object):
             OVH_SECRETS = f.read().strip()
     except:
         OVH_SECRETS = os.getenv("OVH_SECRETS")
+
+    try:
+        with open('/run/secrets/TELEGRAM_TOKEN', 'r') as f:
+            TELEGRAM_TOKEN = f.read().strip()
+    except:
+        TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+
+    try:
+        with open('/run/secrets/TELEGRAM_CHAT_ID', 'r') as f:
+            TELEGRAM_CHAT_ID = f.read().strip()
+    except:
+        TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
     
