@@ -73,3 +73,8 @@ I was getting the same error on ubuntu 22.04, This is how I solved it.
 - install from pipfile
 - pipenv install
 
+# Worker start problem
+- On kutchnepi after relase do
+- `docker exec -it oto-tasks-1 bash`
+- inside worker simpy do `ssh chris@kitchenpi`. cancel the passowrd prompt. the importatnt pasrt is:
+`Warning: Permanently added '192.168.178.45' (ECDSA) to the list of known hosts.`
