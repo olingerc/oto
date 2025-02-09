@@ -52,6 +52,7 @@ def _run_worker_docker(queues, worker_name, host):
     env_dict["FLASK_ENV"] = os.environ.get("FLASK_ENV", "development")
     env_dict["WORKER_NAME"] = worker_name
     
+    env_dict["POSTGRES_DB"] = config.POSTGRES_DB
     env_dict["REDIS_HOST"] = config.REDIS_HOST
     env_dict["REDIS_PW"] = config.REDIS_PW
 
