@@ -47,8 +47,10 @@ def _set_last_status(state):
 def check_server_status():
     
     from selenium import webdriver
-    from webdriver_manager.firefox import GeckoDriverManager
-    from selenium.webdriver.firefox.service import Service
+    from selenium.webdriver.chrome.options import Options
+    #from webdriver_manager.firefox import GeckoDriverManager
+    
+    #from selenium.webdriver.firefox.service import Service
     from selenium.webdriver.common.by import By
     from selenium.webdriver import FirefoxOptions
     
@@ -60,10 +62,14 @@ def check_server_status():
     
     # get minecraft status
     new_status = None
-    ser = Service(GeckoDriverManager().install())
-    options = FirefoxOptions()
-    options.add_argument("--headless")
-    driver = webdriver.Firefox(service=ser, options=options)
+    #ser = Service(GeckoDriverManager().install())
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-gpu")
+
+    #options.add_argument("--headless")
+    driver = webdriver.Chrome(options=chrome_options)
     driver.get('https://www.minecraftpinger.com/')
 
     serverAdress = driver.find_element(By.CLASS_NAME, "mantine-bz6miy")

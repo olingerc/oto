@@ -18,6 +18,9 @@ RUN apt-get update \
     ffmpeg libsm6 libxext6 firefox python3.8-venv \
     && rm -rf /var/lib/apt/lists/* && apt-get clean
     # libpq-dev is for psycopg2
+    RUN apt-get update \
+    && apt-get install -y  chromium-browser chromium-driver \
+    && rm -rf /var/lib/apt/lists/* && apt-get clean
 
 # Prepare running as non-root user
 RUN useradd  -ms /bin/bash oto
@@ -33,6 +36,8 @@ RUN chown -R oto /home/oto/.ssh && \
 # --------------------- Running as user from here on --------------------------------------------------
 USER oto
 
+ENV Selenium_UseHeadlessDriver=true
+
 RUN mkdir /home/oto/app
 WORKDIR /home/oto/app
 
@@ -42,7 +47,7 @@ RUN python3 -m venv .venv && \
     /home/oto/app/.venv/bin/python3 -m pip install --upgrade pip && \
     pipenv install --ignore-pipfile --deploy
 
-RUN /home/oto/app/.venv/bin/python3 -m pip install selenium webdriver-manager
+RUN /home/oto/app/.venv/bin/python3 -m pip install selenium
 
 # Prepare source folder
 COPY velona_tasks velona_tasks
