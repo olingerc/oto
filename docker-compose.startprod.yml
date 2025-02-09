@@ -130,7 +130,7 @@ services:
   # In dev we start a worker immediately via docker-compose to make development easier
   worker:
     deploy:
-      replicas: 0
+      replicas: 1
     build:
       context: ./tasks
       dockerfile: ./worker/Dockerfile
