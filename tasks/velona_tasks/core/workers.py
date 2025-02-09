@@ -51,6 +51,9 @@ def _run_worker_docker(queues, worker_name, host):
     env_dict["QUEUES"] = ",".join(queues)
     env_dict["FLASK_ENV"] = os.environ.get("FLASK_ENV", "development")
     env_dict["WORKER_NAME"] = worker_name
+    
+    env_dict["REDIS_HOST"] = config.REDIS_HOST
+    env_dict["REDIS_PW"] = config.REDIS_PW
 
     # -------- HANDLE SECRETS PASSWORDS START ---------
     # Velona host has passwords via secrets files /run/secrets/... as created by docker-compose
