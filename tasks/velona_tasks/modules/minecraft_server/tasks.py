@@ -51,30 +51,43 @@ def check_server_status():
     last_status = _get_last_status()
     print(last_status)
     print("Got last status: {}".format(last_status))
+    # Falsafe. if db has no entry, do not continue
     if last_status is None:
         return True
     
     # get minecraft status
-    try:
-        print("Trying to get status:")
-        server = JavaServer.lookup("krusa2411.aternos.me:25595")
-        status = server.status()
-        players_online = status.players.online
-        print(f"Got players: {status.players}")
+    print("Trying to get status:")
 
-        if str(players_online) != last_status:
-            _set_last_status(str(players_online))
-            send_message(f"Players online: {players_online}")
-        return status
-       
-    except Exception as e:
-        print("Could not get satus")
-        print(e)
+    # Get status from server
+    MAX_RETRY = 3
+    retry_count = 0
+    while retry_count < MAX_RETRY: 
+        try:
+            server = JavaServer.lookup("krusa2411.aternos.me:25595")
+            status = server.status()
+            players_online = status.players.online
+            print(f"Got players: {status.players}")
 
-        error_message = str(e)
-        if len(error_message) > 500:
-            error_message = error_message[0:500]
+            if str(players_online) != last_status:
+                _set_last_status(str(players_online))
+                send_message(f"Players online: {players_online}")
         
-        _set_last_status(f"Error {error_message}")
-        send_message(error_message)
-        raise e
+            message = {
+                "last_status": last_status,
+                "new_status": str(players_online)
+            }            
+            return json.dumps(message, indent=3)
+        except Exception as e:
+            time.sleep(3)
+            retry_count += 1
+            print(f"Try: {retry_count}")
+            if retry_count >= MAX_RETRY:
+                print("Could not get satus")
+                print(e)
+                error_message = str(e)
+                if len(error_message) > 500:
+                    error_message = error_message[0:500]
+                
+                _set_last_status(f"Error {error_message}")
+                send_message(error_message)
+                raise e
