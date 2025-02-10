@@ -46,13 +46,7 @@ def _set_last_status(state):
 
 def check_server_status():
     
-    from selenium import webdriver
-    from selenium.webdriver.chrome.options import Options
-    #from webdriver_manager.firefox import GeckoDriverManager
-    
-    #from selenium.webdriver.firefox.service import Service
-    from selenium.webdriver.common.by import By
-    from selenium.webdriver import FirefoxOptions
+    from mcstatus import JavaServer
     
     last_status = _get_last_status()
     print(last_status)
@@ -61,43 +55,26 @@ def check_server_status():
         return True
     
     # get minecraft status
-    new_status = None
-    #ser = Service(GeckoDriverManager().install())
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-gpu")
+    try:
+        print("Trying to get status:")
+        server = JavaServer.lookup("krusa2411.aternos.me:25595")
+        status = server.status()
+        players_online = status.players.online
+        print(f"Got players: {status.players}")
 
-    #options.add_argument("--headless")
-    driver = webdriver.Chrome(options=chrome_options)
-    driver.get('https://www.minecraftpinger.com/')
+        if str(players_online) != last_status:
+            _set_last_status(str(players_online))
+            send_message(f"Players online: {players_online}")
+        return status
+       
+    except Exception as e:
+        print("Could not get satus")
+        print(e)
 
-    serverAdress = driver.find_element(By.CLASS_NAME, "mantine-bz6miy")
-    serverAdress.send_keys("krusa2411.aternos.me:25595")
-
-    driver.find_element(By.CSS_SELECTOR, "button.mantine-ibtd8h").click()
-    time.sleep(5)
-    #INFO: If console prints "OFFLINE", the server is offline. If console prints "IP:", the server is online.
-    res = driver.find_element(By.XPATH, "/html/body/div/main/main/div/div[4]/div/div/div/span").text
-    
-    if res is None:
-        raise Exception("No Response")
-
-
-    if "IP:" in res:
-        new_status = res
-    if res == "OFFLINE":
-        new_status = "OFFLINE"
-    else:
-        raise Exception("Unknown response: {}".format(res))
-
-    print("Got NEW status: " + new_status)
-    if new_status != last_status:
-        if new_status == "OFFLINE":
-            _set_last_status("OFFLINE")
-            send_message("OFFLINE")
-        else:
-            _set_last_status(new_status)
-            send_message(new_status)
-    
-    return new_status
+        error_message = str(e)
+        if len(error_message) > 500:
+            error_message = error_message[0:500]
+        
+        _set_last_status(f"Error {error_message}")
+        send_message(error_message)
+        raise e

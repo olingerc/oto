@@ -15,12 +15,9 @@ RUN apt-get update \
     nano \
     wget \
     nmap \
-    ffmpeg libsm6 libxext6 firefox python3.8-venv \
+    ffmpeg libsm6 libxext6 python3.8-venv \
     && rm -rf /var/lib/apt/lists/* && apt-get clean
     # libpq-dev is for psycopg2
-    RUN apt-get update \
-    && apt-get install -y  chromium-browser chromium-driver \
-    && rm -rf /var/lib/apt/lists/* && apt-get clean
 
 # Prepare running as non-root user
 RUN useradd  -ms /bin/bash oto
@@ -47,7 +44,7 @@ RUN python3 -m venv .venv && \
     /home/oto/app/.venv/bin/python3 -m pip install --upgrade pip && \
     pipenv install --ignore-pipfile --deploy
 
-RUN /home/oto/app/.venv/bin/python3 -m pip install selenium
+RUN /home/oto/app/.venv/bin/python3 -m pip install mcstatus
 
 # Prepare source folder
 COPY velona_tasks velona_tasks

@@ -23,5 +23,7 @@ class TelegramBot:
 
 
 def send_message(message):
+    print(f"Sending message: {message}")
     bot = TelegramBot(config.TELEGRAM_TOKEN, config.TELEGRAM_CHAT_ID)
-    bot.send_message(message)
+    res = bot.send_message(message)
+    print(res)

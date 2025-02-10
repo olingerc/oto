@@ -69,7 +69,7 @@ class ToSchedule(object):
             },
             {
                 "type": "interval",
-                "seconds": 300,
+                "seconds": 240,
                 "func": "send_job_to_rq",
                 "args": [
                     "check_server_status",
