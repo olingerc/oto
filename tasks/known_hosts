@@ -1,0 +1,3 @@
+host.docker.internal ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAPaue+rwoF65AOGaVAQeu7s/miXlUxBkf7Gu5dMc1We root@The-Beast
+192.168.178.45 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM6FfhaMsqPAbYKspcH40S4vjDEpTbn3GzbFVIPnvIYK root@(none)
+kitchenpi ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM6FfhaMsqPAbYKspcH40S4vjDEpTbn3GzbFVIPnvIYK root@(none)
