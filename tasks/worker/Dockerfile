@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 # this resolves a bug in opendjk installation on stretch slim: https://github.com/debuerreotype/docker-debian-artifacts/issues/24
 RUN mkdir -p /usr/share/man/man1 
@@ -8,16 +8,19 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     build-essential \ 
     git \
-    pipenv \
     pigz \
     python3-dev \
+    python3-venv \
+    python3-pip \
     curl unzip \
     nano \
     wget \
     nmap \
-    ffmpeg libsm6 libxext6 python3.8-venv \
+    ffmpeg libsm6 libxext6 \
     && rm -rf /var/lib/apt/lists/* && apt-get clean
     # libpq-dev is for psycopg2
+
+RUN pip3 install pipenv
 
 # Prepare running as non-root user
 RUN useradd  -ms /bin/bash oto
@@ -40,7 +43,7 @@ RUN mkdir /home/oto/app
 WORKDIR /home/oto/app
 
 # pipenv will use theh .venv folder automatically
-COPY worker/Pipfile* ./
+COPY Pipfile* ./
 RUN python3 -m venv .venv && \
     /home/oto/app/.venv/bin/python3 -m pip install --upgrade pip && \
     pipenv install --ignore-pipfile --deploy

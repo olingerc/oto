@@ -1,13 +1,17 @@
-FROM python:3.8.10-slim
+FROM ubuntu:22.04
 
 # Install from ubuntu repos
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     build-essential \ 
-    pipenv \
     openssh-client \
+    python3-dev \
+    python3-venv \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/* && apt-get clean
 # libpq-dev is for psycopg2
+
+RUN pip3 install pipenv
 
 # Prepare running as non-root user
 RUN useradd  -ms /bin/bash oto

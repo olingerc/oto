@@ -57,8 +57,8 @@ cd /home/chris/oto/app/oto && git pull && docker compose -f docker-compose.start
 ```
 
 - create database tables as indicated in install/database.sql
-- cd /home/chris/oto/app/oto && git pull && docker compose -f docker-compose.startprod.yml down
-- cd /home/chris/oto/app/oto && git pull && docker compose -f docker-compose.startprod.yml up --build -d
+- `cd /home/chris/oto/app/oto && git pull && docker compose -f docker-compose.startprod.yml down`
+- `cd /home/chris/oto/app/oto && git pull && docker compose -f docker-compose.startprod.yml up --build -d`
 - at this point oto will create an admin/123 user automatically
 
 Ubuntu 22.04 python
@@ -72,11 +72,3 @@ I was getting the same error on ubuntu 22.04, This is how I solved it.
 - python3 -m pipenv shell
 - install from pipfile
 - pipenv install
-
-# Worker start problem becase of known hosts error when tasks server tries to attach to the host docker via ssh
-- On kitchnepi after relase do
-- `docker exec -it oto-tasks-1 bash`
-- inside worker simpy do `ssh chris@kitchenpi`. cancel the passowrd prompt. the importatnt pasrt is:
-`Warning: Permanently added '192.168.178.45' (ECDSA) to the list of known hosts.`
-BUT, since a few months even that does not work
-I currently start a worker via docker-compose on the pi. That works
