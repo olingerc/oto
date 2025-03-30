@@ -43,12 +43,10 @@ RUN mkdir /home/oto/app
 WORKDIR /home/oto/app
 
 # pipenv will use theh .venv folder automatically
-COPY Pipfile* ./
+COPY worker/Pipfile* ./
 RUN python3 -m venv .venv && \
     /home/oto/app/.venv/bin/python3 -m pip install --upgrade pip && \
     pipenv install --ignore-pipfile --deploy
-
-RUN /home/oto/app/.venv/bin/python3 -m pip install mcstatus
 
 # Prepare source folder
 COPY velona_tasks velona_tasks
