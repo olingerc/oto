@@ -12,7 +12,7 @@ services:
     ports:
       - "8080:80"
     environment:
-      - "TZ=Europe/Luxembourg"
+      - "TZ=Europe/Berlin"
       - "NODE_ENV=production"
     restart: always
 
@@ -37,7 +37,7 @@ services:
       - CAM_PW
       - PRUSAAPIKEY
     environment:
-      - "TZ=Europe/Luxembourg"
+      - "TZ=Europe/Berlin"
       - "NODE_ENV=production"
     healthcheck:
       test: "/usr/local/bin/nodejs /home/oto/app/healthcheck"
@@ -75,7 +75,7 @@ services:
       - TELEGRAM_TOKEN
       - TELEGRAM_CHAT_ID
     environment:
-      - "TZ=Europe/Luxembourg"
+      - "TZ=Europe/Berlin"
       - "FLASK_ENV=production"
       - "WORKER_IMAGE_TAG=oto_worker:alpha"
     env_file:
@@ -98,7 +98,7 @@ services:
       POSTGRES_USER_FILE: /run/secrets/POSTGRES_USER
       POSTGRES_PASSWORD_FILE: /run/secrets/POSTGRES_PW
       POSTGRES_DB: oto
-      TZ: Europe/Luxembourg
+      TZ: Europe/Berlin
     volumes:
       - postgres:/var/lib/postgresql/data
     logging:
@@ -114,7 +114,7 @@ services:
     secrets:
       - REDIS_PW
     environment:
-      TZ: Europe/Luxembourg
+      TZ: Europe/Berlin
       REDIS_PASS_FILE: /run/secrets/REDIS_PW
     command: [
       "bash", "-c",
@@ -132,7 +132,7 @@ services:
   # In dev we start a worker immediately via docker-compose to make development easier
   worker:
     deploy:
-      replicas: 1
+      replicas: 0
     build:
       context: ./tasks
       dockerfile: ./worker/Dockerfile

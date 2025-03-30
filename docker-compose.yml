@@ -7,7 +7,7 @@ services:
       - "8080:4200"
     environment:
       NODE_ENV: development
-      TZ: Europe/Luxembourg
+      TZ: Europe/Berlin
     volumes:
       - ./frontend/src:/home/oto/app/src
 
@@ -29,7 +29,7 @@ services:
       - PRUSAAPIKEY
     environment:
       NODE_ENV: development
-      TZ: Europe/Luxembourg
+      TZ: Europe/Berlin
     volumes:
       # dev volumes
       - ./backend/src:/home/oto/app/src
@@ -60,7 +60,7 @@ services:
       - TELEGRAM_CHAT_ID
       - TELEGRAM_TOKEN
     environment:
-      - "TZ=Europe/Luxembourg"
+      - "TZ=Europe/Berlin"
       - FLASK_ENV=development
       - PYTHONUNBUFFERED=1
     healthcheck:
@@ -120,7 +120,7 @@ services:
       POSTGRES_USER_FILE: /run/secrets/POSTGRES_USER
       POSTGRES_PASSWORD_FILE: /run/secrets/POSTGRES_PW
       POSTGRES_DB: oto
-      TZ: Europe/Luxembourg
+      TZ: Europe/Berlin
     volumes:
       - postgres:/var/lib/postgresql/data
 
@@ -131,7 +131,7 @@ services:
     secrets:
       - REDIS_PW
     environment:
-      TZ: Europe/Luxembourg
+      TZ: Europe/Berlin
       REDIS_PASS_FILE: /run/secrets/REDIS_PW
     command: [
       "bash", "-c",
