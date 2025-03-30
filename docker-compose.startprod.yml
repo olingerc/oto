@@ -75,7 +75,6 @@ services:
       - TELEGRAM_TOKEN
       - TELEGRAM_CHAT_ID
     environment:
-      - "TZ=Europe/Berlin"
       - "FLASK_ENV=production"
       - "WORKER_IMAGE_TAG=oto_worker:alpha"
     env_file:
@@ -132,7 +131,7 @@ services:
   # In dev we start a worker immediately via docker-compose to make development easier
   worker:
     deploy:
-      replicas: 0
+      replicas: 2
     build:
       context: ./tasks
       dockerfile: ./worker/Dockerfile
