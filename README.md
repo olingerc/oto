@@ -72,3 +72,13 @@ I was getting the same error on ubuntu 22.04, This is how I solved it.
 - python3 -m pipenv shell
 - install from pipfile
 - pipenv install
+
+
+# CURRENT PROBLEMS
+
+## WORKERS
+I can not start workers currently via UI so I set a replica in doker-compose-startprod.yml
+I got it to work in Velona, so why does it not work here ???
+(Note: the problems appeared because parmiko wants host keys. I now have a coorect known_hosts file, so it should work. the problem is that somehow may rsa keys are not accepted???)
+
+## Starting OTO on pi restart
