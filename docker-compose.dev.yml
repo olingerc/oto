@@ -107,7 +107,6 @@ services:
     volumes: 
       # for development
       - tasks_source:/home/oto/app/velona_tasks
-      - surveillance:/surveillance
 
   postgres:
     image: postgres:14.3-alpine3.15
@@ -148,12 +147,6 @@ volumes:
     driver_opts:
       type: none
       device: ${HOME}/workspace/oto/tasks/velona_tasks
-      o: bind
-  surveillance:
-    driver: local
-    driver_opts:
-      type: none
-      device: ${HOME}/surveillance
       o: bind
 
 secrets:

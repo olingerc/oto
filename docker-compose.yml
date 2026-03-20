@@ -58,8 +58,6 @@ services:
       - redis
     ports:
       - "5600:5500"
-    volumes:
-      - surveillance:/surveillance
     secrets:
       - POSTGRES_USER
       - POSTGRES_PW
@@ -141,8 +139,6 @@ services:
     env_file:
       - ./tasks/worker/.env.production
     # In prod it is tasks that starts worker and injects secrets into env. In dev new workers also follow that way
-    volumes:
-      - surveillance:/surveillance
     secrets:
       - POSTGRES_USER
       - POSTGRES_PW
@@ -170,13 +166,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/chris/oto/postgres
-      o: bind
-  surveillance:
-    driver: local
-    driver_opts:
-      type: none
-      device: /mnt/surveillance
+      device: /volume1/docker/postgres
       o: bind
 
 secrets:
