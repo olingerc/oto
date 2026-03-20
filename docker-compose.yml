@@ -73,6 +73,8 @@ services:
     environment:
       - "FLASK_ENV=production"
       - "WORKER_IMAGE_TAG=oto_worker:alpha"
+      - UID=1000
+      - PGID=1000
     env_file:
       - ./tasks/.env.production
     healthcheck:
@@ -155,6 +157,8 @@ services:
       - WORKER_NAME_SUFFIX=dev_docker_host  # docker host that worker will look for to be able to start new containers
       - FLASK_ENV=production
       - PYTHONUNBUFFERED=1
+      - UID=1000
+      - PGID=1000
     logging:
       driver: "json-file"
       options:
