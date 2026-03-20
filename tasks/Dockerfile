@@ -26,22 +26,22 @@ RUN chown -R oto /home/oto/.ssh && \
     chmod 600 /home/oto/.ssh/*
 
 # --------------------- Running as user from here on --------------------------------------------------
-USER oto
-
-# Install python packages
-RUN mkdir /home/oto/app
-WORKDIR /home/oto/app
-
-# pipenv will use the .venv folder automatically
-COPY Pipfile* ./
-RUN python3 -m venv .venv && \
+    
+    # Install python packages
+    RUN mkdir /home/oto/app
+    WORKDIR /home/oto/app
+    
+    # pipenv will use the .venv folder automatically
+    COPY Pipfile* ./
+    RUN python3 -m venv .venv && \
     /home/oto/app/.venv/bin/python3 -m pip install --upgrade pip && \
     pipenv install --ignore-pipfile --deploy
-
-# Prepare source folder
-COPY velona_tasks velona_tasks
-COPY worker worker
-COPY server.py config.py docker-entrypoint.sh ./
-
+    
+    # Prepare source folder
+    COPY velona_tasks velona_tasks
+    COPY worker worker
+    COPY server.py config.py docker-entrypoint.sh ./
+    
+USER oto
 # Run app
 ENTRYPOINT ["./docker-entrypoint.sh"]
