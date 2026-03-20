@@ -1,25 +1,33 @@
-# For development only
 services:
+
   frontend:
     build:
       context: ./frontend
+      dockerfile: Dockerfile.prod
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
     ports:
-      - "8080:4200"
+      - "8080:80"
     environment:
-      NODE_ENV: development
-      TZ: Europe/Berlin
-    volumes:
-      - ./frontend/src:/home/oto/app/src
-
+      - "TZ=Europe/Berlin"
+      - "NODE_ENV=production"
+    
   backend:
     build:
       context: ./backend
+      dockerfile: Dockerfile
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
     depends_on:
       - postgres
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     env_file:
-      - ./backend/.env.development
+      - ./backend/.env.production
     secrets:
       - POSTGRES_USER
       - POSTGRES_PW
@@ -28,11 +36,8 @@ services:
       - CAM_PW
       - PRUSAAPIKEY
     environment:
-      NODE_ENV: development
-      TZ: Europe/Berlin
-    volumes:
-      # dev volumes
-      - ./backend/src:/home/oto/app/src
+      - "TZ=Europe/Berlin"
+      - "NODE_ENV=production"
     healthcheck:
       test: "/usr/local/bin/nodejs /home/oto/app/healthcheck"
       interval: 1m30s
@@ -42,13 +47,19 @@ services:
   tasks:
     build:
       context: ./tasks
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      dockerfile: Dockerfile
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
     depends_on:
       - postgres
       - redis
-    env_file:
-      - ./tasks/.env.development
+    ports:
+      - "5600:5500"
+    volumes:
+      - surveillance:/surveillance
     secrets:
       - POSTGRES_USER
       - POSTGRES_PW
@@ -56,58 +67,21 @@ services:
       - WEBTOKEN_SECRET
       - FLASK_SECRET
       - SSH_KEY_DOCKER_HOST
+      - CAM_USER
+      - CAM_PW
       - OVH
-      - TELEGRAM_CHAT_ID
       - TELEGRAM_TOKEN
+      - TELEGRAM_CHAT_ID
     environment:
-      - "TZ=Europe/Berlin"
-      - FLASK_ENV=development
-      - PYTHONUNBUFFERED=1
+      - "FLASK_ENV=production"
+      - "WORKER_IMAGE_TAG=oto_worker:alpha"
+    env_file:
+      - ./tasks/.env.production
     healthcheck:
       test: curl --fail -s http://localhost:5500/tasksapi/version || exit 1
       interval: 1m30s
       timeout: 10s
       retries: 3
-    volumes:
-      # for development
-      - tasks_source:/home/oto/app/velona_tasks
-
-  # In dev we start a worker immediately via docker-compose to make development easier
-  worker:
-    deploy:
-      replicas: 2
-    build:
-      context: ./tasks
-      dockerfile: ./worker/Dockerfile
-    image: oto_worker:alpha
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    depends_on:
-      - postgres
-      - redis
-    env_file:
-      - ./tasks/worker/.env.development
-    # In prod it is tasks that starts worker and injects secrets into env. In dev new workers also follow that way
-    secrets:
-      - POSTGRES_USER
-      - POSTGRES_PW
-      - REDIS_PW
-      - FLASK_SECRET
-      - SSH_KEY_DOCKER_HOST
-      - CAM_USER
-      - CAM_PW
-      - OVH
-      - TELEGRAM_CHAT_ID
-      - TELEGRAM_TOKEN
-    environment:
-      - QUEUES=single,scheduled
-      - WORKER_NAME_SUFFIX=dev_docker_host  # docker host that worker will look for to be able to start new containers
-      - FLASK_ENV=development
-      - PYTHONUNBUFFERED=1
-    volumes: 
-      # for development
-      - tasks_source:/home/oto/app/velona_tasks
-      - surveillance:/surveillance
 
   postgres:
     image: postgres:14.3-alpine3.15
@@ -123,6 +97,11 @@ services:
       TZ: Europe/Berlin
     volumes:
       - postgres:/var/lib/postgresql/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
 
   redis:
     image: redis:7
@@ -140,20 +119,64 @@ services:
        --requirepass "$$(cat $$REDIS_PASS_FILE)"
       '
     ]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  # In dev we start a worker immediately via docker-compose to make development easier
+  worker:
+    deploy:
+      replicas: 2
+    build:
+      context: ./tasks
+      dockerfile: ./worker/Dockerfile
+    image: oto_worker:alpha
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - ./tasks/worker/.env.production
+    # In prod it is tasks that starts worker and injects secrets into env. In dev new workers also follow that way
+    volumes:
+      - surveillance:/surveillance
+    secrets:
+      - POSTGRES_USER
+      - POSTGRES_PW
+      - REDIS_PW
+      - FLASK_SECRET
+      - SSH_KEY_DOCKER_HOST
+      - CAM_USER
+      - CAM_PW
+      - OVH
+      - TELEGRAM_TOKEN
+      - TELEGRAM_CHAT_ID
+    environment:
+      - QUEUES=single,scheduled
+      - WORKER_NAME_SUFFIX=dev_docker_host  # docker host that worker will look for to be able to start new containers
+      - FLASK_ENV=production
+      - PYTHONUNBUFFERED=1
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
 
 volumes:
-  postgres: {}
-  tasks_source:
+  postgres:
     driver: local
     driver_opts:
       type: none
-      device: ${HOME}/workspace/oto/tasks/velona_tasks
+      device: /home/chris/oto/postgres
       o: bind
   surveillance:
     driver: local
     driver_opts:
       type: none
-      device: ${HOME}/surveillance
+      device: /mnt/surveillance
       o: bind
 
 secrets:
@@ -181,7 +204,7 @@ secrets:
     file: ./secrets/passwords/PRUSAAPIKEY
   OVH:
     file: ./secrets/passwords/OVH
-  TELEGRAM_CHAT_ID:
-    file: ./secrets/passwords/TELEGRAM_CHAT_ID
   TELEGRAM_TOKEN:
     file: ./secrets/passwords/TELEGRAM_TOKEN
+  TELEGRAM_CHAT_ID:
+    file: ./secrets/passwords/TELEGRAM_CHAT_ID
