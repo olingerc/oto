@@ -25,7 +25,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Prepare running as non-root user
-RUN useradd  -ms /bin/bash oto --uid 1000 && mkdir /home/oto/app oto
+RUN useradd  -ms /bin/bash oto && mkdir /home/oto/app oto
 WORKDIR /home/oto/app
 
 # copy assets and install dependencies
