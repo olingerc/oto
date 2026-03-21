@@ -51,9 +51,10 @@ def init_scheduler():
 
 
 def init_workers():
-    cancel_all_workers()
-    remove_all_worker_containers()
-    default_workers()
+    #cancel_all_workers()
+    #remove_all_worker_containers()
+    #default_workers()
+    pass
 
 # Start app
 if __name__ == '__main__':

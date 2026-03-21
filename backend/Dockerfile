@@ -15,7 +15,7 @@ RUN apt-get update \
 RUN npm install -g typescript@4.1.3 ts-node-dev knex@2.3.0
 
 # Prepare running as non-root user
-RUN useradd -ms /bin/bash oto && mkdir /home/oto/app
+RUN useradd -ms /bin/bash oto --uid 1000 && mkdir /home/oto/app
 WORKDIR /home/oto/app
 
 # copy assets
@@ -25,12 +25,12 @@ COPY docker-entrypoint.sh package.json package-lock.json tsconfig.json tslint.js
 RUN chown -R oto:oto ./ && chmod +x docker-entrypoint.sh
 
 # install dependencies
-USER oto
 RUN npm install
 
 # Copy actual code last, to make rebuilding faster
 COPY src src
 COPY scripts/healthcheck.js /home/oto/app
-
+RUN chmod -R 777 *
+USER oto
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
