@@ -34,3 +34,13 @@ RUN apt-get update \
 # Get source code
 COPY --from=builder /app/oto/dist/frontend/browser /usr/local/apache2/htdocs/
 COPY ./deploy/production.conf /usr/local/apache2/conf/httpd.conf
+
+RUN useradd -u 1000 -m appuser
+
+# Adjust permissions
+RUN chown -R appuser:appuser /usr/local/apache2
+
+# Change port
+RUN sed -i 's/Listen 80/Listen 8080/' /usr/local/apache2/conf/httpd.conf
+
+USER appuser
