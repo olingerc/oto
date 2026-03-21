@@ -40,6 +40,8 @@ pipenv install --ignore-pipfile --deploy
 COPY velona_tasks velona_tasks
 COPY worker worker
 COPY server.py config.py docker-entrypoint.sh ./
+
+RUN chmod -R 777 * /home/oto/app
 # --------------------- Running as user from here on --------------------------------------------------
 USER oto
 
