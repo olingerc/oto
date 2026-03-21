@@ -15,7 +15,7 @@ RUN apt-get update \
 RUN npm install -g typescript@4.1.3 ts-node-dev knex@2.3.0
 
 # Prepare running as non-root user
-RUN useradd -ms /bin/bash oto --uid 1000 && mkdir /home/oto/app
+RUN useradd -ms /bin/bash oto && mkdir /home/oto/app
 WORKDIR /home/oto/app
 
 # copy assets
