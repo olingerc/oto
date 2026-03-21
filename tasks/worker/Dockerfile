@@ -23,7 +23,7 @@ RUN apt-get update \
 RUN pip3 install pipenv
 
 # Prepare running as non-root user
-RUN useradd  -ms /bin/bash oto
+RUN useradd  -ms /bin/bash --uid 1000 oto
 
 # Prepare ssh
 RUN mkdir /home/oto/.ssh
@@ -33,9 +33,6 @@ RUN chown -R oto /home/oto/.ssh && \
     chgrp -R oto /home/oto/.ssh && \
     chmod 700 /home/oto/.ssh && \
     chmod 600 /home/oto/.ssh/*
-
-# --------------------- Running as user from here on --------------------------------------------------
-USER oto
 
 ENV Selenium_UseHeadlessDriver=true
 
@@ -51,5 +48,9 @@ RUN python3 -m venv .venv && \
 # Prepare source folder
 COPY velona_tasks velona_tasks
 COPY launch_worker.py config.py worker/docker-entrypoint.sh ./
+
+RUN chmod -R 777 * /home/oto/app
+# --------------------- Running as user from here on --------------------------------------------------
+USER oto
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
