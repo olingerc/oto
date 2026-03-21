@@ -67,7 +67,7 @@ class ToSchedule(object):
                 "schedule_on_start":  config.SCHEDULE_ON_START,
                 "run_on_start": False
             },
-            {
+            """{
                 "type": "interval",
                 "seconds": 240,
                 "func": "send_job_to_rq",
@@ -78,5 +78,5 @@ class ToSchedule(object):
                 "kwargs": {},
                 "schedule_on_start":  config.SCHEDULE_ON_START,
                 "run_on_start": False
-            }
+            }"""
         ]

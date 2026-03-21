@@ -56,7 +56,7 @@ check 1password for password
 cd /home/chris/oto/app/oto && git pull && docker compose -f docker-compose.startprod.yml up --build -d
 ```
 
-- create database tables as indicated in install/database.sql
+- create database tables as indicated in install/database.sql (be sure to seclect database `oto`)
 - `cd /home/chris/oto/app/oto && git pull && docker compose -f docker-compose.startprod.yml down`
 - `cd /home/chris/oto/app/oto && git pull && docker compose -f docker-compose.startprod.yml up --build -d`
 - at this point oto will create an admin/123 user automatically
