@@ -14,7 +14,7 @@ RUN apt-get update \
 RUN pip3 install pipenv
 
 # Prepare running as non-root user
-RUN useradd  -ms /bin/bash oto
+RUN useradd  -ms /bin/bash --uid 1000 --gui 1000 oto
 
 # Prepare ssh
 RUN mkdir /home/oto/.ssh
