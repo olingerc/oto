@@ -84,7 +84,7 @@ services:
   postgres:
     image: postgres:14.3-alpine3.15
     ports:
-      - "5432:5432"
+      - "5432:543200"
     secrets:
       - POSTGRES_USER
       - POSTGRES_PW
@@ -104,7 +104,7 @@ services:
   redis:
     image: redis:7
     ports:
-      - "6379:6379"
+      - "6379:637900"
     secrets:
       - REDIS_PW
     environment:

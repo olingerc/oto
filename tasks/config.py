@@ -93,14 +93,14 @@ class Config(object):
     WORKERS_BY_QUEUE = {
         "DEV": {
             "dev_docker_host": {
-                "single": 1,
-                "scheduled": 1
+                "single": 0,
+                "scheduled": 0
             }
         },
         "PROD": {
             "kitchenpi": {
-                "single": 2,
-                "scheduled": 1
+                "single": 0,
+                "scheduled": 0
             }
         }
     }
