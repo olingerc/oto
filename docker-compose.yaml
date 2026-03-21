@@ -103,8 +103,6 @@ services:
 
   redis:
     image: redis:7
-    ports:
-      - "6379:637900"
     secrets:
       - REDIS_PW
     environment:

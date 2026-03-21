@@ -41,6 +41,5 @@ RUN useradd -u 1000 -m appuser
 RUN chown -R appuser:appuser /usr/local/apache2
 
 # Change port
-RUN sed -i 's/Listen 80/Listen 8080/' /usr/local/apache2/conf/httpd.conf
 
 USER appuser
