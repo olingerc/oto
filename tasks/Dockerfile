@@ -31,7 +31,7 @@ COPY server.py config.py docker-entrypoint.sh ./
 RUN chmod -R 777 /home/oto/app/Pipfile*
 
 # --------------------- Running as user from here on --------------------------------------------------
-USER oto
+#USER oto
 
 # pipenv will use the .venv folder automatically
 RUN python3 -m venv .venv
