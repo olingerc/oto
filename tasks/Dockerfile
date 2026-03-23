@@ -18,7 +18,7 @@ RUN apt-get update \
 RUN useradd  -ms /bin/bash --uid 1000 oto
 # && \    usermod -a -G 10 oto
 
-RUN mkdir /home/oto/app
+RUN mkdir /home/oto/app && chown -R oto /home/oto
 WORKDIR /home/oto/app
 
 # Copy files into contaienr
