@@ -15,7 +15,9 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* && apt-get clean
 
 # Prepare running as non-root user
-RUN useradd  -ms /bin/bash --uid 1000 oto
+RUN useradd  -ms /bin/bash --uid 1000 oto &&    
+    groupadd ug_group -g 10 && \
+    usermod -a -G ug_group oto
 
 RUN mkdir /home/oto/app
 WORKDIR /home/oto/app
@@ -26,7 +28,7 @@ COPY velona_tasks velona_tasks
 COPY worker worker
 COPY server.py config.py docker-entrypoint.sh ./
 
-RUN chmod -R 777 /home/oto/app/*
+#RUN chgid 1000 /home/oto/app/*
 
 # --------------------- Running as user from here on --------------------------------------------------
 USER oto
