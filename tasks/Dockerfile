@@ -17,22 +17,24 @@ RUN apt-get update \
 # Prepare running as non-root user
 RUN useradd  -ms /bin/bash --uid 1000 oto
 
-# Copy files into contaienr
-COPY --chown=1000:1000 Pipfile* ./
-COPY --chown=1000:1000 velona_tasks velona_tasks
-COPY --chown=1000:1000 worker worker
-COPY --chown=1000:1000 server.py config.py docker-entrypoint.sh ./
-
-# --------------------- Running as user from here on --------------------------------------------------
-USER oto
-
 RUN mkdir /home/oto/app
 WORKDIR /home/oto/app
+
+# Copy files into contaienr
+COPY Pipfile* ./
+COPY velona_tasks velona_tasks
+COPY worker worker
+COPY server.py config.py docker-entrypoint.sh ./
+
+RUN chmod -R 777 *
 
 # pipenv will use the .venv folder automatically
 RUN python3 -m venv .venv
 RUN /home/oto/app/.venv/bin/pip3 install pipenv 
 RUN /home/oto/app/.venv/bin/pipenv install --ignore-pipfile --deploy
+
+# --------------------- Running as user from here on --------------------------------------------------
+USER oto
 
 # Run app
 ENTRYPOINT ["./docker-entrypoint.sh"]
