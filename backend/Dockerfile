@@ -14,7 +14,7 @@ RUN apt-get update \
 # GLOBAL
 RUN npm install -g typescript@4.1.3 ts-node-dev knex@2.3.0
 
-# node iamge already has a user with id 1000
+# node image already has a user with id 1000
 RUN groupmod -g 1001 node && usermod -u 1001 -g 1001 node 
 # Prepare running as non-root user
 RUN useradd -ms /bin/bash oto --uid 1000 && mkdir /home/oto/app

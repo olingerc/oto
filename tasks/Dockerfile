@@ -15,7 +15,8 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* && apt-get clean
 
 # Prepare running as non-root user
-RUN useradd  -ms /bin/bash --uid 1000 oto
+#RUN useradd  -ms /bin/bash --uid 1000 oto
+RUN useradd  -ms /bin/bash oto
 
 RUN mkdir /home/oto/app
 WORKDIR /home/oto/app
