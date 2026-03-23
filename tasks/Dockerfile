@@ -27,7 +27,7 @@ COPY velona_tasks velona_tasks
 COPY worker worker
 COPY server.py config.py docker-entrypoint.sh ./
 
-
+RUN chown -R oto /home/oto/app
 
 
 # Run app
