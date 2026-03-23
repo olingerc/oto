@@ -18,10 +18,10 @@ RUN apt-get update \
 RUN useradd  -ms /bin/bash --uid 1000 oto
 
 # Copy files into contaienr
-COPY --chown=oto:oto Pipfile* ./
-COPY --chown=oto:oto velona_tasks velona_tasks
-COPY --chown=oto:oto worker worker
-COPY --chown=oto:oto server.py config.py docker-entrypoint.sh ./
+COPY --chown=1000:1000 Pipfile* ./
+COPY --chown=1000:1000 velona_tasks velona_tasks
+COPY --chown=1000:1000 worker worker
+COPY --chown=1000:1000 server.py config.py docker-entrypoint.sh ./
 
 # --------------------- Running as user from here on --------------------------------------------------
 USER oto
