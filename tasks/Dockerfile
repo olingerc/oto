@@ -23,12 +23,12 @@ RUN chown oto /home/oto/app
 WORKDIR /home/oto/app
 
 # Copy files into contaienr
-COPY --chown=oto Pipfile* ./
-COPY --chown=oto velona_tasks velona_tasks
-COPY --chown=oto worker worker
-COPY --chown=oto server.py config.py docker-entrypoint.sh ./
+COPY Pipfile* ./
+COPY velona_tasks velona_tasks
+COPY worker worker
+COPY server.py config.py docker-entrypoint.sh ./
 
-#RUN chgid 1000 /home/oto/app/*
+RUN chmod 755 /home/oto/app/*
 
 # --------------------- Running as user from here on --------------------------------------------------
 USER oto
