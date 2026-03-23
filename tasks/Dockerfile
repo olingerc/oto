@@ -19,7 +19,6 @@ RUN useradd  -ms /bin/bash --uid 1000 oto
 # && \    usermod -a -G 10 oto
 
 RUN mkdir /home/oto/app
-RUN chown oto /home/oto/app
 WORKDIR /home/oto/app
 
 # Copy files into contaienr
