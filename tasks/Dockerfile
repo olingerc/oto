@@ -27,13 +27,7 @@ COPY velona_tasks velona_tasks
 COPY worker worker
 COPY server.py config.py docker-entrypoint.sh ./
 
-# pipenv will use the .venv folder automatically
-RUN python3 -m venv .venv
-RUN /home/oto/app/.venv/bin/pip3 install pipenv 
-RUN /home/oto/app/.venv/bin/pipenv install --ignore-pipfile --deploy
 
-# --------------------- Running as user from here on --------------------------------------------------
-USER oto
 
 
 # Run app
