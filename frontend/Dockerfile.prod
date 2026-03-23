@@ -32,11 +32,11 @@ RUN apt-get update \
 COPY --from=builder /app/oto/dist/frontend/browser /usr/local/apache2/htdocs/
 COPY ./deploy/production.conf /usr/local/apache2/conf/httpd.conf
 
-#RUN useradd -u 1000 -m appuser
+RUN useradd -u 1000 -m appuser
 
 # Adjust permissions
-#RUN chown -R appuser:appuser /usr/local/apache2
+RUN chown -R appuser:appuser /usr/local/apache2
 
 # Change port
 
-#USER appuser
+USER appuser

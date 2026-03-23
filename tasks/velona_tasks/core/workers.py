@@ -78,7 +78,6 @@ def _run_worker_docker(queues, worker_name, host):
     #### volumes["oto_surveillance"] = {"bind": "/surveillance", "mode": "rw"}
     if os.environ.get("FLASK_ENV", "development") == 'development':
         volumes["oto_tasks_source"] = {"bind": "/home/oto/app/velona_tasks", "mode": "rw"}
-        extra_hosts["host.docker.internal"] = "host-gateway"  # WSL2 does not set host.docker.internal by default
 
     d = _get_docker(host)
     try:

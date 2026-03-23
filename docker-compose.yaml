@@ -120,9 +120,6 @@ services:
     build:
       context: ./tasks
       dockerfile: ./worker/Dockerfile
-    image: oto_worker:alpha
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     depends_on:
       - postgres
       - redis
