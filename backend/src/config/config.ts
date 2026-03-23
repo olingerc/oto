@@ -43,7 +43,6 @@ export const configFunc: any = function() {
       env_config.pgUser = fs.readFileSync("/run/secrets/POSTGRES_USER").toString().trim();
       env_config.pgPw = fs.readFileSync("/run/secrets/POSTGRES_PW").toString().trim();
       env_config.superSecret = fs.readFileSync("/run/secrets/WEBTOKEN_SECRET").toString().trim();
-      env_config.prusaApiKey = fs.readFileSync("/run/secrets/PRUSAAPIKEY").toString().trim();
 
       // Compile based on env
       let compiled: any = {

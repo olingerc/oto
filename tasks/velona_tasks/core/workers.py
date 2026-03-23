@@ -8,7 +8,6 @@ TODO: if I force kill a worker, tasks remain as running. maybe monitor should ch
 
 import os
 import signal
-from time import sleep
 
 import docker
 from dotenv.main import dotenv_values
@@ -67,11 +66,7 @@ def _run_worker_docker(queues, worker_name, host):
     env_dict["POSTGRES_USER"] = config.POSTGRES_USER
     env_dict["POSTGRES_PW"] = config.POSTGRES_PW
     env_dict["FLASK_SECRET"] = config.FLASK_SECRET
-    env_dict["CAM_USER"] = config.CAM_USER
-    env_dict["CAM_PW"] = config.CAM_PW
     env_dict["OVH_SECRETS"] = config.OVH_SECRETS
-    env_dict["TELEGRAM_TOKEN"] = config.TELEGRAM_TOKEN
-    env_dict["TELEGRAM_CHAT_ID"] = config.TELEGRAM_CHAT_ID
     # -------- HANDLE SECRETS PASSWORDS END ---------
 
     # NOTE: prefix oto_ since created by docker-compose
@@ -83,7 +78,6 @@ def _run_worker_docker(queues, worker_name, host):
     #### volumes["oto_surveillance"] = {"bind": "/surveillance", "mode": "rw"}
     if os.environ.get("FLASK_ENV", "development") == 'development':
         volumes["oto_tasks_source"] = {"bind": "/home/oto/app/velona_tasks", "mode": "rw"}
-        extra_hosts["host.docker.internal"] = "host-gateway"  # WSL2 does not set host.docker.internal by default
 
     d = _get_docker(host)
     try:

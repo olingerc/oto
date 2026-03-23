@@ -1,10 +1,7 @@
 FROM node:20.17-slim as builder
 # One could use the actual development docker as  builder
 
-RUN mkdir /app
-WORKDIR /app
-
-RUN mkdir /app/oto
+RUN mkdir -p /app/oto
 WORKDIR /app/oto
 
 # Copy app

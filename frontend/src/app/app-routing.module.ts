@@ -22,25 +22,11 @@ const routes: Routes = [
       data: { accessLevel: 'anon', accessPrivileges: ["otoUser"] }
     },
     {
-      path: 'printer',
-      loadChildren: () => import('./printer/printer.routing').then(m => m.routing),
-      canLoad: [ AuthLoadGuard ],
-      canActivate: [ AuthActivateGuard ],
-      data: { accessLevel: 'anon', accessPrivileges: ["printerUser"] }
-    },
-    {
       path: 'admin',
       loadChildren: () => import('./admin/admin.routing').then(m => m.routing),
       canLoad: [ AuthLoadGuard ],
       canActivate: [ AuthActivateGuard ],
       data: { accessLevel: 'privileged', accessPrivileges: ["otoAdmin"] }
-    },
-    {
-      path: 'cams',
-      loadChildren: () => import('./cams/cams.routing').then(m => m.routing),
-      canLoad: [ AuthLoadGuard ],
-      canActivate: [ AuthActivateGuard ],
-      data: { accessLevel: 'privileged', accessPrivileges: ["camsUser"] }
     },
 
     { path: '404', component: Page404Component },

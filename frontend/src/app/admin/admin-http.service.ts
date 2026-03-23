@@ -41,22 +41,6 @@ export class AdminHttpService {
       catchError(res => this.httpHandler.handleError(res)));
   }
 
-  addWorker(queue: string): Observable<any> {
-    const request = {
-      queue
-    };
-    return this.http.post(`${this.apiBase}/tasksapi/add_worker`, request, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  killWorker(workerName: string): Observable<any> {
-    const request = {
-      worker_name: workerName
-    };
-    return this.http.post(`${this.apiBase}/tasksapi/kill_worker`, request, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
   getDetailedStatus(): Observable<any> {
     return this.http.get(`${this.apiBase}/tasksapi/status_detailed`, this.jwt()).pipe(
       catchError(res => this.httpHandler.handleError(res)));
@@ -64,21 +48,6 @@ export class AdminHttpService {
 
   getScheduledJobs(): Observable<any> {
     return this.http.get(`${this.apiBase}/tasksapi/get_scheduled_jobs`, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  nmapHaScan(which_part: string, replace: boolean): Observable<any> {
-    return this.http.post(`${this.apiBase}/tasksapi/nmapha/scan`, {which_part, replace}, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  detectGarage(): Observable<any> {
-    return this.http.post(`${this.apiBase}/tasksapi/garage/detect`, {}, this.jwt()).pipe(
-      catchError(res => this.httpHandler.handleError(res)));
-  }
-
-  checkMinecraftServerStatus(): Observable<any> {
-    return this.http.get(`${this.apiBase}/tasksapi/minecraftseverstatus`, this.jwt()).pipe(
       catchError(res => this.httpHandler.handleError(res)));
   }
 

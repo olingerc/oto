@@ -39,46 +39,40 @@ So:
 
 - So to acces at home I need to use IP and port **8080**
 
-# On pi
+# Development:
+## Preparing tasks
 
-Prepare network mount in /etc/fstab
-`//192.168.178.111/surveillance  /mnt/surveillance  cifs  username=pi,password=H34n3VTKZYjzdfseCYMt,iocharset=utf8  0  0`
-check 1password for password
+- install dependencies: `sudo apt install pipenv libpq-dev` (libpq-dev is fro psycopg2)
+- change into tasks folder
+- prepare a venv folder for pipenv: `python3 -m venv .venv`
+- install python deps: `pipenv install --dev`. pipenv will automatically take the .venv folder
+- remember to redo pipenv install to update Pipfile.lock each time you change a dependency
+- use `pipenv shell` if you ever need to activate the virtual environment
 
-## Install
-- On pi install docker, git
-- Clone into /home/chirs/oto/app
+## Preparing worker
+
+- change into tasks/worker folder
+- prepare a venv folder for pipenv: `python3 -m venv .venv`
+- prepare empty Pipfile: `touch Pipfile`. otherwise pipenv will take the Pipfile from tasks
+- install python deps: `pipenv install`. pipenv will automatically take the .venv folder
+- remember to redo pipenv install to update Pipfile.lock each time you change a dependency
+
+## Start up
+- docker compose -f docker-compose.dev.yaml build
+- docker compose -f docker-compose.dev.yaml up
+
+# Production (currently ugreen)
+- use docker app on UGREEN
+- login via ssh, git pull in a folder accessible to docker a[[]]
+- create postgres folder
 - Create secrets in /home/chirs/oto/app/oto/secrets/passwords (cf docker-compose.startprod.yml for hich are needed. Just invent passowrds)
-- For OVH and CAM, check in 1password, for PRUSA check in printer
-- Get id_rsa_dev from iPassword and put into /home/chirs/oto/app/oto/secrets/certificates
+- For OVH check in 1password
+- start the app using the docker-compose.yaml
+- Create tables in postgres
 
-```
-cd /home/chris/oto/app/oto && git pull && docker compose -f docker-compose.startprod.yml up --build -d
-```
+
 
 - create database tables as indicated in install/database.sql (be sure to seclect database `oto`)
 - `cd /home/chris/oto/app/oto && git pull && docker compose -f docker-compose.startprod.yml down`
 - `cd /home/chris/oto/app/oto && git pull && docker compose -f docker-compose.startprod.yml up --build -d`
 - at this point oto will create an admin/123 user automatically
-
-Ubuntu 22.04 python
-
-I was getting the same error on ubuntu 22.04, This is how I solved it.
-- remove pipenv if you have installed it using apt
-- sudo apt remove pipenv
-- install pipenv unsing pip
-  - pip3 install pipenv
-- activate virtual environment
-- python3 -m pipenv shell
-- install from pipfile
-- pipenv install
-
-
-# CURRENT PROBLEMS
-
-## WORKERS
-I can not start workers currently via UI so I set a replica in doker-compose-startprod.yml
-I got it to work in Velona, so why does it not work here ???
-(Note: the problems appeared because parmiko wants host keys. I now have a coorect known_hosts file, so it should work. the problem is that somehow may rsa keys are not accepted???)
-
-## Starting OTO on pi restart

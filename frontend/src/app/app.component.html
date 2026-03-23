@@ -28,28 +28,6 @@
           mat-list-item
           (click)="sidenav.close()"
           routerLinkActive="active"
-          [myVisibleForPrivileges]="['printerUser']"
-          routerLink="/printer">
-          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
-            <mat-icon>3d_rotation</mat-icon>
-            <span>Printer</span>
-          </div>
-        </a>
-        <a
-          mat-list-item
-          (click)="sidenav.close()"
-          routerLinkActive="active"
-          [myVisibleForPrivileges]="['camsUser']"
-          routerLink="/cams">
-          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
-            <mat-icon>video_camera_front</mat-icon>
-            <span>Surveillance</span>
-          </div>
-        </a>
-        <a
-          mat-list-item
-          (click)="sidenav.close()"
-          routerLinkActive="active"
           [myVisibleForPrivileges]="['otoAdmin']"
           routerLink="/admin">
           <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
@@ -142,28 +120,6 @@
         }
         <div fxFlex fxLayout="row" fxLayoutAlign="flex-end" fxHide.xs>
           <ul fxLayout fxLayoutGap="20px" class="navigation-items">
-            <li>
-              <a
-                routerLinkActive="active"
-                [myVisibleForPrivileges]="['printerUser']"
-                routerLink="/printer">
-                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
-                  <mat-icon>3d_rotation</mat-icon>
-                  <span>Printer</span>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a
-                routerLinkActive="active"
-                [myVisibleForPrivileges]="['camsUser']"
-                routerLink="/cams">
-                <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
-                  <mat-icon>video_camera_front</mat-icon>
-                  <span>Surveillance</span>
-                </div>
-              </a>
-            </li>
             <li>
               <a
                 routerLinkActive="active"
