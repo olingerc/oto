@@ -33,6 +33,7 @@ WORKDIR /home/oto/app
 COPY worker/Pipfile* ./
 COPY velona_tasks velona_tasks
 COPY launch_worker.py config.py worker/docker-entrypoint.sh ./
+RUN chown -R oto /home/oto
 
 # --------------------- Running as user from here on --------------------------------------------------
 USER oto

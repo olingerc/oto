@@ -16,7 +16,6 @@ RUN apt-get update \
 
 # Prepare running as non-root user
 RUN useradd  -ms /bin/bash --uid 1000 oto
-# && \    usermod -a -G 10 oto
 
 RUN mkdir /home/oto/app
 WORKDIR /home/oto/app
@@ -26,7 +25,6 @@ COPY Pipfile* ./
 COPY velona_tasks velona_tasks
 COPY worker worker
 COPY server.py config.py docker-entrypoint.sh ./
-
 RUN chown -R oto /home/oto
 
 USER oto
