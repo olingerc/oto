@@ -27,20 +27,19 @@ RUN useradd  -ms /bin/bash --uid 1000 oto
 
 ENV Selenium_UseHeadlessDriver=true
 
-# --------------------- Running as user from here on --------------------------------------------------
-USER oto
-
 RUN mkdir /home/oto/app
 WORKDIR /home/oto/app
 
-# pipenv will use the .venv folder automatically
 COPY worker/Pipfile* ./
+COPY velona_tasks velona_tasks
+COPY launch_worker.py config.py worker/docker-entrypoint.sh ./
+
+# --------------------- Running as user from here on --------------------------------------------------
+USER oto
+# pipenv will use the .venv folder automatically
 RUN python3 -m venv .venv
 RUN /home/oto/app/.venv/bin/pip3 install pipenv 
 RUN /home/oto/app/.venv/bin/pipenv install --ignore-pipfile --deploy
 
-# Prepare source folder
-COPY velona_tasks velona_tasks
-COPY launch_worker.py config.py worker/docker-entrypoint.sh ./
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
