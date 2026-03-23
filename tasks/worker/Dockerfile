@@ -23,7 +23,7 @@ RUN apt-get update \
     # libpq-dev is for psycopg2
 
 
-RUN useradd  -ms /bin/bash --uid 1000 oto
+RUN useradd  -ms /bin/bash oto
 
 ENV Selenium_UseHeadlessDriver=true
 
