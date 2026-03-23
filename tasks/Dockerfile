@@ -23,10 +23,10 @@ RUN chown oto /home/oto/app
 WORKDIR /home/oto/app
 
 # Copy files into contaienr
-COPY --chown=1000:10 Pipfile* ./
-COPY --chown=1000:10 velona_tasks velona_tasks
-COPY --chown=1000:10 worker worker
-COPY --chown=1000:10 server.py config.py docker-entrypoint.sh ./
+COPY --chown=oto Pipfile* ./
+COPY --chown=oto velona_tasks velona_tasks
+COPY --chown=oto worker worker
+COPY --chown=oto server.py config.py docker-entrypoint.sh ./
 
 #RUN chgid 1000 /home/oto/app/*
 
