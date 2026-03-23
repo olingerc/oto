@@ -22,17 +22,17 @@ WORKDIR /home/oto/app
 
 # copy assets
 COPY docker-entrypoint.sh package.json package-lock.json tsconfig.json tslint.json ./
+COPY src src
+COPY scripts/healthcheck.js /home/oto/app
 
 # Change permissions
 RUN chown -R oto:oto ./ && chmod +x docker-entrypoint.sh
 
+# Run as user from here ------------
+
+USER oto
+
 # install dependencies
 RUN npm install
-
-# Copy actual code last, to make rebuilding faster
-COPY src src
-COPY scripts/healthcheck.js /home/oto/app
-RUN chmod -R 777 *
-USER oto
 
 ENTRYPOINT ["./docker-entrypoint.sh"]

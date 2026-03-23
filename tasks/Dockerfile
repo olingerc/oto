@@ -20,7 +20,7 @@ RUN useradd  -ms /bin/bash --uid 1000 oto
 RUN mkdir /home/oto/app
 WORKDIR /home/oto/app
 
-# Copy files into contaienr
+# Copy files into container
 COPY Pipfile* ./
 COPY velona_tasks velona_tasks
 COPY worker worker
