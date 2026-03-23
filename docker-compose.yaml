@@ -32,9 +32,6 @@ services:
       - POSTGRES_USER
       - POSTGRES_PW
       - WEBTOKEN_SECRET
-      - CAM_USER
-      - CAM_PW
-      - PRUSAAPIKEY
     environment:
       - "TZ=Europe/Berlin"
       - "NODE_ENV=production"
@@ -64,12 +61,7 @@ services:
       - REDIS_PW
       - WEBTOKEN_SECRET
       - FLASK_SECRET
-      - SSH_KEY_DOCKER_HOST
-      - CAM_USER
-      - CAM_PW
       - OVH
-      - TELEGRAM_TOKEN
-      - TELEGRAM_CHAT_ID
     environment:
       - "FLASK_ENV=production"
       - "WORKER_IMAGE_TAG=oto_worker:alpha"
@@ -105,8 +97,6 @@ services:
     image: redis:7
     secrets:
       - REDIS_PW
-    ports:
-      - "63790:6379"
     environment:
       TZ: Europe/Berlin
       REDIS_PASS_FILE: /run/secrets/REDIS_PW
@@ -144,15 +134,9 @@ services:
       - POSTGRES_PW
       - REDIS_PW
       - FLASK_SECRET
-      - SSH_KEY_DOCKER_HOST
-      - CAM_USER
-      - CAM_PW
       - OVH
-      - TELEGRAM_TOKEN
-      - TELEGRAM_CHAT_ID
     environment:
       - QUEUES=single,scheduled
-      - WORKER_NAME_SUFFIX=dev_docker_host  # docker host that worker will look for to be able to start new containers
       - FLASK_ENV=production
       - PYTHONUNBUFFERED=1
     logging:
@@ -170,11 +154,6 @@ volumes:
       o: bind
 
 secrets:
-  SSH_KEY_DOCKER_HOST:
-    # Used by tasks service to launch worker dockers on docker host
-    # Used by workers themselves to start docker pipelines on docker host
-    file: ./secrets/certificates/id_rsa_dev
-
   # passwords
   POSTGRES_USER:
     file: ./secrets/passwords/POSTGRES_USER
@@ -186,15 +165,5 @@ secrets:
     file: ./secrets/passwords/WEBTOKEN_SECRET
   FLASK_SECRET:
     file: ./secrets/passwords/FLASK_SECRET
-  CAM_USER:
-    file: ./secrets/passwords/CAM_USER
-  CAM_PW:
-    file: ./secrets/passwords/CAM_PW
-  PRUSAAPIKEY:
-    file: ./secrets/passwords/PRUSAAPIKEY
   OVH:
     file: ./secrets/passwords/OVH
-  TELEGRAM_TOKEN:
-    file: ./secrets/passwords/TELEGRAM_TOKEN
-  TELEGRAM_CHAT_ID:
-    file: ./secrets/passwords/TELEGRAM_CHAT_ID

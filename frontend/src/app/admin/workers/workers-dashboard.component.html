@@ -15,8 +15,8 @@
                   <small>{{workers.length}}</small>
                 }
               </span>
-              <button mat-raised-button color="accent" (click)="defaultWorkers()">DEFAULT</button>
-              <button mat-raised-button color="warn" (click)="cancelAllWorkers()">STOP ALL</button>
+              <!--<button mat-raised-button color="accent" (click)="defaultWorkers()">DEFAULT</button>
+              <button mat-raised-button color="warn" (click)="cancelAllWorkers()">STOP ALL</button>-->
             </mat-toolbar-row>
           </mat-toolbar>
         </mat-card-header>
@@ -25,7 +25,7 @@
             <thead>
               <th>Name</th>
               <th>Queues</th>
-              <th>Stop</th>
+              <th><!--Stop--></th>
             </thead>
             <tbody>
               @for (worker of workers; track trackWorkers($index, worker)) {
@@ -51,7 +51,7 @@
                     <span>{{q}}&nbsp;</span>
                   }</td>
                   <td class="worker-buttons">
-                    <div fxLayout="column">
+                    <!--<div fxLayout="column">
                       <button
                         mat-button
                         matTooltip="wait to finish then exit"
@@ -69,7 +69,7 @@
                         (click)="kill_worker(worker.name)">
                         FORCE
                       </button>
-                    </div>
+                    </div>-->
                   </td>
                 </tr>
               }
@@ -78,13 +78,13 @@
         </mat-card-content>
       </mat-card>
 
-      <div>
+      <!--<div>
         <div>
           <h5>Add queue</h5>
           <button mat-button (click)="addWorker('single')">Single</button>
           <button mat-button (click)="addWorker('scheduled')">Scheduled</button>
         </div>
-      </div>
+      </div>-->
 
       <p>
         @if (!workers) {

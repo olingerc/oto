@@ -48,7 +48,7 @@ def on_connect():
 
 
 @socketio.on('disconnect', namespace=app.config['SOCKET_NAMESPACE'])
-def on_disconnect():
+def on_disconnect(reason=None):
     """On disconnect.
 
     Close all associated rooms of that session

@@ -33,30 +33,6 @@ class ToSchedule(object):
         self.scheduled_funcs = [
             {
                 "type": "interval",
-                "seconds": 300,
-                "func": "send_job_to_rq",
-                "args": [
-                    "execute_nmap_ha",
-                    {"queue": "scheduled", "result_ttl": TWO_WEEKS, "ttl": ONE_HOUR * 2, "meta": {"username": "system"}}
-                ],
-                "kwargs": {},
-                "schedule_on_start": config.SCHEDULE_ON_START,
-                "run_on_start": False
-            },
-            {
-                "type": "interval",
-                "seconds": 5,
-                "func": "send_job_to_rq",
-                "args": [
-                    "garage_state",
-                    {"queue": "scheduled", "result_ttl": TWO_WEEKS, "ttl": ONE_HOUR * 2, "meta": {"username": "system"}}
-                ],
-                "kwargs": {},
-                "schedule_on_start":  False,
-                "run_on_start": False
-            },
-            {
-                "type": "interval",
                 "seconds": 180,
                 "func": "send_job_to_rq",
                 "args": [
@@ -65,18 +41,6 @@ class ToSchedule(object):
                 ],
                 "kwargs": {},
                 "schedule_on_start":  config.SCHEDULE_ON_START,
-                "run_on_start": False
-            },
-            {
-                "type": "interval",
-                "seconds": 240,
-                "func": "send_job_to_rq",
-                "args": [
-                    "check_server_status",
-                    {"queue": "scheduled", "result_ttl": TWO_WEEKS, "ttl": ONE_HOUR * 2, "meta": {"username": "system"}}
-                ],
-                "kwargs": {},
-                "schedule_on_start":  False,
                 "run_on_start": False
             }
         ]

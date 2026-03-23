@@ -89,6 +89,7 @@ class Config(object):
     """
     Workers
     Number of default workers by queue and worker (worker host names as defined in .ssh/config)
+    NOT USED ANYMORE. We start via docker compose now
     """
     WORKERS_BY_QUEUE = {
         "DEV": {
@@ -118,32 +119,8 @@ class Config(object):
         COPY_ALL_INTERVAL = 300
 
     try:
-        with open('/run/secrets/CAM_USER', 'r') as f:
-            CAM_USER = f.read().strip()
-    except:
-        CAM_USER = os.getenv("CAM_USER")
-
-    try:
-        with open('/run/secrets/CAM_PW', 'r') as f:
-            CAM_PW = f.read().strip()
-    except:
-        CAM_PW = os.getenv("CAM_PW")
-
-    try:
         with open('/run/secrets/OVH', 'r') as f:
             OVH_SECRETS = f.read().strip()
     except:
         OVH_SECRETS = os.getenv("OVH_SECRETS")
-
-    try:
-        with open('/run/secrets/TELEGRAM_TOKEN', 'r') as f:
-            TELEGRAM_TOKEN = f.read().strip()
-    except:
-        TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-
-    try:
-        with open('/run/secrets/TELEGRAM_CHAT_ID', 'r') as f:
-            TELEGRAM_CHAT_ID = f.read().strip()
-    except:
-        TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
     

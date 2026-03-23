@@ -13,13 +13,11 @@ use -p xxx to select port (currently either -m OR -p xxx, not both)
 
 import eventlet
 eventlet.monkey_patch()
-import threading
 
 import os  # noqa: E402
 import sys  # noqa: E402
 
 from velona_tasks.core.app import app, socketio  # noqa: E402
-from velona_tasks.core.workers import default_workers, remove_all_worker_containers, cancel_all_workers  # noqa: F401
 from velona_tasks.core.monitor import websocket_monitors  # noqa: E402
 
 # Scheduler
@@ -33,14 +31,7 @@ import velona_tasks.core.views_websocket  # noqa: F401
 from velona_tasks.modules.ToSchedule import ToSchedule
 
 # Register views of plugins
-import velona_tasks.modules.nmapha.routes_http  # noqa: E402
-import velona_tasks.modules.garage.routes_http  # noqa: E402
 import velona_tasks.modules.ovh.routes_http  # noqa: E402
-import velona_tasks.modules.minecraft_server.routes_http   # noqa: E402
-
-# Reset methods
-from velona_tasks.modules.nmapha.tasks import reset_scans  # noqa: E402
-
 
 # Core
 def init_scheduler():
@@ -50,17 +41,9 @@ def init_scheduler():
     scheduler.register_service(to_schedule_instance)
 
 
-def init_workers():
-    #cancel_all_workers()
-    #remove_all_worker_containers()
-    #default_workers()
-    pass
-
 # Start app
 if __name__ == '__main__':
     
-    reset_scans()
-
     port = app.config['PORT']
     exclude_patterns = []
     if len(sys.argv) > 1:
@@ -75,11 +58,6 @@ if __name__ == '__main__':
             sys.stdout.flush()
 
             init_scheduler()
-            try:
-                thread = threading.Thread(target=init_workers)
-                thread.start()
-            except Exception as e:
-                print("Error %s while starting default workers" % e)
 
             # Hand socket to monitor since it works outside of context
             eventlet.spawn(websocket_monitors)

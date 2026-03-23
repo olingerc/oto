@@ -2,7 +2,6 @@
 import express from 'express';
 
 import http from 'http';
-import fs from 'fs-extra';
 import _ from 'lodash';
 import cors from  'cors';
 import compression from 'compression';
@@ -10,16 +9,11 @@ import postgresqlDb from './core/postgresqlDb';
 
 import { configFunc } from './config/config';
 
-import socketio from "socket.io";
-import rtsp from 'rtsp-ffmpeg';
-
-
 import * as User_Ctrl from './core/controllers/user';
 
 
 // Routes
 import { routes as coreCroutes } from './core/coreRoutes';
-import { routes as printerRoutes } from './api/routes';
 
 /**
  * Define environment. Should be pre-set via grunt already or in commandline!
@@ -76,7 +70,7 @@ routes = routes.concat(coreCroutes);
 
 // Add module API ROUTES (plugin entry point, just add routes to this array)
 
-routes = routes.concat(printerRoutes);
+//// None yet
 
 // Clean up routes
 routes = _.uniq(routes);
@@ -137,71 +131,6 @@ app.use(handle404);
  */
 app.set('port', process.env.PORT || config.port);
 const server = http.createServer(app);
-
-/** SOCKET */
-const io = new socketio.Server(server,{
-  path: "/camssocket",
-  cors: {
-    origin: "*",
-    credentials: false,
-  }
-});
-io.on("connection", function (socket) {
-  console.log("Made socket connection");
-});
-
-/** CAMS */
-const camUser = fs.readFileSync("/run/secrets/CAM_USER").toString().trim();
-const camPw = fs.readFileSync("/run/secrets/CAM_PW").toString().trim();
-
-const myCam = `rtsp://${camUser}:${camPw}@192.168.178.88:554/h264Preview_01_main`;
-const myCam2 = `rtsp://${camUser}:${camPw}@192.168.178.90:554/h264Preview_01_main`;
-/* Setup stream */
-var stream = new rtsp.FFMpeg({input: myCam, resolution: '640x360', quality: 3});
-stream.on('start', function() {
-	console.log('stream started');
-});
-stream.on('stop', function() {
-	console.log('stream stopped');
-});
-var stream2 = new rtsp.FFMpeg({input: myCam2, resolution: '640x360', quality: 3});
-stream2.on('start', function() {
-	console.log('stream 2 started');
-});
-stream2.on('stop', function() {
-	console.log('stream 2 stopped');
-});
-
-/* Connect stream to socket */
-var namespace = io.of('/cam0');
-namespace.on('connection', function(wsocket) {
-	console.log('connected to /cam0');
-	var pipeStream = function(data) {
-		wsocket.emit('data', data);
-	};
-  stream.removeListener('data', pipeStream);
-	stream.on('data', pipeStream);
-
-	wsocket.on('disconnect', function() {
-		console.log('disconnected from /cam0');
-		stream.removeListener('data', pipeStream);
-	});
-});
-/* Connect stream to socket */
-var namespace2 = io.of('/cam1');
-namespace2.on('connection', function(wsocket) {
-	console.log('connected to /cam1');
-	var pipeStream = function(data) {
-		wsocket.emit('data', data);
-	};
-  stream2.removeListener('data', pipeStream);
-	stream2.on('data', pipeStream);
-
-	wsocket.on('disconnect', function() {
-		console.log('disconnected from /cam1');
-		stream2.removeListener('data', pipeStream);
-	});
-});
 
 /**
  * Start server
