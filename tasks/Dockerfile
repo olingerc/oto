@@ -30,6 +30,8 @@ COPY server.py config.py docker-entrypoint.sh ./
 
 RUN chmod 755 /home/oto/app/*
 
+RUN ls -all *
+
 # --------------------- Running as user from here on --------------------------------------------------
 USER oto
 
