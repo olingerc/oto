@@ -28,9 +28,7 @@ COPY velona_tasks velona_tasks
 COPY worker worker
 COPY server.py config.py docker-entrypoint.sh ./
 
-RUN chmod 755 /home/oto/app/*
-
-RUN ls -all *
+RUN chmod -R 755 /home/oto/app/*
 
 # --------------------- Running as user from here on --------------------------------------------------
 USER oto
